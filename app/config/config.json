@@ -1,9 +1,9 @@
 {
-    "indexTitle": "Edizione digitale del Rotulo di San Teobaldo",
+    "indexTitle": "Edizione digitale",
     "webSite": "",
     "logoUrl": "",
 
-    "dataUrl":"data/saussure.xml",
+    "dataUrl":"data/bellini/LL1_16.xml",
     "sourcesUrl"       : "",
     "analoguesUrl"     : "",
     "sourcesTextsUrl" : "",

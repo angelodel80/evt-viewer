@@ -9,10 +9,25 @@
         var options = {
             id: "osd_img",
             prefixUrl: "bower_components/openseadragon/built-openseadragon/openseadragon/images/",
-            tileSources:{
-                type:'image',
-                url: 'data/test-img/saussure-page-84.jpg', // immagine per saussure
-            }, 
+            tileSources:[{
+                    type:'image',
+                    url: 'data/test-img/bellini/jpeg300/LL1.16_0001.jpg', // immagine per saussure
+                },{
+                    type:'image',
+                    url: 'data/test-img/bellini/jpeg300/LL1.16_0002.jpg', // immagine per saussure
+
+                },{
+                    type:'image',
+                    url: 'data/test-img/bellini/jpeg300/LL1.16_0003.jpg'
+                },
+                {
+                    type:'image',
+                    url: 'data/test-img/bellini/jpeg300/LL1.16_0004.jpg'
+                }
+
+
+            ],
+
             //tileSources: "data/tails/scaled_70_verticale.dzi", // immagine per rotulo Alba
             //tileSources: "data/test-img/quamusdzi/QuamusImgManuscript.dzi", // immagine per Marocco
             //overlays: [{
@@ -35,19 +50,20 @@
                                 className: 'nohighlight'
                             }], */
     
-            //sequenceMode: true,
+            sequenceMode: true,
             //degrees:90,
             //toolbar:"toolbar-div",
             showRotationControl: true,                
             showNavigator: true,
             //navigatorId: "navscroll",
-            //visibilityRatio: 0.8,
-            visibilityRatio: 1, 
-            defaultZoomLevel: 1,
+            visibilityRatio: 0.9,
+            //visibilityRatio: 1, 
+            //defaultZoomLevel: 1,
+            defaultZoomLevel: 0.9,
             panHorizontal: true,
             constrainDuringPan: true,
-            //minZoomLevel: 0.8,
-            minZoomLevel: 1,
+            minZoomLevel: 0.8,
+            //minZoomLevel: 1,
             maxZoomLevel: 8.0,
     
             wrapVertical: false,

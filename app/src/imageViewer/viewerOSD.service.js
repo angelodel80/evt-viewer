@@ -3,7 +3,8 @@
    angular.module('evtviewer.openseadragonService', ['evtviewer.interface'])
 
       .service('imageViewerHandler', function (evtInterface, imageScrollMap) {
-         const ImageNormalizationCoefficient = 3500;
+         //const ImageNormalizationCoefficient = 3500; rotulo
+         const ImageNormalizationCoefficient = 1265;
          const YminPan = 0.5;
 
          var viewerHandler = this;
@@ -302,7 +303,7 @@
                if (topLeft.x <= 0.4) {
                    DivTopLeft = topLeft.x + (bottomRight.x - topLeft.x) + 0.050;
                } else {
-                     DivTopLeft = topLeft.x - ((bottomRight.x - topLeft.x) + 0.3);
+                     DivTopLeft = topLeft.x - 0.35; // mettere questa riga anche nel branch dev
 
                }
                var rect = new OpenSeadragon.Rect(
