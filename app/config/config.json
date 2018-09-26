@@ -8,6 +8,8 @@
     "sourcesUrl"       : "",
     "analoguesUrl"     : "",
     "sourcesTextsUrl" : "",
+    "tileSources":"data/test-img/quamusdzi/QuamusImgManuscript.dzi",
+    
 
     "defaultViewMode": "imgTxt",
 	"availableViewModes": [{

@@ -50,7 +50,7 @@
                                 className: 'nohighlight'
                             }], */
     
-            sequenceMode: true,
+            //sequenceMode: true,
             //degrees:90,
             //toolbar:"toolbar-div",
             showRotationControl: true,                

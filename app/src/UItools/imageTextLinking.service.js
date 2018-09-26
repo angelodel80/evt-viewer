@@ -103,9 +103,9 @@ angular.module('evtviewer.UItools')
             var zoneId = zonesIdx[index];
             if (zoneId) {
                //console.log('nel for', zoneId);
-               let hotspot = zonesCollection[zoneId];
-               let hotspotId = zoneId.replace(/ST_hs_/, 'ST_div_hs_');
-               let tmpHotSpot
+               var hotspot = zonesCollection[zoneId];
+               var hotspotId = zoneId.replace(/ST_hs_/, 'ST_div_hs_');
+               var tmpHotSpot;
                console.log('hotSpotId', hotspotId);
                tmpHotSpot = parsedData.getHotSpot(hotspotId);
                if (tmpHotSpot) {
