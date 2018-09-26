@@ -105,11 +105,10 @@ div#toolbar-div * img {
 }
 /* regola per la demo in arabo */
 
-/*#mainContentToTranform { */
+#mainContentToTranform { 
 
-/*     direction: rtl; */
-
-/* }*/
+     direction: rtl; 
+ }
 
 /* regole per rotulo */
 
