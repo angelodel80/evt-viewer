@@ -105,8 +105,7 @@ div#toolbar-div * img {
 }
 /* regola per la demo in arabo */
 
-#mainContentToTranform { 
-
+.hotspot-dida, #mainContentToTranform { 
      direction: rtl; 
  }
 

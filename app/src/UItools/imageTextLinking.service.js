@@ -14,8 +14,8 @@ angular.module('evtviewer.UItools')
    .service('evtImageTextLinking', function (evtInterface, Utils, parsedData, imageViewerHandler) {
       var ITLutils = {};
       var zonePrefix = "zone_";
-      const linetozoneRegExp = /lb/;
-      const zonereplacedString = 'line';
+      const linetozoneRegExp = /line/;
+      const zonereplacedString = zonePrefix+'line';
 
       /**
        * @ngdoc method
@@ -104,7 +104,7 @@ angular.module('evtviewer.UItools')
             if (zoneId) {
                //console.log('nel for', zoneId);
                var hotspot = zonesCollection[zoneId];
-               var hotspotId = zoneId.replace(/ST_hs_/, 'ST_div_hs_');
+               var hotspotId = zoneId.replace(/hs_/, 'div_hs_');
                var tmpHotSpot;
                console.log('hotSpotId', hotspotId);
                tmpHotSpot = parsedData.getHotSpot(hotspotId);
@@ -245,6 +245,7 @@ angular.module('evtviewer.UItools')
          if (elementInLine.className && elementInLine.className.indexOf('inLine') < 0) {
             elementInLine.className += ' inLine';
             elementInLine.setAttribute('data-line', lineId);
+           
             elementInLine.onmouseover = function () {
                var lineId = this.getAttribute('data-line');
                ITLutils.changeLinesHighlightStatus(lineId, 'over');
@@ -424,6 +425,8 @@ angular.module('evtviewer.UItools')
                imageViewerHandler.highlightOverlay(zone);
                // inserisci overlay alla posizione indicata in zone
                console.log('GESTIRE OVERLAY A PARTIRE DAI DATI ESTRATTI DA ZONE');
+            } else {
+                console.error('!! PROBLEM IN HANDLING ZONE !!');
             }
          }
       };

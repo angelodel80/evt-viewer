@@ -4,7 +4,8 @@
 
       .service('imageViewerHandler', function (evtInterface, imageScrollMap) {
          //const ImageNormalizationCoefficient = 3500; rotulo
-         const ImageNormalizationCoefficient = 1265;
+         //const ImageNormalizationCoefficient = 1265; bellini
+         const ImageNormalizationCoefficient = 1301; //marocco
          const YminPan = 0.5;
 
          var viewerHandler = this;
