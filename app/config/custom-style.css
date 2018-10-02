@@ -109,6 +109,21 @@ div#toolbar-div * img {
      direction: rtl; 
  }
 
+/* regola per punteggiatura elemento ex araba.*/
+
+span.ex>span.pc{
+ color: red;
+ font-size: large;
+ font-style: normal;
+}
+
+/* regola per termini */
+
+span.term{
+    background-color: #C1FFC1;
+
+}
+
 /* regole per rotulo */
 
 span.buttonSwitch[title="Thumbnails"],

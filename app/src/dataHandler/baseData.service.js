@@ -25,7 +25,7 @@
  **/
 angular.module('evtviewer.dataHandler')
 
-   .service('baseData', function ($log, $q, $http, config, xmlParser, evtParser, evtCriticalApparatusParser, evtSourcesParser, evtProjectInfoParser, evtPrimarySourcesParser, evtAnaloguesParser, evtDialog, evtBibliographyParser, evtNamedEntitiesParser, evtHotSpotParser) {
+   .service('baseData', function ($log, $q, $http, config, xmlParser, evtParser, evtCriticalApparatusParser, evtSourcesParser, evtProjectInfoParser, evtPrimarySourcesParser, evtAnaloguesParser, evtDialog, evtBibliographyParser, evtNamedEntitiesParser, evtHotSpotParser, evtTermsParser) {
       var baseData = {},
          state = {
             XMLDocuments: [],
@@ -192,6 +192,9 @@ angular.module('evtviewer.dataHandler')
 
           // Parse HotSpots
          evtHotSpotParser.parseHotSpots(docElements);
+
+         // Parse Terms
+         evtTermsParser.parseTerms(docElements);
 
          // Parse documents
          evtParser.parseDocuments(docElements);

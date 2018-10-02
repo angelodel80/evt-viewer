@@ -442,6 +442,11 @@ angular.module('evtviewer.dataHandler')
       var hotspotCollection = {
          _indexes: []
       };
+
+     var termCollection = {
+         _indexes: []
+     };
+
       /**
      * @ngdoc property
      * @name evtviewer.dataHandler.parsedData#namedEntities
@@ -2733,7 +2738,7 @@ angular.module('evtviewer.dataHandler')
 
 
       /**
-       * TODO:add documentation
+       * TODO:add documentation for hot spot
        */
 
       parsedData.addHotSpot = function (hotspot) {
@@ -2744,7 +2749,7 @@ angular.module('evtviewer.dataHandler')
          if (hotspot && hotspot.id !== '') {
             hotSpotId = hotspot.id;
          } else {
-            hotSpotId = hotspot.id = 'hotspot_' + (zoneIndexes + 1);
+            hotSpotId = hotspot.id = 'hotspot_' + (hotSpotIndexes + 1);
          }
          if (hotspotCollection[hotSpotId] === undefined) {
             hotSpotIndexes[hotSpotIndexes.length] = hotSpotId;
@@ -2766,6 +2771,40 @@ angular.module('evtviewer.dataHandler')
          return hotspotCollection[hotspotId];
 
       };
+
+       /**
+       * TODO:add documentation for terms
+       */
+
+      parsedData.addTerm = function (term) {
+        console.log('addTerm', term);
+       var termId,
+          termIndexes = termCollection._indexes;
+
+       if (term && term.id !== '') {
+          termId = term.id;
+       } else {
+          termId = term.id = 'term_' + (termIndexes + 1);
+       }
+       if (termCollection[termId] === undefined) {
+          termIndexes[termIndexes.length] = termId;
+          termCollection[termId] = term;
+          termIndexes.length++;
+          _console.log('parsedData - addTerm ', term);
+       }
+    };
+
+    parsedData.getTerms = function () {
+
+       return termCollection;
+
+    };
+
+    parsedData.getTerm = function (TermId) {
+        console.log('getTerm', TermId);
+       return termCollection[TermId];
+
+    };
 
 
       /**

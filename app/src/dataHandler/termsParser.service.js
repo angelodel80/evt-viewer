@@ -1,9 +1,9 @@
 /**
  * @ngdoc service
  * @module evtviewer.dataHandler
- * @name evtviewer.dataHandler.evtHotSpotParser
+ * @name evtviewer.dataHandler.evtTermsParser
  * @description 
- * # evtHotSpotParserParser
+ * # evtTermsParser
  * Service containing methods to parse data regarding primary source information
  *
  * @requires $q
@@ -14,19 +14,39 @@
 **/
 angular.module('evtviewer.dataHandler')
 
-.service('evtHotSpotParser', function($q, xmlParser, evtParser, parsedData, config) {
+.service('evtTermsParser', function($q, xmlParser, evtParser, parsedData, config) {
 	var parser = { };
 
-	var defBackElement = 'back',
+	var defElement = 'text',
 		defHotSpotDivType = 'hotspot';
 	/**
      * TODO: add documentation
     */
-	parser.parseHotSpots = function(back) { 
-        console.log('parseHotSpots', back);
-        var currentBackElement = angular.element(back);
-        console.log('currentHotSpots', currentBackElement);
-		angular.forEach(currentBackElement.find("div[type='hotspot']"), 
+	parser.parseTerms = function(doc) { 
+        console.time('parseTerms');
+        console.log('parseTerms', doc);
+        var currentDoc = angular.element(doc);
+        console.log('!##!currentElement!##!', currentDoc);
+        var currentElem = currentDoc.find("text");
+        console.log('!##!TextElement!##!', currentElem);
+        angular.forEach(currentElem.find('term'),
+            function(term) { 
+                console.log(term);
+                var newTerm = {};
+                newTerm.writtenrepresentation = term.textContent;
+                newTerm.id = newTerm.writtenrepresentation; //term.attributes['key'].nodeValue;
+                newTerm.key = term.attributes['key'].nodeValue;
+                newTerm.ref = term.attributes['ref'].nodeValue;
+                newTerm.type = term.attributes['type'].nodeValue;
+
+                // potenzialmente mettere qui la richiesta http
+
+                console.log('nuovo termine', newTerm);
+
+                parsedData.addTerm(newTerm);
+            }
+        );
+		/*angular.forEach(currentBackElement.find("div[type='hotspot']"), 
 			function(HotSpotDivGroup) {
 				//var surfaceId = surfaceElement.getAttribute('xml:id'),
 				//	surfaceCorresp = surfaceElement.getAttribute('corresp');
@@ -52,8 +72,9 @@ angular.module('evtviewer.dataHandler')
 						
 					}
 				});
-		});
-		console.log('## HOTSPOTS ##', parsedData.getHotSpots());
+		});*/
+        console.log('## TERMS ##', parsedData.getTerms());
+        console.timeEnd('parseTerms');
 	};
 
 	return parser;
