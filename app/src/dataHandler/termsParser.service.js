@@ -14,11 +14,11 @@
 **/
 angular.module('evtviewer.dataHandler')
 
-.service('evtTermsParser', function($q, xmlParser, evtParser, parsedData, config) {
+.service('evtTermsParser', function($q, $http, xmlParser, evtParser, parsedData, config) {
 	var parser = { };
 
 	var defElement = 'text',
-		defHotSpotDivType = 'hotspot';
+		defHotSpotDivType = 'term';
 	/**
      * TODO: add documentation
     */
@@ -41,12 +41,38 @@ angular.module('evtviewer.dataHandler')
 
                 // potenzialmente mettere qui la richiesta http
 
-                console.log('nuovo termine', newTerm);
+                var url = newTerm.ref;
+                
+                var succ = function(response){
+                    console.log('success get http', response);
+                    console.log('nuovo termine', newTerm);
+                    parsedData.addTerm(newTerm);
+                };
 
-                parsedData.addTerm(newTerm);
+                var fail = function(response){
+                    console.log('fail get http', response);
+                };
+
+                $http({
+                        method: 'GET',
+                        url: url
+                     }).then(succ,fail);
+
+               // console.log('nuovo termine', newTerm);
+
+               // parsedData.addTerm(newTerm);
             }
         );
-		/*angular.forEach(currentBackElement.find("div[type='hotspot']"), 
+		
+        console.log('## TERMS ##', parsedData.getTerms());
+        console.timeEnd('parseTerms');
+	};
+
+	return parser;
+});
+
+
+/*angular.forEach(currentBackElement.find("div[type='hotspot']"), 
 			function(HotSpotDivGroup) {
 				//var surfaceId = surfaceElement.getAttribute('xml:id'),
 				//	surfaceCorresp = surfaceElement.getAttribute('corresp');
@@ -73,9 +99,3 @@ angular.module('evtviewer.dataHandler')
 					}
 				});
 		});*/
-        console.log('## TERMS ##', parsedData.getTerms());
-        console.timeEnd('parseTerms');
-	};
-
-	return parser;
-});

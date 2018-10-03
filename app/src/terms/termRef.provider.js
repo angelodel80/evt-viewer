@@ -36,6 +36,7 @@ angular.module('evtviewer.term')
        * according to specific values of initial scope properties.</p>
        **/
       this.$get = function ($timeout, $http, parsedData, evtNamedEntitiesParser, baseData, Utils) {
+          console.log('term ref provider', this);
          var termRef = {},
             collection = {},
             collectionByEntity = {},
