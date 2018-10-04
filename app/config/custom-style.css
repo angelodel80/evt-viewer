@@ -119,8 +119,10 @@ span.ex>span.pc{
 
 /* regola per termini */
 
-span.term{
+.term{
     background-color: #C1FFC1;
+    text-decoration-line: none;
+    color:inherit;
 
 }
 

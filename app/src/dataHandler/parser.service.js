@@ -205,7 +205,31 @@ angular.module('evtviewer.dataHandler')
 					possibleNamedEntitiesDef.toLowerCase().indexOf('<' + tagName + '>') >= 0 &&
 					element.getAttribute('ref') !== undefined) { //TODO: Rivedere
 					newElement = parser.parseNamedEntity(doc, element, skip);
-				} else {
+				} 
+				
+				/* aggiunta gestione term marocco */
+				else if(tagName === "term"){
+
+					console.log('###PARSE-XML FOR TERM###', element);
+					var word = element.textContent;
+					newElement = document.createElement('a');
+					newElement.dataset.test = 'term-handling';
+					newElement.className = 'term';
+					newElement.title = parsedData.getTerm(word).translation;
+					var popup=newElement.title;
+					newElement.href = 'javascript:alert("The English Translation for '+word+'is '+popup+'"'+')';
+					//newElement.title = element.getAttribute('key');
+					//newElement.title = parsedData.getTerm(element.textContent).translation;
+
+					var iHTML =  element.textContent;
+					console.log("innerValue", iHTML);
+					newElement.innerHTML = iHTML;
+
+				}
+				
+				
+				
+				else {
 					newElement = document.createElement('span');
 					newElement.className = element.tagName !== undefined ? element.tagName : '';
 

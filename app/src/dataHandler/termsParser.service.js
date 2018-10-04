@@ -45,6 +45,8 @@ angular.module('evtviewer.dataHandler')
                 
                 var succ = function(response){
                     console.log('success get http', response);
+                    var translation = response.data.senses[0].propertyValues.entry[1].value;
+                    newTerm.translation = translation;
                     console.log('nuovo termine', newTerm);
                     parsedData.addTerm(newTerm);
                 };
