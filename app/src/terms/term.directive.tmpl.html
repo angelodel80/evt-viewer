@@ -1,135 +1,59 @@
-<span class="namedEntity namedEntity-{{ ::vm.entityType }} location-{{::vm.location}}"
-     ng-class="::{'opened': vm.location === 'mainText'}">
-	<span class="namedEntity__header">
-        <!-- HEADER -->
-        <div class="namedEntity_tools"
-          ng-if="::vm.isPinAvailable()">
-          <button-switch 
-                title="BUTTONS.PIN_REMOVE"
-                ng-if="::vm.isPinAvailable() && vm.location === 'pinned'"
-                data-label=""
-                data-icon="remove"
-                data-type="pin-off"
-                ng-click="vm.togglePin()"></button-switch>
-          <button-switch 
-                title="BUTTONS.PIN_TOGGLE"
-                ng-if="::vm.isPinAvailable() && vm.location !== 'pinned'"
-                data-label=""
-                data-icon="pin"
-                data-type="pin"
-                ng-class="{'active' : vm.isPinned()}"
-                ng-click="vm.togglePin()"></button-switch>
-        </div>
-        <div ng-click="vm.toggle()">
-            <i class="fa opener" ng-if="::vm.location !== 'mainText'"></i>
-            
-            <i class="fa namedEntity__icon {{::vm.entityTypeIcon}}" ng-if="::vm.location === 'mainText'"></i>
 
-            <span compile="::vm.entity.label"></span>
-        </div>
+<span class="term term-{{ ::vm.termType }} location-{{::vm.location}}"
+ng-class="::{'opened': vm.location === 'mainText'}">
+    <span class="term__header">
+    <!-- HEADER
+    <div class="term_tools">
+        <button-switch 
+            title="BUTTONS.PIN_REMOVE"
+            data-label=""
+            data-icon="remove"
+            data-type="pin-off"
+            ng-click="vm.togglePin()"></button-switch>
+        <button-switch 
+            title="BUTTONS.PIN_TOGGLE"
+            data-label=""
+            data-icon="pin"
+            data-type="pin"
+            ng-class="{'active' : vm.isPinned()}"
+            ng-click="vm.togglePin()"></button-switch>
+    </div>  -->
+    <div style="direction: ltr; outline: 2px thistle solid; margin:1em; background-color:snow" ng-click="vm.toggle()">
+        <i class="fa opener" ng-if="::vm.location !== 'mainText'"></i>
+        
+        <i class="fa namedEntity__icon {{::vm.entityTypeIcon}}" ng-if="::vm.location === 'mainText'"></i>
+
+        <span compile="::vm.term.label"></span>
+        <span style="font-style: italic" ng-if='vm.term.termInfo.translation'>Translation: </span>
+        <span style="font-weight: bold"  compile="::vm.term.termInfo.translation"></span>
+        <span style="font-style: italic" ng-if='vm.term.termInfo.pos'>PoS: </span>
+        <span style="font-weight: bold"  compile="::vm.term.termInfo.pos"></span>
+        <span style="font-style: italic" ng-if='vm.term.termInfo.sumo'>SUMO: </span>
+        <span style="font-weight: bold"  compile="::vm.term.termInfo.sumo"></span>
+        <span style="font-style: italic" ng-if='vm.term.termInfo.wn'>WN: </span>
+        <span style="font-weight: bold"  compile="::vm.term.termInfo.wn"></span>
+        
+    </div>
     </span>
 
-    <span class="namedEntity__details">
-        <div class="namedEntity__details-headers closed">
-            <span ng-repeat="tab in ::vm.tabs._indexes track by $index"
-                    ng-click="vm.toggleSubContent(tab)"
-                    class="namedEntity__details-header namedEntity__details-header-{{::tab}}">
-                {{ vm.tabs[tab].label | translate }}
-            </span>
-          </div>
 
-          <div class="namedEntity__details-panels closed">
-                  <div class="namedEntity__details-panel"
-                        ng-switch="vm._subContentOpened">
-                        <div ng-switch-when="moreInfo">
-                            
-                            <span ng-if="::vm.entity.content && vm.entity.content._indexes.length > 0" 
-                                ng-repeat="contentName in ::vm.entity.content._indexes">
-                                <span class="namedEntity__detail" ng-if="::vm.entity.content[contentName].length > 0">
-                                    <!-- SWITCH to get icon -->
-                                    <span ng-switch="contentName">
-                                        <i ng-switch-when="idno"
-                                            class="fa fa-barcode namedEntity__detail-icon"></i>
-                                        <i ng-switch-when="note"
-                                            class="fa fa-sticky-note namedEntity__detail-icon"></i>
-                                        <i ng-switch-when="occupation"
-                                            class="fa fa-briefcase namedEntity__detail-icon"></i>                                        
-                                        <i ng-switch-when="persName"
-                                            class="fa fa-user namedEntity__detail-icon"></i>
-                                        <i ng-switch-when="sex"
-                                            class="fa fa-venus-mars namedEntity__detail-icon"></i>
-                                        <i ng-switch-when="birth"
-                                            class="fa fa-birthday-cake namedEntity__detail-icon"></i>
-                                        <i ng-switch-when="death"
-                                            class="fa fa-times fa-rotate-45 namedEntity__detail-icon"></i>
-                                        <i ng-switch-when="residence"
-                                            class="fa fa-home namedEntity__detail-icon"></i>
-                                        <i ng-switch-when="orgName"
-                                            class="fa fa-users namedEntity__detail-icon"></i>
-                                        <i ng-switch-when="geoName"
-                                            class="fa fa-map-marker namedEntity__detail-icon"></i>
-                                        <i ng-switch-when="geogFeat"
-                                            class="fa fa-map-marker namedEntity__detail-icon"></i>
 
-                                        <i ng-switch-when="district"
-                                            class="fa fa-map-marker namedEntity__detail-icon"></i>
-                                        <i ng-switch-when="settlement"
-                                            class="fa fa-location-arrow namedEntity__detail-icon"></i>
-                                        <i ng-switch-when="region"
-                                            class="fa fa-map-marker namedEntity__detail-icon"></i>    
-                                        <i ng-switch-when="country"
-                                            class="fa fa-map-marker namedEntity__detail-icon"></i>
-                                        <i ng-switch-when="bloc"
-                                            class="fa fa-map-marker namedEntity__detail-icon"></i>
-                                        
-                                        <i ng-switch-when="relations"
-                                            class="fa fa-share-alt namedEntity__detail-icon"></i>
-                                        <i ng-switch-when="actors"
-                                            class="fa fa-users namedEntity__detail-icon"></i>
 
-                                        <i ng-switch-default
-                                            class="fa fa-info-circle namedEntity__detail-icon"></i>
-                                    </span>
 
-                                    <span class="namedEntity__detail-text"
-                                        ng-repeat="contentObj in ::vm.entity.content[contentName] track by $index">
-                                            <span class="namedEntity__detail-text-attributes">
-                                                <span class="namedEntity__detail-text-attribute" 
-                                                    ng-repeat="attribute in ::contentObj.attributes._indexes track by $index"
-                                                >{{::contentObj.attributes[attribute] | translate | camelToSpaces | underscoresToSpaces }}</span>
-                                            </span>
-                                            <span class="namedEntity__detail-text-content" compile="::contentObj.text"></span>
-                                        </span>
-                                </span>
-                            </span>
 
-                            <span ng-if="::vm.entity.content._indexes.length <= 0">
-                                {{ 'MESSAGES.NO_MORE_INFO_AVAILABLE' | translate }}
-                            </span>
-                        </div>
-                        <div ng-switch-when="occurrences">
-                            <span ng-if="::vm.occurrences && vm.occurrences.length > 0"
-                                class="namedEntity__occurrences-occurrence"
-                                ng-class="{'active': vm.isCurrentPageDoc(occurrence) } "
-                                ng-repeat="occurrence in ::vm.occurrences track by $index"
-                                ng-click="vm.goToOccurrence(occurrence)">
-                                {{ 'LISTS.OCCURRENCE' | translate:occurrence }}
-                            </span>
-                            <span class="italic" ng-if="::vm.occurrences && vm.occurrences.length <= 0">
-                                {{ 'MESSAGES.NO_RESULT_FOUND' | translate }}
-                            </span>
-                            <span class="italic" ng-if="::!vm.occurrences">
-                                {{ 'MESSAGES.LOADING_OCCURRENCES' | translate }}
-                            </span>
-                        </div>
-                        <div ng-switch-when="xmlSource">
-                          <pre ng-if="::vm.entity._xmlSource">{{ ::vm.entity._xmlSource | prettyXml }}</pre>
-                          <span ng-if="::!vm.entity._xmlSource">{{ 'MESSAGES.NO_XML_SOURCE' | translate }}</span>
-                        </div>
-                  </div>
-              </div>
-          </div>
-    </span>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <!-- <span class="namedEntity__details">
         <span class="namedEntity__moreInfo-toggler" ng-click="vm.toggleMoreInfo()">

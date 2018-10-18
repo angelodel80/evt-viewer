@@ -32,17 +32,32 @@ angular.module('evtviewer.term')
         scope: {
             termId   : '@',
             termType : '@',
-            location   : '@'
+            location   : '@',
+            termWritten: '@'
         },
         transclude: true,
         templateUrl: 'src/terms/term.directive.tmpl.html',
          link: function(scope, element, attrs){
+             console.log('evtTerm directive')
         //     // Initialize namedEntity
-        //     scope.vm = {
-        //         entityId: scope.entityId,
-        //         entityType: scope.entityType,
-        //         location: scope.location
-        //     };
+             scope.vm = {
+                 termId: scope.termId,
+                 termType: scope.termType,
+                 location: scope.location,
+                 termWritten: scope.termWritten
+             };
+             var term = {
+                 label: 'Occurrence: '+scope.vm.termWritten
+             };
+             term.termInfo = 'TERMINFO'//evtTerm.termInfo(scope.vm.termWritten);
+             scope.vm.term = term;
+             scope.vm.toggle = function(){
+                 console.log('TERM toggle', scope.vm.term);
+                
+                 scope.vm.term.termInfo = evtTerm.termInfo(scope.vm.termWritten);
+                 console.log('EVT TERM PROV', scope.vm.term);
+
+             }
         //     var currentNamedEntity = evtNamedEntity.build(scope.entityId, scope);
             
         //     var entityElement = element.find('.namedEntity'),

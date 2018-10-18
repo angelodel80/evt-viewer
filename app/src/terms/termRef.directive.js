@@ -23,17 +23,29 @@ angular.module('evtviewer.term')
         restrict: 'E',
         scope: {
             termId   : '@',
-            termType : '@'
+            termType : '@',
+            termWritten : '@'
         },
         transclude: true,
         templateUrl: 'src/terms/termRef.directive.tmpl.html',
          link: function(scope, element, attrs){
-        //     // Initialize namedEntity
-        //     scope.vm = {
-        //         entityId: scope.entityId,
-        //         entityType: scope.entityType
-        //     };
+        // Initialize term
+             scope.vm = {
+                 termId: scope.termId,
+                 termType: scope.termType,
+                 termWritten: scope.termWritten,
+                 active : false
+             };
+             console.log('term directive', evtTermRef);
         //     var currentNamedEntity = evtNamedEntityRef.build(scope.entityId, scope);
+        var goToTermInList = function($event){
+            console.log('goToTermInList',$event, evtTermRef);
+            scope.vm.term = evtTermRef.goToTermInList($event);
+            console.log('term for processing', scope.vm.term);
+            scope.vm.active = evtTermRef.active;
+        }
+
+        scope.vm.goToTermInList = goToTermInList;
             
 
         //     var entityElement = element.find('.namedEntityRef'),
@@ -245,12 +257,12 @@ angular.module('evtviewer.term')
         //         }
         //     };
 
-        //     // Garbage collection
-        //     scope.$on('$destroy', function() {
-        //         if (scope.vm.uid) {
-        //             evtNamedEntityRef.destroy(scope.vm.uid);
-        //         }     
-        //     });
+             // Garbage collection
+             scope.$on('$destroy', function() {
+                 if (scope.vm.uid) {
+                     evtTermRef.destroy(scope.vm.uid);
+                 }     
+             });
         }
     };
 });

@@ -211,7 +211,8 @@ angular.module('evtviewer.dataHandler')
 				else if(tagName === "term"){
 
 					console.log('###PARSE-XML FOR TERM###', element);
-					var word = element.textContent;
+					newElement = parser.parseTerm(document, element);
+					/*var word = element.textContent;
 					newElement = document.createElement('a');
 					newElement.dataset.test = 'term-handling';
 					newElement.className = 'term';
@@ -223,7 +224,7 @@ angular.module('evtviewer.dataHandler')
 
 					var iHTML =  element.textContent;
 					console.log("innerValue", iHTML);
-					newElement.innerHTML = iHTML;
+					newElement.innerHTML = iHTML;*/
 
 				}
 				
@@ -645,6 +646,51 @@ angular.module('evtviewer.dataHandler')
 		}
 		return entityElem;
 	};
+
+
+
+/**
+ * parser and handling for terms
+ */
+
+	parser.parseTerm = function(doc, termNode) {
+		var termElem = doc.createElement('evt-term-ref'),
+			termRef = termNode.getAttribute('ref'),
+			termId = termNode.getAttribute('key');
+			termType = termNode.getAttribute('type');
+			termWrittenRap = termNode.textContent;
+			console.log('debug', termRef, termId);
+			termElem.setAttribute('data-term-ref', termRef);
+			termElem.setAttribute('data-term-type', termType);
+			termElem.setAttribute('data-term-id', termId);
+			termElem.setAttribute('data-term-written', termWrittenRap);
+
+		/*if (entityId && entityId !== '') {
+			entityElem.setAttribute('data-entity-id', entityId);
+		}
+		var listType = entityNode.tagName ? entityNode.tagName : 'generic';
+		entityElem.setAttribute('data-entity-type', listType);
+
+		var entityContent = '';
+		for (var i = 0; i < entityNode.childNodes.length; i++) {
+			var childElement = entityNode.childNodes[i].cloneNode(true),
+				parsedXmlElem;
+
+			parsedXmlElem = parser.parseXMLElement(doc, childElement, {
+				skip: skip
+			});
+			entityElem.appendChild(parsedXmlElem);
+		}*/
+
+		var iHTML = doc.createTextNode(termWrittenRap);
+		termElem.appendChild(iHTML);
+		return termElem;
+	};
+
+
+
+
+
 	/**
      * @ngdoc method
      * @name evtviewer.dataHandler.evtParser#parseLines

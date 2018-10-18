@@ -125,6 +125,12 @@ span.ex>span.pc{
     color:inherit;
 
 }
+.termRef{
+    background-color: #C1FFC1;
+    text-decoration-line: none;
+    color:inherit;
+
+}
 
 /* regole per rotulo */
 

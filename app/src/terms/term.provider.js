@@ -42,6 +42,13 @@ angular.module('evtviewer.term')
     this.$get = function($timeout, config, parsedData, evtNamedEntitiesParser, baseData, evtInterface, evtNamedEntityRef, evtPinnedElements) {
         var term    = {}
         console.log('term provider', this);
+        
+        var getTermInfo = function(writtenTerm){
+            console.log('getTermInfo');
+            var termInfo = parsedData.getTerm(writtenTerm);
+            return termInfo;
+        }
+        term.termInfo = getTermInfo;
         //     collection = {},
         //     list       = [],
         //     idx        = 0;

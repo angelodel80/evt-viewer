@@ -36,7 +36,7 @@ angular.module('evtviewer.term')
        * according to specific values of initial scope properties.</p>
        **/
       this.$get = function ($timeout, $http, parsedData, evtNamedEntitiesParser, baseData, Utils) {
-          console.log('term ref provider', this);
+          console.log('termRef provider', this);
          var termRef = {},
             collection = {},
             collectionByEntity = {},
@@ -56,30 +56,45 @@ angular.module('evtviewer.term')
           * {@link evtviewer.namedEntity.evtNamedEntityRef evtNamedEntityRef} provider file.</p>
           * @param {$event} $event Click event (needed to stop propagation and handle nested named entity references).
           */
-        //  var goToEntityInList = function ($event) {
-        //     $event.stopPropagation();
-        //     var target = $event.target;
-        //     if (target && !Utils.DOMutils.isNestedInElem(target, 'evt-named-entity') || Utils.DOMutils.isNestedInElem(target, 'evt-list')) {
-        //        var vm = this;
-        //        if (vm.realNamedEntity) {
-        //           if (namedEntityRef.getCurrentHighlighted() !== vm.entityId) {
-        //              namedEntityRef.highlightByEntityId(undefined);
-        //           }
-        //           vm.active = !vm.active;
-        //           if (vm.active) {
-        //              namedEntityRef.setActiveEntity(vm.uid);
-        //           } else {
-        //              namedEntityRef.setActiveEntity(undefined);
-        //           }
-        //           vm.toggleActive();
-        //           if (vm.detailsInPopup) {
-        //              $timeout(function () {
-        //                 vm.updateDetailsPosition($event, vm);
-        //              }, 20);
-        //           }
-        //        }
-        //     }
-        //  };
+         var goToTermInList = function ($event) {
+            $event.stopPropagation();
+            var target = $event.target;
+            console.log('provider Termref goToTermInList', target,$event);
+            var term = parsedData.getTerm(target.textContent);
+            console.log('termine in geToTerm', term);
+            if(termRef.active==undefined ||termRef.active==false){
+              termRef.active = true;
+            } else {
+              termRef.active = ! termRef.active;
+            }
+            return term;
+            //window.alert(translation);
+            //target.innerHTML = target.textContent;
+
+            //newElement.title = element.getAttribute('key');
+					//newElement.title = parsedData.getTerm(element.textContent).translation;
+
+            // if (target && !Utils.DOMutils.isNestedInElem(target, 'evt-named-entity') || Utils.DOMutils.isNestedInElem(target, 'evt-list')) {
+            //    var vm = this;
+            //    if (vm.realNamedEntity) {
+            //       if (namedEntityRef.getCurrentHighlighted() !== vm.entityId) {
+            //          namedEntityRef.highlightByEntityId(undefined);
+            //       }
+            //       vm.active = !vm.active;
+            //       if (vm.active) {
+            //          namedEntityRef.setActiveEntity(vm.uid);
+            //       } else {
+            //          namedEntityRef.setActiveEntity(undefined);
+            //       }
+            //       vm.toggleActive();
+            //       if (vm.detailsInPopup) {
+            //          $timeout(function () {
+            //             vm.updateDetailsPosition($event, vm);
+            //          }, 20);
+            //       }
+            //    }
+            // }
+         };
 
         //  var goToEntityInListHTTP = function ($event) {
         //     console.log('in goToEntityHTTP');
@@ -401,6 +416,7 @@ angular.module('evtviewer.term')
         //  namedEntityRef.destroy = function (tempId) {
         //     delete collection[tempId];
         //  };
+        termRef.goToTermInList = goToTermInList;
 
          return termRef;
       };
