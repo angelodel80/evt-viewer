@@ -158,6 +158,9 @@ angular.module('evtviewer.buttonSwitch')
 				case 'color-legend':
 					evtIcon = 'icon-evt_color-legend';
 					break;
+            case 'close':
+               evtIcon = 'icon-evt_close';
+               break;
 				case 'download':
 					evtIcon = 'fa fa-download'; //TODO: add icon in EVT font
 					break;
@@ -803,10 +806,10 @@ angular.module('evtviewer.buttonSwitch')
                   }
                };
                break;
-            case 'searchToolsExternal':
+            case 'searchAdvanced':
                btnType = 'standAlone';
                callback = function() {
-                  window.alert('External position coming soon!');
+                  window.alert('Advanced search coming soon!');
                };
                break;
             case 'searchVirtualKeyboard':
@@ -851,6 +854,16 @@ angular.module('evtviewer.buttonSwitch')
             case 'searchNextResult':
                disabled = true;
                callback = function() {}
+               break;
+            case 'searchClear':
+               btnType = 'standAlone';
+               callback = function () {
+                  var parentBoxId = scope.$parent.id,
+                     inputValue;
+                  evtSearchBox.clearInputValue(parentBoxId);
+                  inputValue = evtSearchBox.getInputValue(parentBoxId);
+                  evtSearchResults.highlightSearchResults(parentBoxId, inputValue);
+               };
                break;
 				case 'share':
 					callback = function() {
