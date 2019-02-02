@@ -9,8 +9,7 @@
         var options = {
             id: "osd_img",
             prefixUrl: "bower_components/openseadragon/built-openseadragon/openseadragon/images/",
-            tileSources: "data/tails/sanmatteo.dzi", //Senza questo nome visualizzao errore HTTP 404 attempting to load tilesource
-            // tileSources: "data/tails/sanmatteo.dzi", immagine per San Matteo
+            tileSources: "data/tails/sanmatteo.dzi", 
             showRotationControl: true,                
             showNavigator: true,
             //navigatorId: "navscroll",
