@@ -22,7 +22,7 @@
 
             $timeout(function () {
 
-               //console.log("in timeout osd", imageViewerHandler.testFun());
+               console.log("in timeout osd", imageViewerHandler.testFun());
                var viewer = OpenSeadragon(scope.$parent.options);
 
                scope.osd = viewer;
