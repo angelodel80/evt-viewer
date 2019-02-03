@@ -9,7 +9,7 @@
         var options = {
             id: "osd_img",
             prefixUrl: "bower_components/openseadragon/built-openseadragon/openseadragon/images/",
-            tileSources: "data/tiles/scaled_70_verticale.dzi", // immagine per rotulo Alba
+            tileSources: "data/tails/sanmatteo.dzi", // immagine SanMatteo
             
             //overlays: [{
             //    id: 'example-overlay',
@@ -19,17 +19,6 @@
             //    height: 0.45,
             //    className: 'nohighlight'
             //}],            
-            /*tileSources: ["data/bellinidzi/4-26giugno1834a.dzi", // immagini per bellini
-                            "data/bellinidzi/4-26giugno1834b.dzi"],
-            
-                            overlays: [{
-                                id: 'example-overlay',
-                                x: 0.26,
-                                y: 0.39,
-                                width: 0.22,
-                                height: 0.27,
-                                className: 'nohighlight'
-                            }], */
     
             //sequenceMode: true,
             //degrees:90,
@@ -44,8 +33,7 @@
             constrainDuringPan: true,
             //minZoomLevel: 0.8,
             minZoomLevel: 1,
-            maxZoomLevel: 8.0,
-    
+            maxZoomLevel: 8.0,   
             wrapVertical: false,
             navigatorPosition: "ABSOLUTE",
             //navigatorTop: "0",
