@@ -7,7 +7,7 @@
         console.log("caricato servizio  imageViewerService");
     
         var options = {
-            id: "osd_img",
+            id: "box_body_mainImage",
             prefixUrl: "bower_components/openseadragon/built-openseadragon/openseadragon/images/",
             tileSources: "data/tails/sanmatteo.dzi", // immagine SanMatteo
             
