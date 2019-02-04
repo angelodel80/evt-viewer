@@ -382,7 +382,7 @@
             return "test ok";
          };
 
-         console.log("caricato servizio  imageViewerHandler");
+         console.log("caricato servizio imageViewerHandler");
 
       });
 
