@@ -38,10 +38,24 @@
          style="{{vm.fontSize();}}"
          id="box_body_{{::vm.uid}}" 
          compile="::vm.content" ng-transclude>
-       <!-- OpenSeaDradoncomponent -->
+       <!-- OpenSeaDragoncomponent -->
         <div ng-app="evtviewer.imageViewer" ng-controller="evtviewer.imageViewerCtrl" style="height:100%">
             <osd name="osdViewer" ng-if="::vm.type=='image'"></osd>  
        </div> 
+       <div 
+        class="box-menu" 
+        data-position="bottom"
+        ng-if="::vm.bottomMenuList.buttons.length > 0 || vm.bottomMenuList.selectors.length > 0">
+        <button-switch 
+            title="{{::button.title}}"
+            data-label="{{::button.label}}"
+            data-icon="{{::button.icon}}"
+            data-icon-pos="{{::button.iconPos}}"
+            data-type="{{::button.type}}"
+            ng-repeat="button in vm.bottomMenuList.buttons track by $index"
+            ng-if="button.show()">
+        </button-switch>
+    </div>
 
     </div>
     <!-- <div class="box-body" id="box_body_{{vm.uid}}">{{ vm.content }}</div> -->
