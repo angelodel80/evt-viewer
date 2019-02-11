@@ -15,7 +15,7 @@
          controller: ["$scope", function ($scope) {
             $scope.osd = null;
          }],
-         template: "<div id='osd_img' class='box-image box-body Edition'></div>",
+         template: "<div id='osd_img' class='box-image box-body Edition'></div>",         
          link: function (scope, element, attrs) {
 
             console.log("funzione link della direttiva seadragon");
@@ -45,10 +45,12 @@
                     console.log("aggiorno contenuto viewer per pagina del testo");
                     imageViewerHandler.updateViewerBounds(newItem);
                   }
-                }, true);
+                }, false);
             
 
-            }, 50);
+            }, 10);
+
+                       
 
 
 
@@ -64,7 +66,7 @@
                //scope.mouse.destroy();
                //optionsWatcher();
                //Remove event handlers
-               //scope.osd.removeHandler("open", imageViewerHandler.open);
+               scope.osd.removeHandler("open", imageViewerHandler.open);
                scope.osd.removeHandler("home", imageViewerHandler.home);
                scope.osd.removeHandler("navigator-scroll", imageViewerHandler.navigatorScroll);
                scope.osd.removeHandler("pan", imageViewerHandler.pan);
