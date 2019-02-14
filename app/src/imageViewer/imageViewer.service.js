@@ -5,11 +5,13 @@
         var viewerModel = this;
         
         console.log("caricato servizio  imageViewerService");
+
+        var tileSources = [ "data/tails/sanmatteo.dzi", "data/tails/schema.dzi"];
     
         var options = {
             id: "osd-img",
             prefixUrl: "bower_components/openseadragon/built-openseadragon/openseadragon/images/",
-            tileSources: "data/tiles/scaled_70_verticale.dzi", // immagine per rotulo Alba
+            tileSources: tileSources, // immagine SanMatteo
             //tileSources: "data/test-img/quamusdzi/QuamusImgManuscript.dzi", // immagine per Marocco
             //overlays: [{
             //    id: 'example-overlay',
@@ -55,7 +57,10 @@
             navigatorTop:"1%",
             navigatorLeft:"94%",
             navigatorHeight:"95%",
-            navigatorWidth:"6%"
+            navigatorWidth:"6%",
+            //per sequetnza immagini
+            sequenceMode: true,
+            preserveOverlays: false,
          };
          // {id:"box_body_mainImage",prefixUrl:"images/",tileSources:"data/tails/scaled_70_verticale.dzi",showNavigator:!0,visibilityRatio:1,defaultZoomLevel:1,panHorizontal:!0,constrainDuringPan:!0,minZoomLevel:1,wrapVertical:!0,navigatorPosition:"ABSOLUTE",navigatorTop:"1%",navigatorLeft:"98%",navigatorHeight:"95%",navigatorWidth:"8%"}
     
