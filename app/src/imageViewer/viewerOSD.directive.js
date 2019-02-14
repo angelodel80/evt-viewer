@@ -56,7 +56,7 @@
                imageViewerHandler.setViewer(viewer);
                imageViewerHandler.setScope(scope);
 
-               scope.osd.addOnceHandler("open", imageViewerHandler.open,null,1);
+               //scope.osd.addOnceHandler("open", imageViewerHandler.open,null,1);
                scope.osd.addHandler("home", imageViewerHandler.home);
 
                scope.osd.addHandler('navigator-scroll', imageViewerHandler.navigatorScroll);
@@ -70,7 +70,7 @@
                     console.log("aggiorno contenuto viewer per pagina del testo");
                     imageViewerHandler.updateViewerBounds(newItem);
                   }
-                }, true);
+                }, false);
             
 
             }, 20);
