@@ -1,5 +1,5 @@
 {
-    "indexTitle": "Edizione digitale del Rotulo di San Teobaldo",
+    "indexTitle": "Edizione digitale delle Lettere di Bellini",
     "webSite": "",
     "logoUrl": "",
 
@@ -8,7 +8,7 @@
     "analoguesUrl"     : "",
     "sourcesTextsUrl" : "",
 
-    "defaultViewMode": "readingTxt",
+    "defaultViewMode": "imgTxt",
 	"availableViewModes": [{
                                 "label"    : "READING_TEXT",
                                 "icon"     : "reading-txt",
@@ -65,7 +65,7 @@
         "visible": true
     }],
 
-    "enableXMLdownload" : true,
+    "enableXMLdownload" : false,
 
     "toolPinAppEntries": true,
     "toolImageTextLinking": true,
