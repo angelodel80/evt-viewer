@@ -340,7 +340,7 @@
                
                divTitleElt.id = 'div-title-hotspot-overlay_selected-' + elem.dataset.id;
                divTitleElt.className = 'hotspot-dida-title';
-               divTitleElt.innerHTML = 'Sepoltura '+elem.dataset.id.replace(/SM_hs_/ , 'n° ');
+               //divTitleElt.innerHTML = 'Sepoltura '+elem.dataset.id.replace(/SM_hs_/ , 'n° ');
                
                //divTitleElt.innerHTML = 'HotSpot n.: '+elem.dataset.id;
 

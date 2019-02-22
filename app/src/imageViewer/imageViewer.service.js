@@ -6,12 +6,13 @@
         
         console.log("caricato servizio  imageViewerService");
 
-        var tileSources = [ "data/tails/sanmatteo.dzi", "data/tails/schema.dzi"];
+        //var tileSources = [ "data/tails/sanmatteo.dzi", "data/tails/schema.dzi"];
     
         var options = {
             id: "osd-img",
             prefixUrl: "bower_components/openseadragon/built-openseadragon/openseadragon/images/",
-            tileSources: tileSources, // immagine SanMatteo
+            tileSources: "data/tails/scaled_70_verticale.dzi",
+            //tileSources: tileSources, // immagine SanMatteo
             //tileSources: "data/test-img/quamusdzi/QuamusImgManuscript.dzi", // immagine per Marocco
             //overlays: [{
             //rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
@@ -48,7 +49,7 @@
             navigatorHeight:"100%",
             navigatorWidth:"6%",
             //per sequetnza immagini
-            sequenceMode: true,
+            //sequenceMode: true,
             preserveOverlays: false,
             //OpenSeadragon.OverlayRotationMode.NO_ROTATION
          };
