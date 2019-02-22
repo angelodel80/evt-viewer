@@ -3,7 +3,7 @@
    angular.module('evtviewer.openseadragonService', ['evtviewer.interface'])
 
       .service('imageViewerHandler', function (evtInterface, imageScrollMap, overlayHandler) {
-         const ImageNormalizationCoefficient = 3500;
+         const ImageNormalizationCoefficient = 1265; // per il rotulo 3500;
          const YminPan = 0.5;
          var divHotSpotToggle = false;
 
@@ -44,6 +44,12 @@
             //console.log("scope.$parent.$parent", scope.$parent.$parent.vm);
 
 
+         };
+
+         viewerHandler.openPage = function (page) {
+            console.log('openHandler with page', page);
+            var p = page.userData-1;
+            viewerHandler.viewer.goToPage(p);
          };
 
          viewerHandler.home = function () {
@@ -141,6 +147,14 @@
                console.log('updateViewerBounds', page);
                imageScrollMap.updateBounds(viewerHandler.viewer, page);
             }
+
+         };
+
+
+         viewerHandler.updateViewerPage = function (page) {
+            console.log('updateViewerPages: ', viewerHandler.viewer, page);
+            viewerHandler.viewer.goToPage(page);
+           
 
          };
 
@@ -319,7 +333,7 @@
                if (topLeft.x <= 0.4) {
                    DivTopLeft = topLeft.x + (bottomRight.x - topLeft.x) + 0.050;
                } else {
-                     DivTopLeft = topLeft.x - ((bottomRight.x - topLeft.x) + 0.3);
+                     DivTopLeft = topLeft.x - ((bottomRight.x - topLeft.x) + 0.2);
 
                }
                var rect = new OpenSeadragon.Rect(
