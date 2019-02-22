@@ -6,16 +6,16 @@
         
         console.log("caricato servizio  imageViewerService");
 
-        var tileSources = [ "data/tails/sanmatteo.dzi", "data/tails/schema.dzi"];
+        //var tileSources = [ "data/tails/sanmatteo.dzi", "data/tails/schema.dzi"];
         console.log("#!!# con parsedData #!!#", parsedData);
         console.log("#!!# page di parsedData #!!#", parsedData.getPage('page1').source);
     
         var options = {
             id: "osd-img",
             prefixUrl: "bower_components/openseadragon/built-openseadragon/openseadragon/images/",
-            tileSources: tileSources, // immagine SanMatteo
+            //tileSources: tileSources, // immagine SanMatteo
             //data/test-img/vb/VB_fol_104v_big.jpg
-            //tileSources:[] , // immagine per rotulo Alba
+            tileSources:[] , // immagine per rotulo Alba
             //tileSources: "data/test-img/quamusdzi/QuamusImgManuscript.dzi", // immagine per Marocco
             //overlays: [{
             //rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
