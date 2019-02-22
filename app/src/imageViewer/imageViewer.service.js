@@ -14,6 +14,7 @@
             tileSources: tileSources, // immagine SanMatteo
             //tileSources: "data/test-img/quamusdzi/QuamusImgManuscript.dzi", // immagine per Marocco
             //overlays: [{
+            //rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
             //    id: 'example-overlay',
             //    x: 0.03,
             //    y: 0.20,
@@ -49,6 +50,7 @@
             //per sequetnza immagini
             sequenceMode: true,
             preserveOverlays: false,
+            //OpenSeadragon.OverlayRotationMode.NO_ROTATION
          };
   
 
