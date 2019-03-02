@@ -80,7 +80,7 @@
                     else
                       console.error('problema con la paginazione!!!');
                   }
-                }, true);
+                }, false);
             
 
             }, 10);

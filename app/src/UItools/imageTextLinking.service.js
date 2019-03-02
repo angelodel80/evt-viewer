@@ -30,9 +30,27 @@ angular.module('evtviewer.UItools')
        */
       ITLutils.turnOnITL = function () {
          this.activateITL();
-         this.activateHotSpots();
+         //this.activateHotSpots();
          evtInterface.setToolStatus('ITL', 'active');
          console.log("TurnONITL");
+         //document.getElementById("example-overlay").className = "highlight";
+      };
+
+       /**
+       * @ngdoc method
+       * @name evtviewer.UItools.evtImageTextLinking#turnOnHTS
+       * @methodOf evtviewer.UItools.evtImageTextLinking
+       *
+       * @description
+       * Turn ON HOTSPOTS. 
+       * HTS is activated using the {@link evtviewer.UItools.evtImageTextLinking#activateHotSpots activateHotSpots} method.
+       * The state of the tool is saved in {@link evtviewer.interface.evtInterface evtInterface} service using 
+       * {@link evtviewer.interface.evtInterface#setToolStatus setToolStatus} method 
+       */
+      ITLutils.turnOnHTS = function () {
+         this.activateHotSpots();
+         evtInterface.setToolStatus('HTS', 'active');
+         console.log("turnOnHTS");
          //document.getElementById("example-overlay").className = "highlight";
       };
 
@@ -51,7 +69,7 @@ angular.module('evtviewer.UItools')
        */
       ITLutils.turnOffITL = function () {
          this.deactivateITL();
-         this.deactivateHotSpots();
+         //this.deactivateHotSpots();
          evtInterface.setToolStatus('ITL', 'inactive');
          evtInterface.updateCurrentHighlightedZone(undefined);
          this.switchingOffHighlightInImage();
@@ -60,6 +78,30 @@ angular.module('evtviewer.UItools')
          //document.getElementById("example-overlay").className = "nohighlight";
 
       };
+
+      /**
+       * @ngdoc method
+       * @name evtviewer.UItools.evtImageTextLinking#turnOffHTS
+       * @methodOf evtviewer.UItools.evtImageTextLinking
+       *
+       * @description
+       * Turn OFF Image-Text linking tool. 
+       * The state of the tool is saved in {@link evtviewer.interface.evtInterface evtInterface} service using 
+       * {@link evtviewer.interface.evtInterface#setToolStatus setToolStatus} method.
+       * The current highlighted zone is set to *undefined* using the 
+       * {@link evtviewer.interface.evtInterface#updateCurrentHighlightedZone updateCurrentHighlightedZone} method of
+       * {@link evtviewer.interface.evtInterface evtInterface} service
+       */
+      ITLutils.turnOffHTS = function () {
+         this.deactivateHotSpots();
+         evtInterface.setToolStatus('HTS', 'inactive');
+         evtInterface.updateCurrentHighlightedZone(undefined);
+         this.switchingOffHighlightInImage();
+         this.switchingOffHighlightInImageSelected();
+         console.log("TurnOFFHTS");
+         //document.getElementById("example-overlay").className = "nohighlight";
+ 
+      }; 
 
       /**
        * @ngdoc method
@@ -113,7 +155,9 @@ angular.module('evtviewer.UItools')
             var zoneId = zonesIdx[index];
             if (zoneId) {
                //console.log('nel for', zoneId);
+               //HOTSPOTS SAN MATTEO
                var h = zonesCollection[zoneId];
+               //var hotspotId = zoneId.replace(/SM_hs_/ , 'SM_div_hs_');
                console.log('##PREPARO GLI HOTSPOT -> H##', h);
                var hotspotId = h.corresp ? h.corresp.replace('#',''): h.start ? h.start.replace('#','') : zoneId; //zoneId.replace(/ST_hs_/, 'ST_div_hs_');
                console.log('##PREPARO GLI HOTSPOT -> hotspotId ##', hotspotId);
@@ -137,6 +181,7 @@ angular.module('evtviewer.UItools')
             //console.log('zone in prepare hot spot', zone);
             return ('HotSpot' === zone.rendition);
          });
+         
 
          console.log('hotspotzones FILTRATE', hotspotZones);
 
@@ -160,7 +205,6 @@ angular.module('evtviewer.UItools')
 
          return hotspotZones;
       };
-
       /**
        * @ngdoc method
        * @name evtviewer.UItools.evtImageTextLinking#turnOffITL
