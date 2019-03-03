@@ -46,7 +46,8 @@ angular.module('evtviewer.dataHandler')
 		encodingDescription: '',
 		textProfile: '',
 		outsideMetadata: '',
-		revisionHistory: ''
+		revisionHistory: '',
+		msDesc: ''
 	};
 
 	/**
@@ -106,7 +107,44 @@ angular.module('evtviewer.dataHandler')
     	</pre>
      */
 	var pagesCollection = {
-		length: 0
+		length: 0,
+		_indexes: [] // TODO: use only this in future
+	};
+	var thumbnails = [];
+	/**
+     * @ngdoc property
+     * @name evtviewer.dataHandler.parsedData#viscollSvgCollection
+     * @propertyOf evtviewer.dataHandler.parsedData
+     * @description [Private] Internal property where information about svg are stored.
+    	<pre>
+			var viscollSvgCollection = {
+				[pageId]: {
+					value,
+					label,
+					title,
+					source,
+					text: {
+						[docId] : {
+							[editionLevel]: ''
+						}
+					},
+					docs: []
+				},
+				length: 1
+			};
+    	</pre>
+     */
+	var viscollSvgCollection = {
+		svgs: {
+			_indexes: []
+		},
+		quires: {
+			_indexes: []
+		},
+		imglist: {
+			_indexes: []
+		},
+		loaded: false
 	};
 	/**
      * @ngdoc property
@@ -909,8 +947,10 @@ angular.module('evtviewer.dataHandler')
 		if (pagesCollection[pageId] === undefined) {
 			page.docs = [docId];
 			pagesCollection[pagesCollection.length] = pageId;
+			page.indexInCollection = pagesCollection.length;
 			pagesCollection[pageId] = page;
 			pagesCollection.length++;
+			pagesCollection._indexes.push(pageId); // TODO: remove duplicate list of page ids. Use only _indexes.
 			// _console.log('parsedData - addPage ', page);
 		} else {
 			var parsedPage = pagesCollection[pageId];
@@ -922,7 +962,14 @@ angular.module('evtviewer.dataHandler')
 		if (docId && docId !== '' && documentsCollection[docId] !== undefined) {
 			documentsCollection[docId].pages.push(pageId);
 		}
+		thumbnails[pagesCollection.length-1] = {
+			value: page.value,
+			image: page.image,
+			label: page.label,
+			docs: page.docs
+		 };
 	};
+	
 	/**
      * @ngdoc method
      * @name evtviewer.dataHandler.parsedData#getPages
@@ -935,6 +982,19 @@ angular.module('evtviewer.dataHandler')
 	parsedData.getPages = function() {
 		return pagesCollection;
 	};
+	/**
+     * @ngdoc method
+     * @name evtviewer.dataHandler.parsedData#getThumbnails
+     * @methodOf evtviewer.dataHandler.parsedData
+     *
+     * @description
+     * Get the list of parsed thumbnails.
+     * @returns {Object} Object representing the list of parsed thumbnails.
+     */
+	parsedData.getThumbnails = function() {
+		return thumbnails;
+	};
+
 	/**
      * @ngdoc method
      * @name evtviewer.dataHandler.parsedData#getPage
@@ -1039,7 +1099,104 @@ angular.module('evtviewer.dataHandler')
 		// return images[i];
 		return {};
 	};
+	
+	/* SVG */
+	/**
+     * @ngdoc method
+     * @name evtviewer.dataHandler.parsedData#addViscollSvg
+     * @methodOf evtviewer.dataHandler.parsedData
+     *
+     * @description
+     * Add a svg to stored svg collection. If the svg has already been added it means that it contains
+     * more than one document. In this case the <code>docId</code> will be added to the list
+     * of documents contained in the svg.
+     * The <code>pageId</code> of the new svg will be also added to the list of
+     * pages of the document with <code>id = docId</code>.
+     * @param {Object} svg Svg to be added. It is structured as:
+     	<pre>
+			var svg = {
+				value,
+				label,
+				title,
+				source
+			};
+     	</pre>
+     * @param {string} docId Identifier of document in which the svg is contained
+     * @todo add attribute for the original xml reference
+     */
+	parsedData.addViscollSvg = function(svg) {
+		var svgId = 'svg_'+viscollSvgCollection.svgs._indexes.length;
+		viscollSvgCollection.svgs[svgId] = svg;
+		viscollSvgCollection.svgs._indexes.push(svgId);
+	};
+	
+	parsedData.addViscollImageList = function(imageElement){
+		var imageId = imageElement.id;
+		viscollSvgCollection.imglist[imageId] = imageElement;
+		viscollSvgCollection.imglist._indexes.push(imageId);
+	};
 
+	parsedData.addViscollQuire = function(quire) {
+		var quireId = quire.value;
+		viscollSvgCollection.quires[quireId] = quire;
+		viscollSvgCollection.quires._indexes.push(quireId);
+	};
+	
+	parsedData.addViscollLeaf = function(leaf) {
+		var leafId = leaf.value;
+		var quireId = leaf.quire;
+		viscollSvgCollection.quires[quireId].leaves[leafId] = leaf;
+		viscollSvgCollection.quires[quireId].leaves._indexes.push(leafId);
+	};
+	
+	/**
+     * @ngdoc method
+     * @name evtviewer.dataHandler.parsedData#getViscollSvgs
+     * @methodOf evtviewer.dataHandler.parsedData
+     *
+     * @description
+     * Get the list of parsed svgs.
+     * @returns {Object} Object representing the list of parsed svgs.
+     */
+	parsedData.getViscollSvgs = function() {
+		return viscollSvgCollection;
+	};
+
+	parsedData.setViscollSvgsLoaded = function(loaded) {
+		viscollSvgCollection.loaded = loaded;
+	};
+	parsedData.areViscollSvgsLoaded = function() {
+		return viscollSvgCollection.loaded;
+	};
+	/**
+     * @ngdoc method
+     * @name evtviewer.dataHandler.parsedData#getSvg
+     * @methodOf evtviewer.dataHandler.parsedData
+     *
+     * @description
+     * Get the object representing a particular svg.
+     * @param {stirng} pageId Identifier of the svg to retrieve
+	 * @returns {Object} Object representing the svg with <code>id = pageId</code>.
+	 * It is structured as follow:
+	 	<pre>
+			var svg = {
+				value,
+				label,
+				title,
+				source,
+				text: {
+					[docId] : {
+						[editionLevel]: ''
+					}
+				},
+				docs: []
+			};
+	 	</pre>
+     */
+	parsedData.getViscollSvg = function(pageId) {
+		return viscollSvgCollection[pageId];
+	};
+	
 	/* DOCUMENTS */
 	/**
      * @ngdoc method
@@ -1057,7 +1214,8 @@ angular.module('evtviewer.dataHandler')
 				title,
 				content,
 				front,
-				pages
+				pages,
+				svg
 			};
      	</pre>
      */
@@ -1110,6 +1268,7 @@ angular.module('evtviewer.dataHandler')
 				content,
 				front,
 				pages,
+				svg,
 			};
      	</pre>
      */
@@ -1134,6 +1293,7 @@ angular.module('evtviewer.dataHandler')
 				content,
 				front,
 				pages,
+				svg,
 			};
      	</pre>
      */
@@ -1967,7 +2127,11 @@ angular.module('evtviewer.dataHandler')
 	parsedData.getReadingAttributes = function(readingId, appId) {
 		var attributes = [];
 		if (criticalAppCollection[appId].content[readingId] !== undefined) {
-			attributes = criticalAppCollection[appId].content[readingId].attributes;
+			attributes = criticalAppCollection[appId].attributes;
+			var readingAttributes = criticalAppCollection[appId].content[readingId].attributes;
+			for (var key in readingAttributes) {
+				attributes[key] = readingAttributes[key];
+			}
 		}
 		return attributes;
 	};
@@ -2071,7 +2235,7 @@ angular.module('evtviewer.dataHandler')
 				if (color) {
                     filtersCollection.colors.push(color);
                 }
-
+                
 				var valueObj = {
 					name: value,
 					color: color
@@ -2499,7 +2663,7 @@ angular.module('evtviewer.dataHandler')
 	parsedData.updateProjectInfoContent = function(newContent, type) {
 		projectInfo[type] = newContent;
 	};
-
+   
 	/**
      * @ngdoc method
      * @name evtviewer.dataHandler.parsedData#getProjectInfo
@@ -2522,7 +2686,6 @@ angular.module('evtviewer.dataHandler')
 	parsedData.getProjectInfo = function() {
 		return projectInfo;
 	};
-
 
 	// ////// //
 	// GLYPHS //
@@ -2645,7 +2808,7 @@ angular.module('evtviewer.dataHandler')
      	</pre>
      */
 	parsedData.getGlyphMappingForEdition = function(glyphId, editionLevel) {
-		return glyphsCollection[glyphId].mapping[editionLevel] || undefined;
+		return glyphsCollection[glyphId] ? glyphsCollection[glyphId].mapping[editionLevel] : undefined;
 	};
 
 	// ///////////////// //

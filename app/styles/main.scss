@@ -79,10 +79,8 @@ footer {
     width: 100%;
 }
 
-section > div {
-    height: 100%;
-    display: block;
-    vertical-align: middle;
+div#global-container-ext.navbar-opened #global-container {
+    @include calc(height, unquote("#{setGlobalFrameHeightWithNavbar()} + 1px"));
 }
 
 #left-nav {
@@ -91,6 +89,7 @@ section > div {
 
 #main-container {
     @include main-frame;
+    line-height: 22px;
 
     //@include box-shadow(0px 2px 5px -3px rgba(0, 0, 0, 0.8));
     // @include set(box-shadow, 0px 2px 5px -3px rgba(0, 0, 0, 0.8));
@@ -123,10 +122,16 @@ section > div {
 @import "namedEntity.scss";
 @import "sourceSeg.scss";
 @import "versionReading.scss";
-@import "versionApparatusEntry";
+@import "versionApparatusEntry.scss";
+@import "navBar.scss";
+@import "visColl.scss";
+@import "searchBox.scss";
 
 @import "diplomaticEdition.scss";
 @import "interpretativeEdition.scss";
+
+@import "collation.scss";
+@import "tei.scss";
 
 // Temporary
 .secondary-container {
@@ -236,9 +241,11 @@ section > div {
 
     button-switch {
         margin: 0px;
+		display: inline;
 
         .buttonSwitch {
             height: auto;
+            display: inline-block;
             padding: 0 3px;
             background: none;
             box-shadow: none;
@@ -281,9 +288,8 @@ section > div {
                 }
 
                 &-icon {
-                    font-size: 1.3em;
+                    font-size: 1.2em;
                     margin-right: 3px;
-                    top: 0.4rem;
                 }
 
                 .iconbis-evt_versions, .iconbis-evt_srctxt {
@@ -324,6 +330,22 @@ section > div {
         padding: 20px;
     }
 }
+
+.popup-container {
+	@include calc(height, unquote("#{setPopupContainerFrameHeight()}"));
+	overflow-y: auto;
+	position: absolute;
+	width: 100%;
+	left: 0;
+	bottom: $base-slider-height;
+	background-color: #607d8b;
+    border: 1px solid #FFFFFF;
+    border-left: none;
+    border-right: none;
+    z-index: 999;
+    top: $base-header-height;
+}
+
 
 .global-loading-container {
     display: block;
@@ -463,6 +485,10 @@ pre {
                 color: #ccc;
                 cursor: default;
             }
+            a {
+                color: #444444;
+                text-decoration: none;
+            }
         }
     }
 
@@ -502,7 +528,7 @@ pre {
         border-bottom: 1px dotted #666;
         margin-bottom: 5px;
         font-variant: small-caps;
-        color: #666;
+        color: #000000;
         font-size: 90%;
         display:block;
         margin-top: 14px;
@@ -608,4 +634,38 @@ pre {
     font-size: 95%;
     padding: 10px 0;
     border-top: 1px solid;
+}
+
+.thumbnail {
+    display: inline-block;
+    padding: 9px 3px;
+    margin: 3px;
+    cursor: pointer;
+    img {
+        height: 150px;
+        width: 100px;
+        border: 2px solid black;
+    }
+    &.active img {
+        border-color: $base-color-active-background;
+    }
+    figcaption {
+        color: white;
+        position: relative;
+        margin-top: -52px;
+        background: rgba(0, 0, 0, 0.2);
+        font-size: 0.7em;
+        width: 100px;
+        text-align: center;
+    }
+    &:hover figcaption {
+        background: rgba(0, 0, 0, 0.7) !important;
+    }
+    &.active {
+        cursor: default;
+        figcaption {
+            background: rgba($base-color-active-background, .7) !important;
+            color: #000;
+        }
+    }
 }

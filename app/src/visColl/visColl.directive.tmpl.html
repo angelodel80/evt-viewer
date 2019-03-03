@@ -1,0 +1,80 @@
+<script type="text/javascript" src="src/visColl/SaxonJS.min.js"></script>
+<div class="selectorDiv">
+    <form name="quireForm" class="quireSelector">
+        <label for="quireSelect">{{ 'VISCOLL.SELECT_QUIRE' | translate }}:</label>
+        <evt-select ng-if="vm.quireOptions && vm.quireOptions.length > 0"
+            data-id="viscoll_quire" data-smaller="true"
+            data-type="generic" data-empty-option="true"
+			data-options="vm.quireOptions" data-init="{{vm.selectedQuire.value}}"
+			on-option-selected="vm.setSelectedQuire(option)">
+        </evt-select>
+	</form>
+</div>
+<div class="viscollItemsContainer">
+    <div class="viscollContainer" id="{{svgId}}"
+    	ng-repeat="svgId in vm.svgCollection.svgs._indexes track by $index"
+    	ng-show="vm.isSelectedQuire(vm.getSvgQuireN(svgId))"
+    	ng-class="{'selected' : vm.isSelectedQuire(vm.getSvgQuireN(svgId)) }">
+        <div class="viscollItem-leftContainer">
+			<span class="quireNumber">{{ 'VISCOLL.QUIRE_NUM' | translate }} {{vm.getSvgQuireN(svgId)}}</span>
+	        <div class="visCollValue" type="image/svg+xml" 
+	            compile="::vm.getTotSvgOuterHTML($index)">
+	        </div>
+	    </div>
+        <div class="viscollItem-rightContainer">
+	        <div class="selectorViscoll">
+				<span class="viscollNumber">
+					{{ 'VISCOLL.UNIT' | translate }}:
+				</span>
+				<evt-select ng-if="vm.quireOptions && vm.quireOptions.length > 0"
+					data-id="folioSelect_{{$index}}" data-smaller="true"
+					data-type="generic" data-empty-option="true" 
+					data-init="{{vm.selectedFolios[vm.getSvgQuireN(svgId)].value}}"
+					data-selected-option="{{vm.selectedFolios[vm.getSvgQuireN(svgId)].value}}"
+					data-options="vm.svgCollection.svgs[svgId].quireLeaves" 
+					on-option-selected="vm.setSelectedFolioForQuire(svgId, option)">
+				</evt-select>
+	        </div>
+	        <div class="imgSelectorViscoll" 
+	        	ng-if="vm.selectedFolios[vm.getSvgQuireN(svgId)]">
+				<figure class="thumbnail thumb_single second_unit" ng-click="vm.updateCurrentPage(vm.selectedFolios[vm.getSvgQuireN(svgId)].conjoinId)"
+					ng-class="{'missing-page': !vm.selectedFolios[vm.getSvgQuireN(svgId)].conjoinId }">
+					<img class="thumb_single_img"
+						onerror="this.setAttribute('src', 'images/empty-image.jpg')"
+						ng-src="{{vm.selectedFolios[vm.getSvgQuireN(svgId)].imgConjoin || 'images/empty-image.jpg'}}"
+						title="{{ vm.selectedFolios[vm.getSvgQuireN(svgId)].conjoinId ? 'BUTTONS.GO_TO_PAGE' : '' | translate }}"
+						></img>
+					<figcaption>{{vm.selectedFolios[vm.getSvgQuireN(svgId)].conjoinId || 'VISCOLL.MISSING' | translate}}</figcaption>
+				</figure>
+				<figure class="thumbnail thumb_single first_unit" ng-click="vm.updateCurrentPage(vm.selectedFolios[vm.getSvgQuireN(svgId)].imageId)"
+					ng-class="{'missing-page': !vm.selectedFolios[vm.getSvgQuireN(svgId)].imageId }">
+					<img class="thumb_single_img" 
+						onerror="this.setAttribute('src', 'images/empty-image.jpg')"
+						ng-src="{{vm.selectedFolios[vm.getSvgQuireN(svgId)].img || 'images/empty-image.jpg'}}"
+						title="{{ vm.selectedFolios[vm.getSvgQuireN(svgId)].imageId ? 'BUTTONS.GO_TO_PAGE' : '' | translate }}"></img>
+					<figcaption>{{vm.selectedFolios[vm.getSvgQuireN(svgId)].imageId || 'VISCOLL.MISSING' | translate}}</figcaption>
+				</figure>
+				<figure class="thumbnail thumb_single first_unit" ng-click="vm.updateCurrentPage(vm.selectedFolios[vm.getSvgQuireN(svgId)].imageId2)"
+					ng-class="{'missing-page': !vm.selectedFolios[vm.getSvgQuireN(svgId)].imageId2 }">
+					<img class="thumb_single_img" 
+						onerror="this.setAttribute('src', 'images/empty-image.jpg')"
+						ng-src="{{vm.selectedFolios[vm.getSvgQuireN(svgId)].img2 || 'images/empty-image.jpg'}}"
+						title="{{ vm.selectedFolios[vm.getSvgQuireN(svgId)].imageId2 ? 'BUTTONS.GO_TO_PAGE' : '' | translate }}"></img>
+					<figcaption>{{vm.selectedFolios[vm.getSvgQuireN(svgId)].imageId2 || 'VISCOLL.MISSING' | translate}}</figcaption>
+				</figure>
+				<figure class="thumbnail thumb_single second_unit" ng-click="vm.updateCurrentPage(vm.selectedFolios[vm.getSvgQuireN(svgId)].conjoinId2)"
+					ng-class="{'missing-page': !vm.selectedFolios[vm.getSvgQuireN(svgId)].conjoinId2 }">
+					<img class="thumb_single_img" 
+						onerror="this.setAttribute('src', 'images/empty-image.jpg')"
+						ng-src="{{vm.selectedFolios[vm.getSvgQuireN(svgId)].imgConjoin2 || 'images/empty-image.jpg'}}"
+						title="{{ vm.selectedFolios[vm.getSvgQuireN(svgId)].conjoinId2 ? 'BUTTONS.GO_TO_PAGE' : '' | translate }}"></img>
+					<figcaption>{{vm.selectedFolios[vm.getSvgQuireN(svgId)].conjoinId2 || 'VISCOLL.MISSING' | translate}}</figcaption>
+				</figure>
+	        </div>
+	        <div  class="imgSelectorViscoll_empty" 
+	        	ng-if="!vm.selectedFolios[vm.getSvgQuireN(svgId)]">
+	        	<span>{{ 'VISCOLL.SELECT_UNIT_MSG' | translate }}</span>
+	        </div>
+	    </div>
+    </div>
+</div>

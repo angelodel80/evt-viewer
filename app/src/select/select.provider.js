@@ -213,7 +213,8 @@ angular.module('evtviewer.select')
 						}
 					};
 					formatOptionList = function(optionList) {
-						var formattedList = [];
+						var formattedList = []; 
+						// TODO: Handle duplicates ('_orig', '_reg')
 						for (var i = 0; i < optionList.length; i++) {
 							formattedList.push(optionList[optionList[i]]);
 						}
@@ -250,10 +251,27 @@ angular.module('evtviewer.select')
 					optionList = formatOptionList(parsedData.getDocuments());
 					break;
 				case 'edition':
+				case 'comparingEdition':
 					callback = function(oldOption, newOption) {
-						if (newOption !== undefined) {
+						if (newOption !== undefined && 
+							(oldOption !== undefined && oldOption[0] !== undefined && 
+								newOption.value !== oldOption[0].value)) {
 							vm.selectOption(newOption);
-							evtInterface.updateState('currentEdition', newOption.value);
+							var stateToUpdate, oppositeStateName;
+							if (currentType === 'edition') {
+								stateToUpdate = 'currentEdition';
+								// change currentComparingEdition if equal to selected
+								oppositeStateName = 'currentComparingEdition';
+							} else if (currentType === 'comparingEdition') {
+								stateToUpdate = 'currentComparingEdition';
+								// change currentEdition if equal to selected
+								oppositeStateName = 'currentEdition';
+							} 
+							var oppositeState = evtInterface.getState(oppositeStateName);
+							if (oppositeState === newOption.value) {
+								evtInterface.updateState(oppositeStateName, oldOption[0].value);
+							}
+							evtInterface.updateState(stateToUpdate, newOption.value);
 							evtInterface.updateUrl();
 						}
 					};
@@ -615,8 +633,22 @@ angular.module('evtviewer.select')
 					};
 					optionList = formatOptionList(parsedData.getVersionEntries());
 					break;
+				case 'generic':
+					optionList = scope.options;
+					optionSelectedValue = initValue;
+					callback = function(oldOption, newOption) {
+						vm.collapse();
+						vm.selectOption(newOption);
+					};
+					break;
 			}
-
+			if (scope.emptyOption && optionList && (!optionList[0] || optionList[0].value)) {
+				optionList.unshift({
+					value: '',
+                    label: '---',
+                    title: ''
+				});
+			}
 			scopeHelper = {
 				// expansion
 				uid: currentId,
@@ -626,6 +658,9 @@ angular.module('evtviewer.select')
 				currentType: currentType,
 				multiselect: multiselect,
 				openUp: openUp,
+				smaller: scope.smaller,
+				selectedOption: scope.selectedOption,
+
 				// model
 				optionList: optionList,
 				optionSelected: optionSelected,

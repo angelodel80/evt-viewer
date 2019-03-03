@@ -33,7 +33,12 @@ angular.module('evtviewer.select')
             type: '@',
             init: '@',
             openUp: '@',
-            multiselect: '@'
+            multiselect: '@',
+            options: '=',
+            smaller: '@',
+            emptyOption: '@',
+            selectedOption: '@',
+            onOptionSelected: '&'
         },
         templateUrl: 'src/select/select.directive.tmpl.html',
         controllerAs: 'vm',
@@ -41,7 +46,7 @@ angular.module('evtviewer.select')
         link: function(scope, element) {
             // Initialize select
             var currentSelect = evtSelect.build(scope, scope.vm);
-
+            
             scope.vm.updateContainerPosition = function(type) {
                 var optionContainer = element.find('.option_container'),
                     selector = element.find('.selector'),
@@ -70,6 +75,14 @@ angular.module('evtviewer.select')
                     }
                 }
             });
+            
+            scope.$watch(function() {
+                return scope.selectedOption;
+            }, function(newItem, oldItem) {
+                if (oldItem !== newItem) {
+                    currentSelect.selectOptionByValue(scope.selectedOption);
+                }
+            }, true);  
 
             if (scope.type === 'witness-page') {
                 var witness = scope.$parent.vm.witness;
@@ -85,6 +98,26 @@ angular.module('evtviewer.select')
             if (scope.type === 'page') {
                 scope.$watch(function() {
                     return evtInterface.getState('currentPage');
+                }, function(newItem, oldItem) {
+                    if (oldItem !== newItem) {
+                        currentSelect.selectOptionByValue(newItem);
+                    }
+                }, true); 
+            }
+
+            if (scope.type === 'edition') {
+                scope.$watch(function() {
+                    return evtInterface.getState('currentEdition');
+                }, function(newItem, oldItem) {
+                    if (oldItem !== newItem) {
+                        currentSelect.selectOptionByValue(newItem);
+                    }
+                }, true); 
+            }
+
+            if (scope.type === 'comparingEdition') {
+                scope.$watch(function() {
+                    return evtInterface.getState('currentComparingEdition');
                 }, function(newItem, oldItem) {
                     if (oldItem !== newItem) {
                         currentSelect.selectOptionByValue(newItem);

@@ -2,7 +2,7 @@ angular.module('evtviewer.core')
 
 .constant('GLOBALDEFAULTCONF', {
 
-	// TODO: select doc system 
+	// TODO: select doc system
 	/**
 	 * @module evtviewer.core
 	 * @ngdoc object
@@ -51,21 +51,34 @@ angular.module('evtviewer.core')
 	// Default:
 	// <pre> configUrl: '../../config/config.json' </pre>
 	configUrl: '../../config/config.json',
+   dataUrl          : '',
 
-	dataUrl: '',
 	logoUrl: '',
 
 	enableXMLdownload: true,
-	
-    //sourcesUrl//
-    //Url of the XML file encoding the list of all the bibliographic references for the sources apparatus.//
+    // sourcesUrl //
+    // Url of the XML file encoding the list of all the bibliographic references for the sources apparatus.//
     sourcesUrl       : '',
     // sourcesTextsUrl //
     // Path of the folder containing the xml files of the sources texts //
     sourcesTextsUrl : '',
+	// visCollSvg //
+	// Path of the folder containing the svg files for visColl //
+	visCollSvg      : '',
     //analoguesUrl//
     //Url of the XML file encoding the list of all the bibliographic references for the analogues apparatus.//
     analoguesUrl     : '',
+	//visCollTextUrl//
+	//Url of the XML file encoding the visColl dataModel.//
+	visCollTextUrl   : '',
+	//visCollStyleUrl//
+	//visCollImageList//
+	visCollImageList : '',
+	//Url of the SEF file encoding the visColl stylesheets for dataModel.//
+	visCollStyleUrl   : '',
+	//svgFilesNames//
+	//Url of the svg files//
+	svgFilesNames     : '',
 
     preferredWitness: 'A',
 	skipWitnesses: '',
@@ -82,7 +95,7 @@ angular.module('evtviewer.core')
 		value: 'critical',
 		label: 'Critical',
 		title: 'Critical edition',
-		visible: true
+		visible: false
 	}, {
 		value: 'diplomatic',
 		label: 'Diplomatic',
@@ -149,7 +162,7 @@ angular.module('evtviewer.core')
 
 	loadCriticalEntriesImmediately: true,
 	maxWitsLoadTogether: 5,
-	
+
     /*Versions*/
     /*Array to encode cases of double or multiple redactions of the text*/
     /*The array collects the id used inside of the XML file as values of*/
@@ -182,7 +195,7 @@ angular.module('evtviewer.core')
     showInlineSources: false,
     showInlineAnalogues: false,
 
-	
+
 
 	variantColors: {},
 	filterColors: {},
