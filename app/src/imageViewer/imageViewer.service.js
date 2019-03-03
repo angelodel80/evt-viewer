@@ -43,14 +43,12 @@
     
             wrapVertical: false,
             //navigatorPosition: "ABSOLUTE",
-            //navigatorTop: "0",
-            //navigatorLeft: "94%",
-            //navigatorHeight: "100%",
-            //navigatorWidth: "6%",
-            //navigatorTop:"1%",
-            //navigatorLeft:"94%",
-            //navigatorHeight:"95%",
-            //navigatorWidth:"6%"
+            navigatorLeft: "94%",
+            navigatorHeight: "100%",
+            navigatorWidth: "50%",
+            navigatorTop:"1%",
+
+
          };
   
 
