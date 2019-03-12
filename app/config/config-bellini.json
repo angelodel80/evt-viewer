@@ -1,7 +1,8 @@
 {
-    "indexTitle": "Edizione digitale",
+    "indexTitle": "Edizione digitale delle Lettere di Bellini",
     "webSite": "",
-    "logoUrl": "favicon.ico",
+    "logoUrl": "",
+
     "dataUrl":"data/bellini/encodings/LL1_16.xml",
     "sourcesUrl"       : "",
     "analoguesUrl"     : "",
@@ -18,7 +19,7 @@
                                 "label"    : "MULTIPLE_RECENSIONS",
                                 "icon"     : "mode-versions",
                                 "viewMode" : "versions",
-                                "visible"  : false
+                                "visible"  : true
                             },
                             {
                                 "label"    : "IMAGE_TEXT",
@@ -30,13 +31,13 @@
                                 "label"    : "TEXT_TEXT",
                                 "icon"     : "mode-txtTxt",
                                 "viewMode" : "txtTxt",
-                                "visible"  : false
+                                "visible"  : true
                             },
                             {
                                 "label"    : "COLLATION",
                                 "icon"     : "mode-collation",
                                 "viewMode" : "collation",
-                                "visible"  : false
+                                "visible"  : true
                             },
                             {
                                 "label"    : "SOURCE_TEXT",
@@ -44,7 +45,7 @@
                                 "viewMode" : "srcTxt",
                                 "visible"  : true
                             }],
-    "defaultEdition": "interpretative",
+    "defaultEdition": "diplomatic",
     "showEditionLevelSelector": true,
 
     "availableEditionLevel": [{
@@ -54,46 +55,46 @@
         "visible": false
     }, {
         "value": "diplomatic",
-        "label": "Diplomatica",
+        "label": "Diplomatic",
         "title": "Diplomatic edition",
-        "visible": false
+        "visible": true
     }, {
         "value": "interpretative",
-        "label": "Diplomatico-Interpretativa",
+        "label": "Interpretative",
         "title": "Interpretative edition",
         "visible": true
     }],
 
     "enableXMLdownload" : false,
 
-    "toolPinAppEntries": false,
+    "toolPinAppEntries": true,
     "toolImageTextLinking": true,
 
     "namedEntitiesSelector": true,
 
     "namedEntitiesToHandle": [{
         "tagName": "persName",
-        "label": "Persone",
+        "label": "Persons",
         "available": true
     },{
         "tagName": "placeName",
-        "label": "Luoghi",
+        "label": "Places",
         "available": true
     },{
         "tagName": "orgName",
-        "label": "Organizzazioni",
+        "label": "Organizations",
         "available": true
     }],
 
     "otherEntitiesToHandle": [{
         "tagName": "rolename",
-        "label": "Ruolo",
-        "available": false,
+        "label": "Role Name",
+        "available": true,
         "color": "#cfc"
     }, {
         "tagName": "measure",
-        "label": "Misura",
-        "available": false,
+        "label": "Measure",
+        "available": true,
         "color": "#ffecb3"
     }],
 
@@ -112,7 +113,7 @@
 
 	"maxWitsLoadTogether": 5,
 
-    "showDocumentSelector": false,
+    "showDocumentSelector": true,
 
 	"variantColors": {
 		"type": {
@@ -135,30 +136,17 @@
 	"variantColorDark": "",
 	"heatmapColor": "",
 
-
-    "versions" : ["rec2", "rec1", "rec3"],
-    "witnessesGroups": [
-        {
-            "groupName" : "Group 1",
-            "witnesses" : ["V", "P", "N", "M", "G", "C", "R"]
-        },
-        {
-            "groupName" : "Group 2",
-            "witnesses" : ["F", "D", "O", "W", "M5mg", "B", "U"]
-        }
-    ],
+    "versions" : [],
+    "witnessesGroups": [ ],
 
     "quoteDef"              : "<quote>",
     "analogueDef"           : "<seg>,<ref[type=parallelPassage]>",
 
     "showReadingExponent": true,
 
-    "showInlineCriticalApparatus": true,
-    "showInlineSources": true,
-    "showInlineAnalogues": true,
-
-
-
+    "showInlineCriticalApparatus": false,
+    "showInlineSources": false,
+    "showInlineAnalogues": false,
 
     "defaultBibliographicStyle": "Chicago",
 	"allowedBibliographicStyles": {
@@ -175,6 +163,8 @@
 			"enabled": true
 		}
 	},
+
+   "virtualKeyboardKeys": [],
 
     "languages": ["en", "it"]
 }
