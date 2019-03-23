@@ -198,11 +198,11 @@ section.box-image > div:nth-child(1) > button-switch:nth-child(3) > span:nth-chi
 .navigator {
     background-color: rgb(38, 50, 56) !important;
     border: 0.5px solid rgb(38, 50, 56) !important;
-    height: 10% !important;
-    width: 100% !important;
-    padding: 0 !important;
-    touch-action: none;
-    opacity: 0.3;
+    //height: 10% !important;
+    //width: 100% !important;
+    //padding: 0 !important;
+    //touch-action: none;
+    opacity: 0.4;
 }
 
 /* regole per collegamento immagine testo san matteo 
@@ -343,7 +343,7 @@ div#box_body_mainImage * img {
  section.box-text > div:nth-child(1) > evt-select:nth-child(1) > div:nth-child(1){
      display: none;
  }
-orig {
+.orig {
      font-style: italic;
  }
 span.namedEntity__detail-text-content span.orig.ng-scope{

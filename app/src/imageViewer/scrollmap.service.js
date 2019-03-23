@@ -4,18 +4,83 @@ angular.module('evtviewer.openseadragonService')
       console.log('in service imageScrollMap');
       var key = 'yPage';
       var imageScrollMap = this;
-      /* DATI PER SCROLL MAPPA SAN MATTEO
+      
       var map = {
          yPage1: {
-            from: 0.1,
-            to: 0.7
-         },
+            from: 0.00,
+            to: 1.15
+        },
          yPage2: {
-            from: 0.7,
-            to: 0.14
+            from: 1.15,
+            to: 2.30
          },
-         size: 14
-      };*/
+         yPage3: {
+            from: 2.30,
+            to: 3.45
+         },
+         yPage4: {
+            from: 3.45,
+            to: 4.48
+         },
+         yPage5: {
+            from: 4.48,
+            to: 5.60
+         },
+         yPage6: {
+            from: 5.60,
+            to: 6.70
+         },
+         yPage7: {
+            from: 6.70,
+            to: 7.95
+         },
+         yPage8: {
+            from: 7.95,
+            to: 9.00
+         },
+         yPage9: {
+            from: 9.00,
+            to: 10.10
+         },
+         yPage10: {
+            from: 10.10,
+            to: 10.50
+         },
+         yPage11: {
+            from: 10.50,
+            to: 11.20
+         },
+         yPage12: {
+            from: 11.20,
+            to: 11.70
+         },
+         yPage13: {
+            from: 11.70,
+            to: 12.23
+         },
+         yPage14: {
+            from: 12.23,
+            to: 12.75
+         },
+         yPage15: {
+            from: 12.75,
+            to: 13.25
+         },
+         yPage16: {
+            from: 13.25,
+            to: 13.75
+         },
+         yPage17: {
+            from: 13.75,
+            to: 14.30
+         },
+         yPage18: {
+            from: 14.30,
+            to: 15.30
+         },
+         size: 18
+       };
+
 
       imageScrollMap.mapDown = function (bounds) {
          return mapFun(bounds, 'down');
@@ -26,8 +91,7 @@ angular.module('evtviewer.openseadragonService')
 
      var mapFun = function (bounds, type) {
          var box = bounds.getBoundingBox();
-         var map;
-         var key;
+         
          console.log('mapping boungs-pages', box);
          console.log(map);
          console.log(key);
@@ -77,14 +141,14 @@ angular.module('evtviewer.openseadragonService')
          //var ypage = "y"+ page.charAt(0).toUpperCase() + page.slice(1);
          // FIXME
          var ypage = undefined;
-         if (page.length == 10)
+         if (page.length == 5)
             ypage = key + page.substr(page.length - 1);
          else
             ypage = key + page.substr(page.length - 2);
 
 
          console.log('isInBounds', ypage);
-         var map;
+         
          if (y >= map[ypage].from && y < map[ypage].to) {
             console.log('true');
             return true;
@@ -97,9 +161,8 @@ angular.module('evtviewer.openseadragonService')
       imageScrollMap.updateBounds = function (viewer, page) {
          console.log('updateBounds');
          var oldBounds = viewer.viewport.getBounds();
-         var ypage = undefined;
-         var map;
-         if (page.length == 10)
+         
+         if (page.length == 5)
             ypage = key + page.substr(page.length - 1);
          else
             ypage = key + page.substr(page.length - 2);

@@ -513,24 +513,24 @@ angular.module('evtviewer.box')
 					type: 'fontSizeIncrease'
 				}]
 			};
-			var osdTools = {
-				osdBtn: [{
-					title: 'BUTTONS.ZOOM-RESET',
-					label: '',
-					icon: 'zoom-reset',
-					type: 'zoomReset'
-				}, {
-					title: 'BUTTONS.ZOOM-OUT',
-					label: '',
-					icon: 'zoom-out',
-					type: 'zoomOut'
-				}, {
-					title: 'BUTTONS.ZOOM-IN',
-					label: '',
-					icon: 'zoom-in',
-					type: 'zoomIn'
-				}]
-			};
+			 var osdTools = {
+			// 	osdBtn: [{
+			// 		title: 'BUTTONS.ZOOM-RESET',
+			// 		label: '',
+			// 		icon: 'zoom-reset',
+			// 		type: 'zoomReset'
+			// 	}, {
+			// 		title: 'BUTTONS.ZOOM-OUT',
+			// 		label: '',
+			// 		icon: 'zoom-out',
+			// 		type: 'zoomOut'
+			// 	}, {
+			// 		title: 'BUTTONS.ZOOM-IN',
+			// 		label: '',
+			// 		icon: 'zoom-in',
+			// 		type: 'zoomIn'
+			// 	}]
+			 };
 
 			var scopeHelper = {};
 
@@ -594,33 +594,33 @@ angular.module('evtviewer.box')
 						type: 'schema'
 					});
 					//pulsanti per navigazione immagine osdnavbar
-					bottomMenuList.buttons.push({
-						title: 'BUTTONS.ZOOM-IN',
-						label: '',
-						icon: 'zoom-in',
-						type: 'zoomIn',
-						show: function() {
-							return true;
-						}
-					});
-					bottomMenuList.buttons.push({
-						title: 'BUTTONS.ZOOM-OUT',
-						label: '',
-						icon: 'zoom-out',
-						type: 'zoomOut',
-						show: function() {
-							return true;
-						}
-					});
-					bottomMenuList.buttons.push({
-						title: 'BUTTONS.ZOOM-RESET',
-						label: '',
-						icon: 'zoom-reset',
-						type: 'zoomReset',
-						show: function() {
-							return true;
-						}
-					});
+					// bottomMenuList.buttons.push({
+					// 	title: 'BUTTONS.ZOOM-IN',
+					// 	label: '',
+					// 	icon: 'zoom-in',
+					// 	type: 'zoomIn',
+					// 	show: function() {
+					// 		return true;
+					// 	}
+					// });
+					// bottomMenuList.buttons.push({
+					// 	title: 'BUTTONS.ZOOM-OUT',
+					// 	label: '',
+					// 	icon: 'zoom-out',
+					// 	type: 'zoomOut',
+					// 	show: function() {
+					// 		return true;
+					// 	}
+					// });
+					// bottomMenuList.buttons.push({
+					// 	title: 'BUTTONS.ZOOM-RESET',
+					// 	label: '',
+					// 	icon: 'zoom-reset',
+					// 	type: 'zoomReset',
+					// 	show: function() {
+					// 		return true;
+					// 	}
+					// });
 					if (parsedData.isITLAvailable()) {
 						topMenuList.buttons.push({
 							title: 'BUTTONS.IMAGE_TEXT_LINKING',

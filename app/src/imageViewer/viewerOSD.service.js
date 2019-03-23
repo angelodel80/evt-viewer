@@ -21,12 +21,12 @@
 
         
          viewerHandler.open = function () {
-            console.log('openHandler');
-            var viewBounds = viewer.viewport.getBounds();
+            console.log('openHandler', viewerHandler.viewer);
+            //var viewBounds = viewerHandler.viewer.viewport.getBounds();
             var oldBounds = viewerHandler.viewer.viewport.getBounds();
             console.log('openHandler', oldBounds);
             var h = oldBounds.height / oldBounds.width;
-            var newBounds = new OpenSeadragon.Rect(0, 0, 0, h);
+            var newBounds = new OpenSeadragon.Rect(0, 0.1, 1, h);
             console.log(newBounds);
             viewerHandler.viewer.viewport.fitBounds(newBounds, false);
             //viewer.navigator.element.parentElement.parentElement.style.overflow = "visible";
@@ -46,12 +46,14 @@
 
          };
 
-         viewerHandler.home = function () {
+         viewerHandler.home = function (event) {
             console.log('pigiato home');
             var oldBounds = viewerHandler.viewer.viewport.getBounds();
             var h = oldBounds.height / oldBounds.width;
             var newBounds = new OpenSeadragon.Rect(0, 0.1, 1, h);
             viewerHandler.viewer.viewport.fitBounds(newBounds, true);
+            event.stopBubbling = true;
+            // in quealche modo bisogna stoppare l'evento perché ritorna al centro.  stopprepend non ha funzionato.
          };
 
          /* Trying to fix Home bug*/
@@ -84,7 +86,7 @@
          viewerHandler.pan = function (event) {
             try {
                console.log('pan', event);
-               if (event.immediately === undefined) {
+               //if (event.immediately === undefined) {
                var newY = event.center.y;
                var oldY = event.eventSource.viewport._oldCenterY;
                console.log('ok event pan', newY);
@@ -126,7 +128,8 @@
                }
 
                //event.stopBubbling = true;
-            }} catch (err) {
+           // }
+         } catch (err) {
                //console.log('error in pan', err);
 
             }
@@ -229,8 +232,8 @@
             console.log('old center y', oldCenter.y);
             console.log('zone y normalized', normalizedZoney);
             console.log('differential y', oldCenter.y - normalizedZoney);
-            var newY = (zone.uly / ImageNormalizationCoefficient < oldCenter.y) ? oldCenter.y : zone.uly / ImageNormalizationCoefficient;
-            //var newY = ( (normalizedZoney < currentBounds.y + currentBounds.height) && normalizedZoney > currentBounds.y)  ? oldCenter.y :  (normalizedZoney < currentBounds.y) ? (currentBounds.y) :(currentBounds.y + currentBounds.height);
+            //var newY = (zone.uly / ImageNormalizationCoefficient < oldCenter.y) ? oldCenter.y : zone.uly / ImageNormalizationCoefficient;
+            var newY = ( (normalizedZoney < currentBounds.y + currentBounds.height) && normalizedZoney > currentBounds.y)  ? oldCenter.y :  (normalizedZoney < currentBounds.y) ? (currentBounds.y) :(currentBounds.y + currentBounds.height);
             console.log('new center y',newY);
             var newCenter = new OpenSeadragon.Point(oldCenter.x, newY);
             console.log('new center', newCenter);
