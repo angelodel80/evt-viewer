@@ -8,12 +8,12 @@
     "analoguesUrl"     : "",
     "sourcesTextsUrl" : "",
 
-    "defaultViewMode": "imgTxt",
+    "defaultViewMode": "readingTxt",
 	"availableViewModes": [{
                                 "label"    : "READING_TEXT",
                                 "icon"     : "reading-txt",
                                 "viewMode" : "readingTxt",
-                                "visible"  : false
+                                "visible"  : true
                             },
                             {
                                 "label"    : "MULTIPLE_RECENSIONS",
@@ -142,7 +142,7 @@
     "quoteDef"              : "<quote>",
     "analogueDef"           : "<seg>,<ref[type=parallelPassage]>",
 
-    "showReadingExponent": true,
+    "showReadingExponent": false,
 
     "showInlineCriticalApparatus": false,
     "showInlineSources": false,
