@@ -174,24 +174,6 @@ angular.module('evtviewer.dataHandler')
         }
     };
 
-<<<<<<< HEAD
-      /**
-       * @ngdoc method
-       * @name evtviewer.dataHandler.baseData#launchXMLParsers
-       * @methodOf evtviewer.dataHandler.baseData
-       *
-       * @description
-       * [PRIVATE] Launch XML basic parser, needed at the very first loading of the application.
-       * @param {element} docElements Element representing the tree of the XML document to be parsed.
-       */
-      var launchXMLParsers = function (docElements) {
-         evtParser.analyzeEncoding(docElements);
-         // Parse pages
-         // evtParser.parsePages(docElements);
-
-         // Parse Glyphs
-         evtParser.parseGlyphs(docElements); //TODO: Decide if it is necessary to move this somewhere else
-=======
 	/**
      * @ngdoc method
      * @name evtviewer.dataHandler.baseData#handleViscollSvg
@@ -253,7 +235,6 @@ angular.module('evtviewer.dataHandler')
         evtParser.analyzeEncoding(docElements);
         // Parse pages
         // evtParser.parsePages(docElements);
->>>>>>> feature/navbar-viscoll
 
          // Parse Zones
          evtPrimarySourcesParser.parseZones(docElements); //TODO: Decide if it is necessary to move this somewhere else

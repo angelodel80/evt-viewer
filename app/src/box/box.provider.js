@@ -644,13 +644,11 @@ angular.module('evtviewer.box')
      
 					updateContent = function() {
 						scope.vm.isLoading = true;
-<<<<<<< HEAD
 						console.log("function update content Image");
 
 						console.log("func update image: current page:", evtInterface.getState('currentPage'));
 						evtInterface.updateState('currentPage',evtInterface.getState('currentPage'));
 
-=======
 						var currentPage = evtInterface.getState('currentPage'),
 							currentPageObj = currentPage ? parsedData.getPage(currentPage) : undefined,
 							pageSource = currentPageObj ? currentPageObj.source : '';
@@ -680,7 +678,6 @@ angular.module('evtviewer.box')
 						}
 						scope.vm.content += zonesHTML;
 						// =/ END TEMP
->>>>>>> feature/navbar-viscoll
 						scope.vm.isLoading = false;
 					};
 					break;

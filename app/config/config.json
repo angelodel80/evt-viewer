@@ -2,7 +2,7 @@
     "indexTitle": "",
     "webSite": "",
     "logoUrl": "",
-    "dataUrl": "data/rotoloSanTeobaldo.xml",
+    "dataUrl": "data/VercelliBook.xml",
     "sourcesUrl": "data/sources.xml",
     "analoguesUrl": "data/analogues.xml",
     "sourcesTextsUrl": "data/sources/",
@@ -24,13 +24,13 @@
             "label": "MULTIPLE_RECENSIONS",
             "icon": "mode-versions",
             "viewMode": "versions",
-            "visible": true
+            "visible": false
         },
         {
             "label": "IMAGE_TEXT",
             "icon": "mode-imgTxt",
             "viewMode": "imgTxt",
-            "visible": false
+            "visible": true
         },
         {
             "label": "TEXT_TEXT",
@@ -42,13 +42,13 @@
             "label": "COLLATION",
             "icon": "mode-collation",
             "viewMode": "collation",
-            "visible": true
+            "visible": false
         },
         {
             "label": "SOURCE_TEXT",
             "icon": "mode-srcTxt",
             "viewMode": "srcTxt",
-            "visible": true
+            "visible": false
         }
     ],
     "defaultEdition": "diplomatic",
@@ -110,7 +110,7 @@
             "color": "#ffecb3"
         }
     ],
-    "toolHeatMap": true,
+    "toolHeatMap": false,
     "preferredWitness": "",
     "skipWitnesses": "",
     "listDef": "<listWit>, <listChange>",
