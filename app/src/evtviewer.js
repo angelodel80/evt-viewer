@@ -19,6 +19,8 @@
  * @requires {@link https://github.com/krtnio/angular-pretty-xml prettyXml}
  * @requires {@link https://sroze.github.io/ngInfiniteScroll/documentation.html infinite-scroll}
  * @requires {@link https://angular-translate.github.io/docs/#/api pascalprecht.translate}
+ * @requires {@link https://github.com/angular-slider/angularjs-slider}
+ * @requires {@link https://github.com/krtnio/angular-xslt}
  * @requires evtviewer.core
  * @requires evtviewer.communication
  * @requires evtviewer.translation
@@ -29,6 +31,8 @@
  * @requires evtviewer.buttonSwitch
  * @requires evtviewer.popover
  * @requires evtviewer.namedEntity
+ * @requires evtviewer.navbar
+ * @requires evtviewer.viscoll
  * @requires evtviewer.criticalApparatusEntry
  * @requires evtviewer.reading
  * @requires evtviewer.dialog
@@ -55,10 +59,13 @@ angular
 		'ngMessages',
 		'ngResource',
 		'ngSanitize',
+		'rzModule',
 		'ngTouch',
 		'templates-main',
 		'ngRoute',
+		'rzModule',
 		'xml',
+		'ngXslt',
 		'prettyXml',
 		'infinite-scroll',
 		'pascalprecht.translate',
@@ -89,5 +96,7 @@ angular
         'evtviewer.versionApparatusEntry',
         'evtviewer.UItools',
     	'evtviewer.search',
-        'evtviewer.imageViewer'
+        'evtviewer.imageViewer',
+		'evtviewer.navBar',
+		'evtviewer.visColl',
     ]);
