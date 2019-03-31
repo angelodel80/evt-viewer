@@ -396,6 +396,7 @@
                divElt.appendChild(divTitleElt);
                divElt.appendChild(divBodyElt);
 
+               
                console.log('content', divElt);
 
                var OSDOverlay = {
@@ -406,9 +407,12 @@
                };
 
 
-               console.log(OSDOverlay.element);
-               viewerHandler.viewer.addOverlay(OSDOverlay);
+               console.log();
                divHotSpotToggle = !divHotSpotToggle;
+               viewerHandler.viewer.addOverlay(OSDOverlay);
+               $(OSDOverlay.element).draggable();
+               
+               
             }
             return divHotSpotToggle; // non dovrebbe servire più
          };

@@ -60,6 +60,7 @@
                imageViewerHandler.setViewer(viewer);
                imageViewerHandler.setScope(scope);
 
+               // FIX parametro indipendente dalla stringa formattata della pagina
                scope.osd.addOnceHandler("open", imageViewerHandler.openPage,evtInterface.getState('currentPage').slice(-1),1);
                //scope.osd.addHandler("home", imageViewerHandler.home);
 
