@@ -64,8 +64,7 @@
                imageViewerHandler.setViewer(viewer);
                imageViewerHandler.setScope(scope);
 
-               // FIX parametro indipendente dalla stringa formattata della pagina
-               scope.osd.addOnceHandler("open", imageViewerHandler.openPage,evtInterface.getState('currentPage').slice(-1),1);
+               scope.osd.addOnceHandler("open", imageViewerHandler.openPage,evtInterface.getState('currentPage'));
                //scope.osd.addHandler("home", imageViewerHandler.home);
 
                //scope.osd.addHandler('navigator-scroll', imageViewerHandler.navigatorScroll);
@@ -81,7 +80,7 @@
                     if(doctype==="scroll")
                       imageViewerHandler.updateViewerBounds(newItem);
                     else if(doctype==="page")
-                      imageViewerHandler.updateViewerPage(newItem.slice(-1)-1);
+                      imageViewerHandler.updateViewerPage(newItem);
                     else
                       console.error('problema con la paginazione!!!');
                   }
