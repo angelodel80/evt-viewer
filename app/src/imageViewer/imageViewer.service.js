@@ -7,8 +7,6 @@
         console.log("caricato servizio  imageViewerService");
 
         //var tileSources = [ "data/tails/sanmatteo.dzi", "data/tails/schema.dzi"];
-        console.log("#!!# con parsedData #!!#", parsedData);
-        console.log("#!!# page di parsedData #!!#", parsedData.getPage('page1').source);
     
         var options = {
             id: "osd-img",
