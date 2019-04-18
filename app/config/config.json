@@ -1,17 +1,24 @@
 {
-    "indexTitle": "",
+    "indexTitle": "Edizione della vita di San Teobaldo",
     "webSite": "",
     "logoUrl": "",
-    "dataUrl": "data/VercelliBook.xml",
+    
+    "dataUrl": "data/rotulo/rotoloSanTeobaldo.xml",
     "sourcesUrl": "data/sources.xml",
     "analoguesUrl": "data/analogues.xml",
     "sourcesTextsUrl": "data/sources/",
     "singleImagesUrl": "data/immagini/singole/",
     "visCollTextUrl": "data/visColl/dataModel2.xml",
     "visCollStyleUrl": "data/visColl/collationXML_to_SVG_mod2.sef.xml",
-    "visCollSvg": "data/viscollVB/SVG/",
-    "visCollImageList": "data/viscollVB/VBImageList.xml",
-    "visCollDataModel": "data/viscollVB/dataModel2VBComplete.xml",
+    "visCollSvg": "data/visColl_svg/",
+    "visCollImageList": "data/VBImageList.xml",
+    "visCollDataModel": "data/visColl/dataModel2VB.xml",
+    "svgFilesNames": [
+        "id-VB-1.svg",
+        "id-VB-2.svg",
+        "id-VB-3.svg"
+    ],
+
     "defaultViewMode": "readingTxt",
     "availableViewModes": [
         {

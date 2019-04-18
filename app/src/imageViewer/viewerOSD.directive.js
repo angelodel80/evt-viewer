@@ -56,24 +56,23 @@
                imageViewerHandler.setViewer(viewer);
                imageViewerHandler.setScope(scope);
 
-               scope.osd.addOnceHandler("open", imageViewerHandler.open,null,1);
+               scope.$watch(function() {
+                return evtInterface.getState('currentPage');
+            }, function(newItem, oldItem) {
+              if (oldItem !== newItem) {
+                console.log("aggiorno contenuto viewer per pagina del testo");
+                imageViewerHandler.updateViewerBounds(newItem);
+              }
+            }, true);
+
+               //scope.osd.addHandler('navigator-scroll', imageViewerHandler.navigatorScroll);
                scope.osd.addHandler("home", imageViewerHandler.home);
-
-               scope.osd.addHandler('navigator-scroll', imageViewerHandler.navigatorScroll);
-
                scope.osd.addHandler('pan', imageViewerHandler.pan);
+               scope.osd.addHandler("open", imageViewerHandler.open, evtInterface.getState('currentPage'));
 
-                scope.$watch(function() {
-                    return evtInterface.getState('currentPage');
-                }, function(newItem, oldItem) {
-                  if (oldItem !== newItem) {
-                    console.log("aggiorno contenuto viewer per pagina del testo");
-                    imageViewerHandler.updateViewerBounds(newItem);
-                  }
-                }, false);
-            
+            }, 20);
 
-            }, 10);
+           
 
 
 
