@@ -79,10 +79,8 @@ footer {
     width: 100%;
 }
 
-section > div {
-    height: 100%;
-    display: block;
-    vertical-align: middle;
+div#global-container-ext.navbar-opened #global-container {
+    @include calc(height, unquote("#{setGlobalFrameHeightWithNavbar()} + 1px"));
 }
 
 #left-nav {
@@ -124,12 +122,17 @@ section > div {
 @import "namedEntity.scss";
 @import "sourceSeg.scss";
 @import "versionReading.scss";
-@import "versionApparatusEntry";
+@import "versionApparatusEntry.scss";
+@import "navBar.scss";
+@import "visColl.scss";
 @import "searchBox.scss";
 
 @import "diplomaticEdition.scss";
 @import "interpretativeEdition.scss";
 @import "imageviewer.scss";
+
+@import "collation.scss";
+@import "tei.scss";
 
 // Temporary
 .secondary-container {
@@ -239,6 +242,7 @@ section > div {
 
     button-switch {
         margin: 0px;
+		display: inline;
 
         .buttonSwitch {
             height: auto;
@@ -327,6 +331,22 @@ section > div {
         padding: 20px;
     }
 }
+
+.popup-container {
+	@include calc(height, unquote("#{setPopupContainerFrameHeight()}"));
+	overflow-y: auto;
+	position: absolute;
+	width: 100%;
+	left: 0;
+	bottom: $base-slider-height;
+	background-color: #607d8b;
+    border: 1px solid #FFFFFF;
+    border-left: none;
+    border-right: none;
+    z-index: 999;
+    top: $base-header-height;
+}
+
 
 .global-loading-container {
     display: block;
@@ -465,6 +485,10 @@ pre {
                 background-color: #f5f5f5;
                 color: #ccc;
                 cursor: default;
+            }
+            a {
+                color: #444444;
+                text-decoration: none;
             }
         }
     }
@@ -611,4 +635,38 @@ pre {
     font-size: 95%;
     padding: 10px 0;
     border-top: 1px solid;
+}
+
+.thumbnail {
+    display: inline-block;
+    padding: 9px 3px;
+    margin: 3px;
+    cursor: pointer;
+    img {
+        height: 150px;
+        width: 100px;
+        border: 2px solid black;
+    }
+    &.active img {
+        border-color: $base-color-active-background;
+    }
+    figcaption {
+        color: white;
+        position: relative;
+        margin-top: -52px;
+        background: rgba(0, 0, 0, 0.2);
+        font-size: 0.7em;
+        width: 100px;
+        text-align: center;
+    }
+    &:hover figcaption {
+        background: rgba(0, 0, 0, 0.7) !important;
+    }
+    &.active {
+        cursor: default;
+        figcaption {
+            background: rgba($base-color-active-background, .7) !important;
+            color: #000;
+        }
+    }
 }

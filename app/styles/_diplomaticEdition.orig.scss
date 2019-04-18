@@ -5,57 +5,13 @@
 .diplomaticEdition {
 	// Abbreviations and Their Expansions
 	.choice {
-		&:hover > .expan, &.hover > .expan {
-			display: inline;
-			min-width: 20px;
-			text-align: center;
-			z-index: 99;
-		}
-
 		.abbr {
 			color: purple;
 		}
 
-		&:hover > .abbr, &.hover > .abbr {
-			color: #561c0a;
-			text-decoration: underline;
-			z-index: 9;
+		> .expan {
+			display: none;
 		}
-	}
-	.expan {
-		font-size: 80%;
-		position: absolute;
-		line-height: 16px;
-		display: none;
-		border: 1.5px solid black;
-		border-radius: 3px;
-		padding: 0.4%;
-		margin-top: 30px;
-
-		@include set(box-shadow, 2px 2px 2px #7e7067);
-
-		position: absolute;
-		left: 0;
-
-		&:before {
-			content: url("../images/popup_before.png");
-			left: 15%;
-			position: absolute;
-			top: -13px;
-		}
-
-		span {
-			background: transparent;
-		}
-	}
-	
-	.expan {
-		background: #e5dac4 !important;
-	}
-
-	.expan * {
-		background: #e5dac4 !important;
-		display: inline !important;
 	}
 
 	// 3.3.2 Emphasis, Foreign Words, and Unusual Language
@@ -91,7 +47,7 @@
 			content: "";
 		}
 
-		&:hover > .reg, &.hover > .reg {
+		&:hover .reg, &.hover .reg {
 			display: inline;
 			min-width: 20px;
 			text-align: center;
@@ -102,7 +58,7 @@
 			color: #69513a;
 		}
 
-		&:hover > .orig, &.hover > .orig {
+		&:hover .orig, &.hover .orig {
 			color: #561c0a;
 			text-decoration: underline;
 			z-index: 9;
@@ -140,13 +96,8 @@
 		}
 	}
 
-	.reg {
+	.reg, .reg * {
 		background: #e5dac4 !important;
-	}
-
-	.reg * {
-		background: #e5dac4 !important;
-		display: inline !important;
 	}
 
 	.orig {

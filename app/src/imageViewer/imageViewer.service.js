@@ -10,8 +10,8 @@
     
         var options = {
             id: "osd-img",
-            prefixUrl: "bower_components/openseadragon/built-openseadragon/openseadragon/images/",
-            tileSources: "data/tiles/scaled_70_verticale.dzi",
+            prefixUrl: "data/osd-images/",
+            tileSources: ["data/tiles/scaled_70_verticale.dzi","data/tiles/teobaldo_verso-rotated.dzi"],
             //tileSources: tileSources, // immagine SanMatteo
             //tileSources: "data/test-img/quamusdzi/QuamusImgManuscript.dzi", // immagine per Marocco
             //overlays: [{
@@ -51,6 +51,12 @@
             //per sequetnza immagini
             //sequenceMode: true,
             preserveOverlays: false,
+            sequenceMode: true,
+            preserveViewport: true,
+            showReferenceStrip: false,
+            referenceStripSizeRatio: 0.2,
+            referenceStripWidth: 0.01,
+            showHomeControl: false
             //OpenSeadragon.OverlayRotationMode.NO_ROTATION
          };
   

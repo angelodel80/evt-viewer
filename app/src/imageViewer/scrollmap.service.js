@@ -94,7 +94,7 @@ angular.module('evtviewer.openseadragonService')
          
          console.log('mapping boungs-pages', box);
          console.log(map);
-         console.log(key);
+         //console.log(key);
 
          switch (type) {
 
@@ -171,6 +171,7 @@ angular.module('evtviewer.openseadragonService')
          var newBounds = new OpenSeadragon.Rect(0, map[ypage].from, 1, h);
          console.log('updateBounds', newBounds);
          viewer.viewport.fitBounds(newBounds, false);
+         evtInterface.updateState('currentPage',page);
 
       };
 

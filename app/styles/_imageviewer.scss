@@ -185,11 +185,11 @@ position: relative !important;
 }*/
 
 span.buttonSwitch[title = "Thumbnails"],
-span.buttonSwitch[title = "Information about this text"],
-span.buttonSwitch[title = "Miniature"],
-span.buttonSwitch[title = "Informazioni su questo testo"] {
+span.buttonSwitch[title = "Miniature"]
+{
     display: none;
 }
+
 section.box-image > div:nth-child(1) > button-switch:nth-child(3) > span:nth-child(1){
     padding-right: 4px;
 }

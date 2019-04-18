@@ -13,7 +13,7 @@
 		}
 
 		.abbr {
-			color: purple;
+			color: #69513a;
 		}
 
 		&:hover > .abbr, &.hover > .abbr {
@@ -21,6 +21,7 @@
 			text-decoration: underline;
 			z-index: 9;
 		}
+
 	}
 	.expan {
 		font-size: 80%;
@@ -48,14 +49,9 @@
 			background: transparent;
 		}
 	}
-	
-	.expan {
-		background: #e5dac4 !important;
-	}
 
-	.expan * {
+	.expan, .expan * {
 		background: #e5dac4 !important;
-		display: inline !important;
 	}
 
 	// 3.3.2 Emphasis, Foreign Words, and Unusual Language
@@ -91,7 +87,7 @@
 			content: "";
 		}
 
-		&:hover > .reg, &.hover > .reg {
+		&:hover .reg, &.hover .reg {
 			display: inline;
 			min-width: 20px;
 			text-align: center;
@@ -102,7 +98,7 @@
 			color: #69513a;
 		}
 
-		&:hover > .orig, &.hover > .orig {
+		&:hover .orig, &.hover .orig {
 			color: #561c0a;
 			text-decoration: underline;
 			z-index: 9;
@@ -140,13 +136,8 @@
 		}
 	}
 
-	.reg {
+	.reg, .reg * {
 		background: #e5dac4 !important;
-	}
-
-	.reg * {
-		background: #e5dac4 !important;
-		display: inline !important;
 	}
 
 	.orig {

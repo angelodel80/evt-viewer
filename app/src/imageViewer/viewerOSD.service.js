@@ -20,23 +20,33 @@
          };
 
         
-         viewerHandler.open = function () {
-            console.log('openHandler', viewerHandler.viewer);
+         viewerHandler.open = function (pageData) {
+            var numPage = pageData.userData;
+            console.log("pagina in open", numPage);
+            console.log("pagina in open current", evtInterface.getState('currentPage'));
+            viewerHandler.scope.$apply(function () {
+               evtInterface.updateState('currentPage', numPage);
+               console.log('in open handler:', evtInterface.getState('currentPage'));
+               //evtInterface.updateUrl();
+               //scope.$parent.$parent.vm.updateContent();
+            });
+            //viewerHandler.viewer.addHandler('pan', viewerHandler.pan);
+            //console.log('openHandler', viewerHandler.viewer);
             //var viewBounds = viewerHandler.viewer.viewport.getBounds();
-            var oldBounds = viewerHandler.viewer.viewport.getBounds();
-            console.log('openHandler', oldBounds);
-            var h = oldBounds.height / oldBounds.width;
-            var newBounds = new OpenSeadragon.Rect(0, 0.1, 1, h);
-            console.log(newBounds);
-            viewerHandler.viewer.viewport.fitBounds(newBounds, false);
-            //viewer.navigator.element.parentElement.parentElement.style.overflow = "visible";
+             var oldBounds = viewerHandler.viewer.viewport.getBounds();
+            // console.log('openHandler', oldBounds);
+             var h = oldBounds.height / oldBounds.width;
+             var newBounds = new OpenSeadragon.Rect(0, 0.1, 1, h);
+            // console.log(newBounds);
+             viewerHandler.viewer.viewport.fitBounds(newBounds, false);
+            // //viewer.navigator.element.parentElement.parentElement.style.overflow = "visible";
             //viewer.navigator.element.parentElement.style.overflow = "visible";
             //viewer.navigator.element.style.overflow = "visible";
             //viewer.navigator.element.firstChild.style.overflow = "visible";
             //viewer.navigator.element.firstChild.children[0]  = "hidden"; 
             //viewer.navigator.element.firstChild.children[1]  = "hidden"; 
             //viewer.navigator.element.firstChild.firstChild.style.overflow = "hidden";
-            console.log('element navigator', viewerHandler.viewer.navigator.element);
+            //console.log('element navigator', viewerHandler.viewer.navigator.element);
             //console.log("evtInterface", evtInterface);
             //console.log("scope", scope);
             //console.log("element", element);
@@ -48,12 +58,18 @@
 
          viewerHandler.home = function (event) {
             console.log('pigiato home');
-            var oldBounds = viewerHandler.viewer.viewport.getBounds();
-            var h = oldBounds.height / oldBounds.width;
-            var newBounds = new OpenSeadragon.Rect(0, 0.1, 1, h);
-            viewerHandler.viewer.viewport.fitBounds(newBounds, true);
-            event.stopBubbling = true;
+            
+            // var oldBounds = viewerHandler.viewer.viewport.getBounds();
+            // var h = oldBounds.height / oldBounds.width;
+            // var newBounds = new OpenSeadragon.Rect(0, 0.1, 1, h);
+            // viewerHandler.viewer.viewport.fitBounds(newBounds, true);
+            //event.stopBubbling = true;
             // in quealche modo bisogna stoppare l'evento perché ritorna al centro.  stopprepend non ha funzionato.
+             viewerHandler.scope.$apply(function () {
+                evtInterface.updateState('currentPage', 'page1'); // FIX perché non funziona con page1?
+                console.log('in home handler:', evtInterface.getState('currentPage'));
+            //    //scope.$parent.$parent.vm.updateContent();
+             });
          };
 
          /* Trying to fix Home bug*/
@@ -103,11 +119,13 @@
                      newPage = imageScrollMap.mapDown(event.eventSource.viewport.getBounds());
                      currPage = evtInterface.getState('currentPage');
                      if (newPage !== currPage) {
-                        viewerHandler.scope.$apply(function () {
-                           evtInterface.updateState('currentPage', newPage);
-                           console.log('in pan handler:', evtInterface.getState('currentPage'));
-                           //scope.$parent.$parent.vm.updateContent();
-                        });
+                        evtInterface.updateState('currentPage', newPage !=='' ? newPage : currPage);
+                        console.log('in pan handler:', evtInterface.getState('currentPage'));
+                        // viewerHandler.scope.$apply(function () {
+                        //    evtInterface.updateState('currentPage', newPage !=='' ? newPage : currPage);
+                        //    console.log('in pan handler:', evtInterface.getState('currentPage'));
+                        //    //scope.$parent.$parent.vm.updateContent();
+                        // });
                      }
                      //evento scroll verso l'alto    
                   } else if (newY < oldY) {
@@ -115,13 +133,19 @@
                      console.log('bounds:', oldBounds);
                      //angular.element(document).find('.box-text')[1].innerHTML = "<span> PRENDERE IL TESTO IN" + oldBounds + "</span>";
                      newPage = imageScrollMap.mapUP(event.eventSource.viewport.getBounds());
+                     console.log('newPage:', newPage);
                      currPage = evtInterface.getState('currentPage');
+                     console.log('currPage:', currPage);
                      if (newPage !== currPage) {
-                        viewerHandler.scope.$apply(function () {
-                           evtInterface.updateState("currentPage", newPage !== '' ? newPage : currPage);
-                           console.log("in pan handler:", evtInterface.getState('currentPage'));
-                           //scope.$parent.$parent.vm.updateContent();
-                        });
+                        console.log('aggiorno pagina:', newPage);
+                        evtInterface.updateState("currentPage", newPage !== '' ? newPage : currPage);
+                        console.log("in pan handler:", evtInterface.getState('currentPage'));
+
+                        // viewerHandler.scope.$apply(function () {
+                        //    evtInterface.updateState("currentPage", newPage !== '' ? newPage : currPage);
+                        //    console.log("in pan handler:", evtInterface.getState('currentPage'));
+                        //    //scope.$parent.$parent.vm.updateContent();
+                        // });
                      }
                   }
                   //aggiungere scroll con coordinate asse x - FS
@@ -137,7 +161,7 @@
          };
 
          viewerHandler.updateViewerBounds = function (page) {
-            console.log('updateViewerBounds: ', viewerHandler.viewer, page);
+            console.log('updateViewerBounds: ', viewerHandler.viewer, page, evtInterface.getState('currentPage'));
             var oldBounds = viewerHandler.viewer.viewport.getBounds();
             console.log('updateViewerBounds: ', oldBounds);
             if (!imageScrollMap.isInBounds(oldBounds.y, page)) {
