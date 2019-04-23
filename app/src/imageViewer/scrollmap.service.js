@@ -92,7 +92,7 @@ angular.module('evtviewer.openseadragonService')
      var mapFun = function (bounds, type) {
          var box = bounds.getBoundingBox();
          
-         console.log('mapping boungs-pages', box);
+         console.log('mapping bounds-pages', box);
          console.log(map);
          //console.log(key);
 
@@ -115,6 +115,9 @@ angular.module('evtviewer.openseadragonService')
 
             case 'up':
                console.log('mapping moving up');
+               if(box.y <= 0){
+                  return page1;
+               }
                for (var i = 1; i <= map.size; i++) {
                   console.log('nel for di scrolling up', (map[key + i].from + map[key + i].to) / 2);
                   console.log('box y:', box.y);
@@ -159,7 +162,7 @@ angular.module('evtviewer.openseadragonService')
       };
 
       imageScrollMap.updateBounds = function (viewer, page) {
-         console.log('updateBounds');
+         console.log('updateBounds', page);
          var oldBounds = viewer.viewport.getBounds();
          
          if (page.length == 5)

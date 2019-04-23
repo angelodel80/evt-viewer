@@ -4,7 +4,7 @@
     "logoUrl": "",
     
     "dataUrl": "data/rotulo/rotoloSanTeobaldo.xml",
-    "sourcesUrl": "data/sources.xml",
+    "sourcesUrl": "",
     "analoguesUrl": "data/analogues.xml",
     "sourcesTextsUrl": "data/sources/",
     "singleImagesUrl": "data/immagini/singole/",
@@ -19,7 +19,7 @@
         "id-VB-3.svg"
     ],
 
-    "defaultViewMode": "readingTxt",
+    "defaultViewMode": "imgTxt",
     "availableViewModes": [
         {
             "label": "READING_TEXT",

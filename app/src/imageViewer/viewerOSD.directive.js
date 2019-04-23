@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
-   var module = angular.module("evtviewer.openseadragon", ["evtviewer.imageViewer",'evtviewer.openseadragonService', "evtviewer.interface"]);
+   var module = angular.module('evtviewer.openseadragon', ['evtviewer.imageViewer','evtviewer.openseadragonService', 'evtviewer.interface']);
   
 
-   module.directive("osd", ['$timeout', 'imageViewerHandler', "evtInterface", function ($timeout, imageViewerHandler, evtInterface) {
+   module.directive('osd', ['$timeout', 'imageViewerHandler', 'evtInterface', function ($timeout, imageViewerHandler, evtInterface) {
       return {
          
         restrict: "E",
@@ -68,7 +68,9 @@
                //scope.osd.addHandler('navigator-scroll', imageViewerHandler.navigatorScroll);
                scope.osd.addHandler("home", imageViewerHandler.home);
                scope.osd.addHandler('pan', imageViewerHandler.pan);
-               scope.osd.addHandler("open", imageViewerHandler.open, evtInterface.getState('currentPage'));
+               let page = evtInterface.getState('currentPage');
+               scope.osd.addHandler("open", imageViewerHandler.open, page); 
+               // evtInterface.getState('currentPage')
 
             }, 20);
 

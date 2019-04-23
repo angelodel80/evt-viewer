@@ -25,7 +25,8 @@
             console.log("pagina in open", numPage);
             console.log("pagina in open current", evtInterface.getState('currentPage'));
             viewerHandler.scope.$apply(function () {
-               evtInterface.updateState('currentPage', numPage);
+               imageScrollMap.updateBounds(viewerHandler.viewer, numPage);
+               //evtInterface.updateState('currentPage', numPage);
                console.log('in open handler:', evtInterface.getState('currentPage'));
                //evtInterface.updateUrl();
                //scope.$parent.$parent.vm.updateContent();
@@ -33,12 +34,12 @@
             //viewerHandler.viewer.addHandler('pan', viewerHandler.pan);
             //console.log('openHandler', viewerHandler.viewer);
             //var viewBounds = viewerHandler.viewer.viewport.getBounds();
-             var oldBounds = viewerHandler.viewer.viewport.getBounds();
+            ///* var oldBounds = viewerHandler.viewer.viewport.getBounds();*/
             // console.log('openHandler', oldBounds);
-             var h = oldBounds.height / oldBounds.width;
-             var newBounds = new OpenSeadragon.Rect(0, 0.1, 1, h);
+            ///* var h = oldBounds.height / oldBounds.width; */
+            ///*var newBounds = new OpenSeadragon.Rect(0, 0.1, 1, h);*/
             // console.log(newBounds);
-             viewerHandler.viewer.viewport.fitBounds(newBounds, false);
+            ///*viewerHandler.viewer.viewport.fitBounds(newBounds, false);*/
             // //viewer.navigator.element.parentElement.parentElement.style.overflow = "visible";
             //viewer.navigator.element.parentElement.style.overflow = "visible";
             //viewer.navigator.element.style.overflow = "visible";
@@ -66,7 +67,7 @@
             //event.stopBubbling = true;
             // in quealche modo bisogna stoppare l'evento perché ritorna al centro.  stopprepend non ha funzionato.
              viewerHandler.scope.$apply(function () {
-                evtInterface.updateState('currentPage', 'page1'); // FIX perché non funziona con page1?
+                //evtInterface.updateState('currentPage', 'page2'); // FIX perché non funziona con page1?
                 console.log('in home handler:', evtInterface.getState('currentPage'));
             //    //scope.$parent.$parent.vm.updateContent();
              });
@@ -109,7 +110,7 @@
                console.log('ok viewer pan', oldY);
                // evento scroll verso il basso
                if (viewerHandler.viewer.viewport.getZoom() === 1) {
-                  var newPage, currPage;
+                  var newPage='', currPage;
                   console.log('aggiorna testo');
                   var oldBounds = viewerHandler.viewer.viewport.getBounds();
                   if (newY > oldY) {
@@ -117,38 +118,48 @@
                      console.log('bounds:', oldBounds);
                      //angular.element(document).find('.box-text')[1].innerHTML = "<span> PRENDERE IL TESTO IN" + oldBounds + "</span>";
                      newPage = imageScrollMap.mapDown(event.eventSource.viewport.getBounds());
-                     currPage = evtInterface.getState('currentPage');
-                     if (newPage !== currPage) {
-                        evtInterface.updateState('currentPage', newPage !=='' ? newPage : currPage);
-                        console.log('in pan handler:', evtInterface.getState('currentPage'));
+                     //currPage = evtInterface.getState('currentPage');
+                     //if (newPage != currPage) {
+                     //   evtInterface.updateState('currentPage', newPage !=='' ? newPage : currPage);
+                     //   console.log('in pan handler:', evtInterface.getState('currentPage'));
                         // viewerHandler.scope.$apply(function () {
                         //    evtInterface.updateState('currentPage', newPage !=='' ? newPage : currPage);
                         //    console.log('in pan handler:', evtInterface.getState('currentPage'));
                         //    //scope.$parent.$parent.vm.updateContent();
                         // });
-                     }
+                    // }
                      //evento scroll verso l'alto    
                   } else if (newY < oldY) {
                      console.log('mostro riga sopra');
                      console.log('bounds:', oldBounds);
                      //angular.element(document).find('.box-text')[1].innerHTML = "<span> PRENDERE IL TESTO IN" + oldBounds + "</span>";
                      newPage = imageScrollMap.mapUP(event.eventSource.viewport.getBounds());
-                     console.log('newPage:', newPage);
-                     currPage = evtInterface.getState('currentPage');
-                     console.log('currPage:', currPage);
-                     if (newPage !== currPage) {
-                        console.log('aggiorno pagina:', newPage);
-                        evtInterface.updateState("currentPage", newPage !== '' ? newPage : currPage);
-                        console.log("in pan handler:", evtInterface.getState('currentPage'));
+                     //console.log('newPage:', newPage);
+                     //currPage = evtInterface.getState('currentPage');
+                     //console.log('currPage:', currPage);
+                     //if (newPage != currPage) {
+                     //   console.log('aggiorno pagina:', newPage);
+                     //   evtInterface.updateState("currentPage", newPage !== '' ? newPage : currPage);
+                     //   console.log("in pan handler:", evtInterface.getState('currentPage'));
 
                         // viewerHandler.scope.$apply(function () {
                         //    evtInterface.updateState("currentPage", newPage !== '' ? newPage : currPage);
                         //    console.log("in pan handler:", evtInterface.getState('currentPage'));
                         //    //scope.$parent.$parent.vm.updateContent();
                         // });
-                     }
+                     //} 
                   }
                   //aggiungere scroll con coordinate asse x - FS
+                  console.log('newPage:', newPage);
+                  currPage = evtInterface.getState('currentPage');
+                  console.log('currPage:', currPage);
+                  if (newPage != currPage) {
+                     console.log('aggiorno pagina:', newPage);
+                     evtInterface.updateState("currentPage", newPage !== '' ? newPage : currPage);
+                     evtInterface.updateUrl();
+                     console.log("in pan handler:", evtInterface.getState('currentPage'));
+                  }
+               
                }
 
                //event.stopBubbling = true;
