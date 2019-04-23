@@ -40,6 +40,9 @@
                console.log('div OSD', document.getElementById('osd-img'));
                var viewer = null;
                try{
+                
+                OpenSeadragon.setString("Tooltips.NextPage", "Folio Verso");
+                OpenSeadragon.setString("Tooltips.PreviousPage", "Folio Recto");
                 viewer = new OpenSeadragon.Viewer(_options);
               }
                catch (err){

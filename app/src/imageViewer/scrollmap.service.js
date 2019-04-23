@@ -175,6 +175,9 @@ angular.module('evtviewer.openseadragonService')
          console.log('updateBounds', newBounds);
          viewer.viewport.fitBounds(newBounds, false);
          evtInterface.updateState('currentPage',page);
+         evtInterface.updateUrl();
+
+
 
       };
 
