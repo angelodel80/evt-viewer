@@ -4,15 +4,15 @@
     .service('imageViewerModel',function(){
         var viewerModel = this;
         
-        console.log("caricato servizio  imageViewerService");
+        console.log('caricato servizio  imageViewerService');
 
         //var tileSources = [ "data/tails/sanmatteo.dzi", "data/tails/schema.dzi"];
     
         var options = {
-            id: "osd-img",
-            prefixUrl: "data/osd-images/",
-            tileSources: ["data/tiles/scaled_70_verticale.dzi","data/tiles/teobaldo_verso-rotated.dzi"],
-            //tileSources: tileSources, // immagine SanMatteo
+            id: 'osd-img',
+            prefixUrl: 'data/osd-images/',
+            tileSources: ['data/tiles/scaled_70_verticale.dzi','data/tiles/scaled_70_verticale.dzi'],
+            //tileSources: tileSources, // immagine SanMatteo teobaldo_verso-rotated.dzi
             //tileSources: "data/test-img/quamusdzi/QuamusImgManuscript.dzi", // immagine per Marocco
             //overlays: [{
             //rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,

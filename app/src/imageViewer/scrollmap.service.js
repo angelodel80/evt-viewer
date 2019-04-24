@@ -88,6 +88,9 @@ angular.module('evtviewer.openseadragonService')
       imageScrollMap.mapUP = function (bounds) {
          return mapFun(bounds, 'up');
       };
+      imageScrollMap.map = function (bounds) {
+         return mapFun(bounds, '');
+      };
 
      var mapFun = function (bounds, type) {
          var box = bounds.getBoundingBox();
@@ -101,10 +104,10 @@ angular.module('evtviewer.openseadragonService')
             case 'down':
                console.log('mapping moving down');
                if (box.y < map[key + '1'].to) {
-                  return (key + '1').substr(1).toLowerCase();
+                  return (key + '1').substr(1).toLowerCase(); // 'page1';
                } else {
                   for (var i = 1; i <= map.size; i++) {
-                     if (box.y < map[key + i].to && box.y > map[key + i].from) {
+                     if (box.y < map[key + i].to && box.y >= map[key + i].from) {
                         console.log(key + i);
                         return (key + i).substr(1).toLowerCase();
                      }
@@ -116,13 +119,13 @@ angular.module('evtviewer.openseadragonService')
             case 'up':
                console.log('mapping moving up');
                if(box.y <= 0){
-                  return page1;
+                  return (key + '1').substr(1).toLowerCase(); // 'page1';
                }
                for (var i = 1; i <= map.size; i++) {
                   console.log('nel for di scrolling up', (map[key + i].from + map[key + i].to) / 2);
                   console.log('box y:', box.y);
                   console.log('from:', map[key + i].from);
-                  if (box.y < ((map[key + i].from + map[key + i].to) / 2) && box.y > map[key + i].from) {
+                  if (box.y < ((map[key + i].from + map[key + i].to) / 2) && box.y >= map[key + i].from) {
                      console.log('nel if di scrolling up', i);
                      console.log(key + i);
                      return (key + i).substr(1).toLowerCase();
@@ -132,6 +135,17 @@ angular.module('evtviewer.openseadragonService')
 
 
             default:
+               console.log('mapping moving down');
+               if (box.y < map[key + '1'].to) {
+                  return (key + '1').substr(1).toLowerCase();
+               } else {
+                  for (var i = 1; i <= map.size; i++) {
+                     if (box.y < map[key + i].to && box.y >= map[key + i].from) {
+                        console.log(key + i);
+                        return (key + i).substr(1).toLowerCase();
+                     }
+                  }
+               }
                return '';
 
          }
@@ -164,6 +178,7 @@ angular.module('evtviewer.openseadragonService')
       imageScrollMap.updateBounds = function (viewer, page) {
          console.log('updateBounds', page);
          var oldBounds = viewer.viewport.getBounds();
+         // gestire condizione di errore pagina non presente nell'insieme delle pagine
          
          if (page.length == 5)
             ypage = key + page.substr(page.length - 1);
@@ -171,7 +186,7 @@ angular.module('evtviewer.openseadragonService')
             ypage = key + page.substr(page.length - 2);
          console.log('updateBounds', ypage);
          var h = oldBounds.height / oldBounds.width;
-         var newBounds = new OpenSeadragon.Rect(0, map[ypage].from, 1, h);
+         var newBounds = new OpenSeadragon.Rect(0, map[ypage].from, 1, h); // try-catch?
          console.log('updateBounds', newBounds);
          viewer.viewport.fitBounds(newBounds, false);
          evtInterface.updateState('currentPage',page);

@@ -73,6 +73,24 @@
              });
          };
 
+         viewerHandler.pageChange = function (event){
+            console.log('in page change - event', event);
+            var rectoVerso = event.page;
+            if(rectoVerso === 0){
+               console.log('pagina recto');
+               viewerHandler.viewer.addHandler('pan', viewerHandler.pan);
+               viewerHandler.updateViewerBounds('page1'); // fixme: gestire opportunamente il rientro al recto, con la pagina giusta.
+               // riattivare pulsante ITL e HOTSPOT
+
+            } 
+            else if(rectoVerso === 1){
+               console.log('pagina verso');
+               viewerHandler.viewer.removeHandler('pan', viewerHandler.pan);
+               evtInterface.updateState('currentPage','page0');
+               // disabilitare pulsante ITL e HOTSPOT
+            }
+         };
+
          /* Trying to fix Home bug*/
 
          viewerHandler.navigatorScroll = function (event) {
@@ -248,7 +266,7 @@
             tmp.x = _(zone.ulx);
             tmp.y = _(zone.uly);
             tmp.width = _(zone.lrx - zone.ulx);
-            tmp.hight = _(zone.lry - zone.uly);
+            tmp.hight = _(zone.lry - zone.uly); // check: possibile errore? zone.uly - zone.lry
             console.log("in convert zone to OSD", tmp);
             return new OpenSeadragon.Rect(tmp.x / ImageNormalizationCoefficient, tmp.y / ImageNormalizationCoefficient, tmp.width / ImageNormalizationCoefficient, tmp.hight / ImageNormalizationCoefficient);
          }

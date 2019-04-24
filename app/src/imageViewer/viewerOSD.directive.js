@@ -69,11 +69,12 @@
             }, true);
 
                //scope.osd.addHandler('navigator-scroll', imageViewerHandler.navigatorScroll);
-               scope.osd.addHandler("home", imageViewerHandler.home);
+               scope.osd.addOnceHandler('home', imageViewerHandler.home);
                scope.osd.addHandler('pan', imageViewerHandler.pan);
                let page = evtInterface.getState('currentPage');
-               scope.osd.addHandler("open", imageViewerHandler.open, page); 
+               scope.osd.addOnceHandler('open', imageViewerHandler.open, page,1); 
                // evtInterface.getState('currentPage')
+               scope.osd.addHandler('page', imageViewerHandler.pageChange); 
 
             }, 20);
 
@@ -93,10 +94,11 @@
                //scope.mouse.destroy();
                //optionsWatcher();
                //Remove event handlers
-               scope.osd.removeHandler("open", imageViewerHandler.open);
-               scope.osd.removeHandler("home", imageViewerHandler.home);
-               scope.osd.removeHandler("navigator-scroll", imageViewerHandler.navigatorScroll);
-               scope.osd.removeHandler("pan", imageViewerHandler.pan);
+               scope.osd.removeHandler('open', imageViewerHandler.open);
+               scope.osd.removeHandler('home', imageViewerHandler.home);
+               scope.osd.removeHandler('navigator-scroll', imageViewerHandler.navigatorScroll);
+               scope.osd.removeHandler('pan', imageViewerHandler.pan);
+               scope.osd.removeHandler('page', imageViewerHandler.pageChange);
 
 
 
