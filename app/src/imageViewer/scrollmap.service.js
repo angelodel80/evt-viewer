@@ -163,15 +163,16 @@ angular.module('evtviewer.openseadragonService')
          else
             ypage = key + page.substr(page.length - 2);
 
-
-         console.log('isInBounds', ypage);
+         console.log('isInBounds', ypage, map[ypage]);
          
-         if (y >= map[ypage].from && y < map[ypage].to) {
-            console.log('true');
-            return true;
-         } else {
-            console.log('false');
-            return false;
+         if(map[ypage]!=undefined){
+            if (y >= map[ypage].from && y < map[ypage].to) {
+               console.log('true');
+               return true;
+            } else {
+               console.log('false');
+               return false;
+            }
          }
       };
 
@@ -179,20 +180,20 @@ angular.module('evtviewer.openseadragonService')
          console.log('updateBounds', page);
          var oldBounds = viewer.viewport.getBounds();
          // gestire condizione di errore pagina non presente nell'insieme delle pagine
-         
+         var ypage = undefined;
          if (page.length == 5)
             ypage = key + page.substr(page.length - 1);
          else
             ypage = key + page.substr(page.length - 2);
          console.log('updateBounds', ypage);
          var h = oldBounds.height / oldBounds.width;
-         var newBounds = new OpenSeadragon.Rect(0, map[ypage].from, 1, h); // try-catch?
-         console.log('updateBounds', newBounds);
-         viewer.viewport.fitBounds(newBounds, false);
-         evtInterface.updateState('currentPage',page);
-         evtInterface.updateUrl();
-
-
+         if(map[ypage]!=undefined){
+            var newBounds = new OpenSeadragon.Rect(0, map[ypage].from, 1, h); // try-catch?
+            console.log('updateBounds', newBounds);
+            viewer.viewport.fitBounds(newBounds, false);
+            evtInterface.updateState('currentPage',page);
+            evtInterface.updateUrl();
+         }
 
       };
 

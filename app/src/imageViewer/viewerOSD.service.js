@@ -78,16 +78,25 @@
             var rectoVerso = event.page;
             if(rectoVerso === 0){
                console.log('pagina recto');
-               viewerHandler.viewer.addHandler('pan', viewerHandler.pan);
-               viewerHandler.updateViewerBounds('page1'); // fixme: gestire opportunamente il rientro al recto, con la pagina giusta.
+               
+               //viewerHandler.updateViewerBounds('page1'); // fixme: gestire opportunamente il rientro al recto, con la pagina giusta.
                // riattivare pulsante ITL e HOTSPOT
-
+               var viewerBounds = event.eventSource.viewport.getBounds();
+               console.log('in pageChange - bounds', viewerBounds);
+               var newpage = imageScrollMap.map(viewerBounds);
+               console.log('in pageChange -new page', newpage);
+               viewerHandler.viewer.addHandler('pan', viewerHandler.pan);
+               evtInterface.updateState('currentPage',newpage);
+               evtInterface.updateUrl();
+               
             } 
             else if(rectoVerso === 1){
                console.log('pagina verso');
                viewerHandler.viewer.removeHandler('pan', viewerHandler.pan);
                evtInterface.updateState('currentPage','page0');
                // disabilitare pulsante ITL e HOTSPOT
+               // disabilitare barra viscoll
+               
             }
          };
 
@@ -193,9 +202,11 @@
             console.log('updateViewerBounds: ', viewerHandler.viewer, page, evtInterface.getState('currentPage'));
             var oldBounds = viewerHandler.viewer.viewport.getBounds();
             console.log('updateViewerBounds: ', oldBounds);
-            if (!imageScrollMap.isInBounds(oldBounds.y, page)) {
-               console.log('updateViewerBounds', page);
-               imageScrollMap.updateBounds(viewerHandler.viewer, page);
+            if( (page!=undefined && page!=='') && (oldBounds!=undefined) ){
+               if (!imageScrollMap.isInBounds(oldBounds.y, page)) {
+                  console.log('updateViewerBounds', page);
+                  imageScrollMap.updateBounds(viewerHandler.viewer, page);
+               }
             }
 
          };
