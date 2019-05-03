@@ -378,7 +378,8 @@
                if (topLeft.x <= 0.4) {
                    DivTopLeft = topLeft.x + (bottomRight.x - topLeft.x) + 0.050;
                } else {
-                     DivTopLeft = topLeft.x - ((bottomRight.x - topLeft.x) + 0.1);
+                     //DivTopLeft = topLeft.x - ((bottomRight.x - topLeft.x) + 0.1);
+                     DivTopLeft = topLeft.x - 0.35; // mettere questa riga anche nel branch dev
 
                }
                var rect = new OpenSeadragon.Rect(

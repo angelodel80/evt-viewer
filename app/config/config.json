@@ -2,11 +2,12 @@
     "indexTitle": "Edizione digitale Demo F. de Saussure",
     "webSite": "",
     "logoUrl": "",
-
     "dataUrl":"data/saussure/demo-Saussure.xml",
     "sourcesUrl"       : "",
     "analoguesUrl"     : "",
     "sourcesTextsUrl" : "",
+    "tileSources":"data/test-img/quamusdzi/QuamusImgManuscript.dzi",
+    
 
     "defaultViewMode": "imgTxt",
 	"availableViewModes": [{

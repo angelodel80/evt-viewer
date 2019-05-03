@@ -15,6 +15,27 @@
             //data/test-img/vb/VB_fol_104v_big.jpg
             tileSources:[] , // immagine per rotulo Alba
             //tileSources: "data/test-img/quamusdzi/QuamusImgManuscript.dzi", // immagine per Marocco
+           /* tileSources:[{
+                    type:'image',
+                    url: 'data/test-img/bellini/jpeg300/LL1.16_0001.jpg', // immagine per saussure
+                },{
+                    type:'image',
+                    url: 'data/test-img/bellini/jpeg300/LL1.16_0002.jpg', // immagine per saussure
+
+                },{
+                    type:'image',
+                    url: 'data/test-img/bellini/jpeg300/LL1.16_0003.jpg'
+                },
+                {
+                    type:'image',
+                    url: 'data/test-img/bellini/jpeg300/LL1.16_0004.jpg'
+                }
+
+
+            ],*/
+
+            //tileSources: "data/tails/scaled_70_verticale.dzi", // immagine per rotulo Alba
+            //tileSources: "data/test-img/quamusdzi/QuamusImgManuscript.dzi", // immagine per Marocco
             //overlays: [{
             //rotationMode: OpenSeadragon.OverlayRotationMode.NO_ROTATION,
             //    id: 'example-overlay',
@@ -47,6 +68,41 @@
             navigatorTop:"1%",
 
 
+                           /* overlays: [{
+                                id: 'example-overlay',
+                                x: 0.26,
+                                y: 0.39,
+                                width: 0.22,
+                                height: 0.27,
+                                className: 'nohighlight'
+                            }], */
+    
+            //sequenceMode: true,
+            //degrees:90,
+            //toolbar:"toolbar-div",
+            showRotationControl: true,                
+            showNavigator: true,
+            //navigatorId: "navscroll",
+            visibilityRatio: 0.9,
+            //visibilityRatio: 1, 
+            //defaultZoomLevel: 1,
+            defaultZoomLevel: 0.9,
+            panHorizontal: true,
+            constrainDuringPan: true,
+            minZoomLevel: 0.8,
+            //minZoomLevel: 1,
+            maxZoomLevel: 8.0,
+    
+            wrapVertical: false,
+            //navigatorPosition: "ABSOLUTE",
+            //navigatorTop: "0",
+            //navigatorLeft: "94%",
+            //navigatorHeight: "100%",
+            //navigatorWidth: "6%",
+            //navigatorTop:"1%",
+            //navigatorLeft:"94%",
+            //navigatorHeight:"95%",
+            //navigatorWidth:"6%"
          };
   
 

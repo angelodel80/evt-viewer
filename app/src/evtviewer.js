@@ -89,5 +89,6 @@ angular
         'evtviewer.versionApparatusEntry',
         'evtviewer.UItools',
     	'evtviewer.search',
-        'evtviewer.imageViewer'
+        'evtviewer.imageViewer',
+		'evtviewer.term'
     ]);

@@ -106,11 +106,32 @@ div#osd-img * img {
 }
 /* regola per la demo in arabo */
 
-/*#mainContentToTranform { */
+.hotspot-dida, #mainContentToTranform { 
+     direction: rtl; 
+ }
 
-/*     direction: rtl; */
+/* regola per punteggiatura elemento ex araba.*/
 
-/* }*/
+span.ex>span.pc{
+ color: red;
+ font-size: large;
+ font-style: normal;
+}
+
+/* regola per termini */
+
+.term{
+    background-color: #C1FFC1;
+    text-decoration-line: none;
+    color:inherit;
+
+}
+.termRef{
+    background-color: #C1FFC1;
+    text-decoration-line: none;
+    color:inherit;
+
+}
 
 /* regole per rotulo 
 

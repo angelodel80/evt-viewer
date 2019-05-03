@@ -1,0 +1,21 @@
+<span class="termRef termRef-{{ ::vm.termType }}"
+	ng-class="::{'fakeTerm': !vm.realTerm,
+				 'highlighted': vm.initHighlight }" title="{{vm.termType | uppercase | translate }}"
+	ng-click="vm.goToTermInList($event)" ng-transclude></span>
+
+<evt-term  
+	ng-if="vm.active"
+	data-location='mainText'
+	data-term-id="{{::vm.termId}}" data-term-type="{{::vm.termType}}" data-term-written="{{::vm.termWritten}}"></evt-term>
+
+<!--
+	<evt-term 
+	ng-if="!vm.detailsInPopup && vm.active" 
+	data-location='mainText'
+	data-term-id="{{::vm.termId}}" data-term-type="{{::vm.termType}}"></evt-term>
+	-->
+
+<!-- <span class="namedEntityRef__details" ng-if="vm.active">
+	<span class="namedEntityRef__details-before"></span>
+	<evt-named-entity data-entity-id="{{::vm.entityId}}" data-entity-type="{{::vm.entityType}}"></evt-named-entity>
+</span> -->
