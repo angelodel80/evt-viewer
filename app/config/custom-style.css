@@ -133,3 +133,7 @@ div#osd-img * img {
 .fa-times:hover{
    cursor: pointer;
 }
+
+.term {
+   background-color: coral;
+}
