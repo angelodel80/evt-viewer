@@ -46,15 +46,18 @@ angular.module('evtviewer.dataHandler')
                 var succ = function(response){
                     console.log('success get http', response);
                     var translation = response.data.senses[0].propertyValues.entry[1].value;
-                    var sumo = response.data.senses[0].propertyValues.entry[2].value;
-                    var wn = response.data.senses[0].propertyValues.entry[3].value;
+                    var def = response.data.senses[0].propertyValues.entry[0].value;
+                    //var wn = response.data.senses[0].propertyValues.entry[3].value;
                     var properties = response.data.propertyValues;
-                    var pos = properties.entry[1].value;
+                    var senses = response.data.senses;
+                    var pos = properties.entry[2].value;
+                    var gender = properties.entry[1].value;
                     newTerm.translation = translation;
                     newTerm.properties = properties;
+                    newTerm.senses = senses;
                     newTerm.pos = pos;
-                    newTerm.sumo = sumo;
-                    newTerm.wn = wn;
+                    newTerm.sumo = def;
+                    newTerm.wn = gender;
                     
                     console.log('nuovo termine', newTerm);
                     parsedData.addTerm(newTerm);

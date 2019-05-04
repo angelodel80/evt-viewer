@@ -46,9 +46,35 @@ angular.module('evtviewer.term')
         var getTermInfo = function(writtenTerm){
             console.log('getTermInfo');
             var termInfo = parsedData.getTerm(writtenTerm);
+            var props = handleProperties(termInfo.properties);
+            var sens = handleSenses(termInfo.senses);
+            termInfo.props = props;
+            termInfo.sens = sens;
             return termInfo;
         }
         term.termInfo = getTermInfo;
+
+        var handleProperties = function(props){
+            var p = {};
+            for (var j = 0; j < props.entry.length; j++){
+                console.log("handle term properties ", props.entry[j].key, props.entry[j].value);
+                p[props.entry[j].key] = props.entry[j].value;
+            }
+            console.log("properties ",p);
+            return p;
+        }
+
+        var handleSenses = function(sens){
+            var s = {};
+            for (var j = 0; j < sens.length; j++){
+                console.log("handle senses ", sens[j].propertyValues);
+                var sense = {};
+                sense = handleProperties(sens[j].propertyValues);
+                s['sense'+(j+1)] = sense;           
+            }
+            console.log("senses ",s);
+            return s;
+        }
         //     collection = {},
         //     list       = [],
         //     idx        = 0;

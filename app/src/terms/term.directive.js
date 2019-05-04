@@ -47,7 +47,7 @@ angular.module('evtviewer.term')
                  termWritten: scope.termWritten
              };
              var term = {
-                 label: 'Occurrence: '+scope.vm.termWritten
+                 label: 'Termine: '+scope.vm.termWritten
              };
              term.termInfo = 'TERMINFO'//evtTerm.termInfo(scope.vm.termWritten);
              scope.vm.term = term;

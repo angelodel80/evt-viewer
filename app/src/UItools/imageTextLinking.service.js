@@ -12,10 +12,12 @@
 angular.module('evtviewer.UItools')
 
    .service('evtImageTextLinking', function (evtInterface, Utils, parsedData, imageViewerHandler) {
+     
       var ITLutils = {};
       var zonePrefix = "zone_";
-      const linetozoneRegExp = /line/;
-      const zonereplacedString = zonePrefix+'line';
+      const linetozoneRegExp = /lb/;
+      const zonereplacedString = 'line';
+
 
       /**
        * @ngdoc method

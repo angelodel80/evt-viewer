@@ -18,20 +18,28 @@ ng-class="::{'opened': vm.location === 'mainText'}">
             ng-class="{'active' : vm.isPinned()}"
             ng-click="vm.togglePin()"></button-switch>
     </div>  -->
-    <div style="direction: ltr; outline: 2px thistle solid; margin:1em; background-color:snow" ng-click="vm.toggle()">
+    <div style="direction: ltr; outline: 2px thistle solid; margin:0.4em; background-color:snow" ng-click="vm.toggle()">
         <i class="fa opener" ng-if="::vm.location !== 'mainText'"></i>
         
         <i class="fa namedEntity__icon {{::vm.entityTypeIcon}}" ng-if="::vm.location === 'mainText'"></i>
 
-        <span compile="::vm.term.label"></span>
-        <span style="font-style: italic" ng-if='vm.term.termInfo.translation'>Translation: </span>
-        <span style="font-weight: bold"  compile="::vm.term.termInfo.translation"></span>
+        <span class="label" compile="::vm.term.label"></span><br />
+
+        <span class="label bold"> - Proprietà:<br/></span>
+        <span ng-if='vm.term.termInfo.props'> 
+            {{vm.term.termInfo.props}}</span>
+
+            <br /><span class="label bold"> - Sensi:<br/></span>    
+        <span ng-if='vm.term.termInfo.sens'>
+                {{vm.term.termInfo.sens}}</span>
+        
+        <!-- <span style="font-weight: bold"  compile="::vm.term.termInfo.translation"></span>
         <span style="font-style: italic" ng-if='vm.term.termInfo.pos'>PoS: </span>
         <span style="font-weight: bold"  compile="::vm.term.termInfo.pos"></span>
         <span style="font-style: italic" ng-if='vm.term.termInfo.sumo'>SUMO: </span>
         <span style="font-weight: bold"  compile="::vm.term.termInfo.sumo"></span>
         <span style="font-style: italic" ng-if='vm.term.termInfo.wn'>WN: </span>
-        <span style="font-weight: bold"  compile="::vm.term.termInfo.wn"></span>
+        <span style="font-weight: bold"  compile="::vm.term.termInfo.wn"></span> -->
         
     </div>
     </span>
