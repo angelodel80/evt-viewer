@@ -423,13 +423,14 @@ angular.module('evtviewer.UItools')
             console.log('preparo le line zones:');
             var _zones = parsedData.getZones();
             var allZones = _zones._indexes;
+            console.log('zones in Image for line:', allZones);
             var lineZonesID = allZones.filter(function(zone){return zone.includes('line')});
          // var zones = _zones.filter(function (zone) {
          //    //console.log('zone in prepare hot spot', zone);
          //    return ('Line' === zone.rendition);
          // });
 
-            console.log('zones in Image for line:', allZones);
+            
             console.log('Filtered zones in Image for line:', lineZonesID);
          // imageViewerHandler
             for (var i = 0; i < lineZonesID.length; i++) {

@@ -45,8 +45,8 @@ angular.module('evtviewer.dataHandler')
 								}
 							}
 						}
-                        newHotSpot.content = angular.element(child).text().trim();
-                        //newHotSpot.images = angular.element(child).find('graphic');
+                        newHotSpot.content = angular.element(child).text();
+                        newHotSpot.images = angular.element(child).find('graphic');
                         console.log('newHotSpot:',newHotSpot);
 						parsedData.addHotSpot(newHotSpot);
 						

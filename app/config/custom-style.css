@@ -163,6 +163,9 @@ span.ex>span.pc{
    font-weight: bold;
 }
 
+.list .item{
+   list-style-type: none !important;
+}
 /* .term {
    background-color: coral;
 } */
