@@ -26,44 +26,18 @@
  **/
 angular.module('evtviewer.interface')
 
-    .service('evtInterface', function ($rootScope, $timeout, evtTranslation, evtCommunication, evtCriticalApparatusParser, evtCriticalParser, evtPinnedElements, evtCriticalApparatusEntry, evtAnaloguesParser, config, $routeParams, parsedData, evtReading, $q, $http) {
-        var mainInterface = {};
-        /**
-         * @ngdoc property
-         * @name evtviewer.interface.evtInterface#state
-         * @propertyOf evtviewer.interface.evtInterface
-         * @description [Private] Internal property where information about interface state are stored.
-         * Default:
-         <pre>
-            var state = {
-                currentViewMode : undefined,
-                currentDoc : undefined,
-                currentPage : undefined,
-                currentWits : undefined,
-                currentWitsPages : undefined,
-                currentEdition : undefined,
-                currentComparingEdition: undefined,
-                currentAppEntry : undefined,
-                currentHighlightedZone : undefined,
-                isLoading : true,
-                isPinnedAppBoardOpened : false,
-                secondaryContent : '',
-                dialog : {
-                    home : ''
-                },
-                isApparatusBoxOpen : true,
-                currentApparatus : undefined,
-                currentQuote : undefined,
-                currentAnalogue : undefined,
-                currentSource : undefined,
-                currentSourceText : undefined,
-                currentVersions : undefined,
-                currentVersionEntry : undefined,
-                currentVersion : undefined,
-                mainMenu : false
-            };
-         </pre>
-         */
+.service('evtInterface', function($rootScope, $timeout, $q, $http, evtTranslation, evtCommunication, evtCriticalApparatusParser, evtCriticalParser, evtPinnedElements, evtCriticalApparatusEntry, evtAnaloguesParser, config, $routeParams, parsedData, evtReading, evtSearchIndex, Utils, GLOBALDEFAULTCONF) {
+    var mainInterface = {},
+       indexFileExist = false,
+       parsedElementsFileExist = false;
+       
+    /**
+     * @ngdoc property
+     * @name evtviewer.interface.evtInterface#state
+     * @propertyOf evtviewer.interface.evtInterface
+     * @description [Private] Internal property where information about interface state are stored.
+     * Default:
+     <pre>
         var state = {
             currentViewMode: undefined,
             currentDoc: undefined,
@@ -155,9 +129,12 @@ angular.module('evtviewer.interface')
             };
          </pre>
          */
-        var tools = {
-
-        };
+        
+    var tools = {
+       isDocumentIndexed: {
+          status: false
+       }
+    };
 
         /**
          * @ngdoc method
@@ -343,6 +320,114 @@ angular.module('evtviewer.interface')
                             });
                         }
                     });
+                  evtCommunication.getData(config.dataUrl).then(function () {
+                      // Remove Collation View Mode if Witnesses List Empty
+                      for (var i = 0, totViews = properties.availableViewModes.length; i < totViews; i++) {
+                          var viewModeName = properties.availableViewModes[i].viewMode;
+                          if (viewModeName === 'collation' && parsedData.getWitnessesList().length === 0) {
+                              properties.availableViewModes[i].visible = false;
+                          }
+                          if (viewModeName === 'versions' && mainInterface.getAllVersionsNumber() < 2) {
+                              properties.availableViewModes[i].visible = false;
+                          }
+                          if (viewModeName === 'srcTxt' && (!parsedData.getSources()._indexes.availableTexts || parsedData.getSources()._indexes.availableTexts.length === 0)) {
+                              properties.availableViewModes[i].visible = false;
+                          }
+                      }
+
+                      // Remove Named Entities Lists button if Named Entities Lists Collection is Empty
+                      properties.namedEntitiesLists = parsedData.getNamedEntitiesCollection()._indexes.length > 0;
+
+                      if (config.availableEditionLevel) {
+                          for (var e = 0; e < config.availableEditionLevel.length; e++) {
+                              var edition = config.availableEditionLevel[e];
+                              if (edition.visible) {
+                                  parsedData.addEdition(edition);
+                              }
+                          }
+                      }
+
+                      mainInterface.updateParams($routeParams);
+
+                      var promises = [];
+
+                      var currentDocFirstLoad = parsedData.getDocument(state.currentDoc);
+                      if (currentDocFirstLoad !== undefined){
+                         var checkIfFilesExist = checkFiles();
+                         promises.push(checkIfFilesExist);
+                         
+                         
+                          // Parse critical entries
+                          if (config.loadCriticalEntriesImmediately){
+                              promises.push(evtCriticalApparatusParser.parseCriticalEntries(currentDocFirstLoad.content).promise);
+                          }
+
+                          // Parse the versions entries
+                          if (config.versions.length > 1) {
+                              promises.push(evtCriticalApparatusParser.parseVersionEntries(currentDocFirstLoad.content).promise);
+                          }
+
+                          // Parse critical text
+                          if ((config.editionType === 'critical' || config.editionType === 'multiple') && parsedData.isCriticalEditionAvailable()) {
+                              if (config.versions.length > 0 && config.versions[0] !== undefined) {
+                                  promises.push(evtCriticalParser.parseCriticalText(currentDocFirstLoad.content, state.currentDoc, config.versions[0]).promise);
+                              } else {
+                                  promises.push(evtCriticalParser.parseCriticalText(currentDocFirstLoad.content, state.currentDoc).promise);
+                              }
+                          }
+                          
+                          $q.all(promises).then(function() {
+                             if(indexFileExist && parsedElementsFileExist) {
+                                tools.isDocumentIndexed.status = true;
+                                Utils.extractContentFromZip(GLOBALDEFAULTCONF.indexDocumentUrl, 'parsedElements.txt');
+                                Utils.extractContentFromZip(GLOBALDEFAULTCONF.indexUrl, 'index.txt');
+                             }
+                              // Update current app entry
+                              if (state.currentAppEntry !== undefined &&
+                                  parsedData.getCriticalEntryById(state.currentAppEntry) === undefined) {
+                                  mainInterface.updateState('currentAppEntry', '');
+                              }
+
+                              // Temp | TODO: add to updateParams? //
+                              // Prepare the sources texts available and the source text to show as default
+                              // in the src-Txt view
+                              var sourcesTexts = parsedData.getSources()._indexes.availableTexts;
+                              if (Object.keys(sourcesTexts).length !== 0) {
+                                  for (var i in sourcesTexts) {
+                                      properties.availableSourcesTexts.push(sourcesTexts[i].id);
+                                  }
+                                  mainInterface.updateCurrentSourceText(properties.availableSourcesTexts[0]);
+                              }
+
+                              // Temp | TODO: add to updateParams? //
+                              // Prepare version to show as default in the versions view if there
+                              // are only two versions of the text, and available versions
+                              state.currentVersions = [];
+                              if (config.versions.length === 2) {
+                                  state.currentVersions.push(config.versions[1]);
+                              } else {
+                                  for (var v = 1; v < config.versions.length; v++) {
+                                      properties.availableVersions.push(config.versions[v]);
+                                  }
+                              }
+
+                              mainInterface.updateUrl();
+
+                              var quotesList = parsedData.getQuotes()._indexes.encodingStructure || [],
+                                  quotesInBox = !config.showInlineSources && quotesList.length > 0,
+                                  analoguesList = parsedData.getAnalogues()._indexes.encodingStructure || [],
+                                  analoguesInBox = !config.showInlineAnalogues && analoguesList.length > 0;
+                              state.isApparatusBoxOpen = (!config.showInlineCriticalApparatus || quotesInBox || analoguesInBox);
+
+                              $rootScope.$applyAsync(state.isLoading = false);
+
+                              // Update Pinned entries
+                              $timeout(function() {
+                                  evtPinnedElements.getElementsFromCookies();
+                              }, 10);
+                          });
+                      }
+                  });
                 }
             });
         };
@@ -1360,5 +1445,34 @@ angular.module('evtviewer.interface')
                 window.location = '#/' + viewMode + '?' + searchPath;
             }
         };
-        return mainInterface;
-    });
+        
+        function checkFiles () {
+           var deferred = $q.defer();
+           
+           $http({
+              method: 'GET',
+              url: GLOBALDEFAULTCONF.indexUrl
+           }).then(function successCallback() {
+              indexFileExist = true;
+              }, function errorCallback() {
+              console.log('Devi creare il file! Premi Create Index!');
+           });
+           
+           $http({
+              method: 'GET',
+              url: GLOBALDEFAULTCONF.indexDocumentUrl
+           }).then(function successCallback() {
+              parsedElementsFileExist = true;
+              }, function errorCallback() {
+              console.log('Devi creare il file! Premi Create Index!');
+           });
+           
+           setTimeout(function() {
+              deferred.resolve();
+              }, 100);
+           
+           return deferred.promise;
+        }
+        
+    return mainInterface;
+});

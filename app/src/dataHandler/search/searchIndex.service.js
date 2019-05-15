@@ -1,11 +1,13 @@
 var lunr = require('lunr');
+var JSZip = require('jszip');
+var JSZipUtils = require('jszip-utils');
 
 angular.module('evtviewer.dataHandler')
-   .service('evtSearchIndex', function Index() {
+   .service('evtSearchIndex', ['GLOBALDEFAULTCONF', 'evtSearchDocument', function Index(GLOBALDEFAULTCONF, evtSearchDocument) {
       this.index = {};
       
       Index.prototype.createIndex = function (parsedElementsForIndexing) {
-         console.time('INDEX');
+         console.time('INDEX TIME');
          
          var document;
          this.index = lunr(function () {
@@ -18,9 +20,11 @@ angular.module('evtviewer.dataHandler')
             
             this.ref('xmlDocId');
             
-            if(parsedElementsForIndexing[Object.keys(parsedElementsForIndexing)[0]].content.diplomatic) {
+            if(parsedElementsForIndexing[Object.keys(parsedElementsForIndexing)[0]].content.diplomatic !== undefined) {
                this.field('diplomaticText');
-               this.field('interpretativeText');
+               if(evtSearchDocument.isAlsoInterpEdition()) {
+                  this.field('interpretativeText');
+               }
             }
             else {
                this.field('content');
@@ -45,13 +49,21 @@ angular.module('evtviewer.dataHandler')
                }
             }
          });
-         console.timeEnd('INDEX');
+         console.timeEnd('INDEX TIME');
          return this.index;
       };
       
       Index.prototype.getIndex = function () {
          return this.index;
       };
+      
+      Index.prototype.loadIndex = function () {
+         var serializedIndex = window.localStorage.getItem('index.txt');
+         var index = lunr.Index.load(JSON.parse(serializedIndex));
+         this.index = index;
+         return this.index;
+      };
+   
       
       // serve per dire all'indice dove si trovano i campi nella mia struttura
       function map(xmlDoc) {
@@ -259,4 +271,4 @@ angular.module('evtviewer.dataHandler')
          }
          return tokens;
       };
-   });
+   }]);

@@ -46,6 +46,18 @@ button-switch {
             background: $buttonSwitch-active-background-color;
             color: $buttonSwitch-active-color;
         }
+        &-disabled{
+            opacity: .5;
+            cursor: default !important;
+            &:hover{
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }
+        }
+        &-hidden {
+           display: none;
+        }
+
         &-label {
             margin: 0px;
             margin-left: 4px;
