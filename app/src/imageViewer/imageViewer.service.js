@@ -11,7 +11,7 @@
         var options = {
             id: 'osd-img',
             prefixUrl: 'data/osd-images/',
-            tileSources: ['data/tiles/scaled_70_verticale.dzi','data/tiles/scaled_70_verticale.dzi'],
+            tileSources: ['data/tiles/scaled_70_verticale.dzi','data/tiles/teobaldo_verso-rotated.dzi'],
             //tileSources: tileSources, // immagine SanMatteo teobaldo_verso-rotated.dzi
             //tileSources: "data/test-img/quamusdzi/QuamusImgManuscript.dzi", // immagine per Marocco
             //overlays: [{
