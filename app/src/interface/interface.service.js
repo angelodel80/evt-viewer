@@ -30,7 +30,74 @@ angular.module('evtviewer.interface')
     var mainInterface = {},
        indexFileExist = false,
        parsedElementsFileExist = false;
-       
+   
+    /**
+    * @ngdoc property
+    * @name evtviewer.interface.evtInterface#state
+    * @propertyOf evtviewer.interface.evtInterface
+    * @description [Private] Internal property where information about interface state are stored.
+    * Default:
+    <pre>
+    var state = {
+            currentViewMode : undefined,
+            currentDoc : undefined,
+            currentPage : undefined,
+            currentWits : undefined,
+            currentWitsPages : undefined,
+            currentEdition : undefined,
+            currentComparingEdition: undefined,
+            currentAppEntry : undefined,
+            currentHighlightedZone : undefined,
+            isLoading : true,
+            isPinnedAppBoardOpened : false,
+            secondaryContent : '',
+            dialog : {
+                home : ''
+            },
+            isApparatusBoxOpen : true,
+            currentApparatus : undefined,
+            currentQuote : undefined,
+            currentAnalogue : undefined,
+            currentSource : undefined,
+            currentSourceText : undefined,
+            currentVersions : undefined,
+            currentVersionEntry : undefined,
+            currentVersion : undefined,
+            mainMenu : false
+        };
+    </pre>
+    */
+    var state = {
+      currentViewMode  : undefined,
+      currentDoc       : undefined,
+      currentPage      : undefined,
+      currentWits      : undefined,
+      currentWitsPages : undefined,
+      currentEdition   : undefined,
+      currentComparingEdition: undefined,
+      currentAppEntry  : undefined,
+      currentHighlightedZone: undefined,
+      isLoading        : true,
+      isPinnedAppBoardOpened : false,
+      indexingInProgress : false,
+      secondaryContent : '',
+      dialog : {
+         home : ''
+      },
+      //ADDED BY CM//
+      isApparatusBoxOpen : true,
+      currentApparatus   : undefined,
+      currentQuote       : undefined,
+      currentAnalogue    : undefined,
+      currentSource      : undefined,
+      currentSourceText  : undefined,
+      currentVersions    : undefined,
+      currentVersionEntry: undefined,
+      currentVersion     : undefined,
+      
+      mainMenu           : false
+   };
+   
     /**
      * @ngdoc property
      * @name evtviewer.interface.evtInterface#state
@@ -98,24 +165,24 @@ angular.module('evtviewer.interface')
             };
             </pre>
          */
-        var properties = {
-            indexTitle: '',
-            webSite: '',
-            dataUrl: '',
-            logoUrl: '',
-            enableXMLdownload: false,
-            availableViewModes: [],
-            availableWitnesses: [],
-            witnessSelector: false,
-            namedEntitiesLists: false,
-            availableSourcesTexts: [],
-            isSourceLoading: false,
-            parsedSourcesTexts: [],
-            availableVersions: [],
-            versionSelector: false,
-            visCollTextUrl: '',
-            visCollStyleUrl: '',
-            enableNavBar: true
+    var properties = {
+       indexTitle: '',
+       webSite: '',
+       dataUrl: '',
+       logoUrl: '',
+       enableXMLdownload: false,
+       availableViewModes: [],
+       availableWitnesses: [],
+       witnessSelector: false,
+       namedEntitiesLists: false,
+       availableSourcesTexts: [],
+       isSourceLoading: false,
+       parsedSourcesTexts: [],
+       availableVersions: [],
+       versionSelector: false,
+       visCollTextUrl: '',
+       visCollStyleUrl: '',
+       enableNavBar: true
         };
         /**
          * @ngdoc property
@@ -130,7 +197,7 @@ angular.module('evtviewer.interface')
          </pre>
          */
         
-    var tools = {
+        var tools = {
        isDocumentIndexed: {
           status: false
        }
