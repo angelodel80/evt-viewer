@@ -21,7 +21,7 @@
 
          controller: "imageViewerCtrl",
 
-         template: "<div id='osd-img' class='box-image box-body Edition noBottomMenu'></div>",
+         template: "<div id='osd-img' class='box-image box-body Edition noBottomMenu osd-img'></div>",
 
          transclude: true,
          //templateUrl: 'src/imageViewer/imageViewer.directive.tmpl.html',
