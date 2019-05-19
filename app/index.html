@@ -309,9 +309,9 @@
         </section>
 
         <button-switch ng-if="getProperty('enableNavBar') && !isThumbNailsOpened() && !isVisCollOpened()"
-            ng-class="{'navBar-opener': isNavBarOpened(), 'navBar-closer': !isNavBarOpened()}"    
-            title="BUTTONS.TOGGLE_NAVBAR" 
-            data-icon="{{isNavBarOpened() ? 'hide-bar' : 'show-bar'}}" 
+            ng-class="{'navBar-opener': isNavBarOpened(), 'navBar-closer': !isNavBarOpened()}"
+            title="BUTTONS.TOGGLE_NAVBAR"
+            data-icon="{{isNavBarOpened() ? 'hide-bar' : 'show-bar'}}"
             data-type="toggler" on-btn-clicked="toggleNavBar()"></button-switch>
         <evt-navbar ng-hide="!isNavBarOpened()"></evt-navbar>
     </div>
@@ -578,11 +578,15 @@
     <script src="/src/search/searchBox.directive.js"></script>
     <script src="/src/search/searchBox.controller.js"></script>
     <script src="/src/search/searchBox.provider.js"></script>
+    <script src="/src/search/searchBox.configuration.js"></script>
     <script src="/src/search/searchResults.directive.js"></script>
     <script src="/src/search/searchResults.controller.js"></script>
+    <script src="/src/search/searchResults.provider.js"></script>
+    <script src="/src/search/virtualKeyboard.directive.js"></script>
+    <script src="/src/search/virtualKeyboard.provider.js"></script>
 
 	<!--  image Viewer lib js -->
-	
+
     <script src="/src/imageViewer/imageViewer.js"></script>
     <script src="/src/imageViewer/viewerOSD.directive.js"></script>
     <script src="/src/imageViewer/imageViewer.service.js"></script>
@@ -591,13 +595,6 @@
 	<script src="/src/imageViewer/overlayHandler.service.js"></script>
 
 	<!-- fine image Viewer lib js -->
-	  
-    <script src="/src/search/searchBox.configuration.js"></script>
-    <script src="/src/search/searchResults.directive.js"></script>
-    <script src="/src/search/searchResults.controller.js"></script>
-    <script src="/src/search/searchResults.provider.js"></script>
-    <script src="/src/search/virtualKeyboard.directive.js"></script>
-    <script src="/src/search/virtualKeyboard.provider.js"></script>
 
     <script src="/src/navBar/navBar.js"></script>
     <script src="/src/navBar/navBar.configuration.js"></script>
