@@ -23,141 +23,146 @@
  * @requires evtviewer.UItools.evtPinnedElements
  * @requires evtviewer.translation.evtTranslation
  *
- **/
+**/
 angular.module('evtviewer.interface')
 
-    .service('evtInterface', function ($rootScope, $timeout, evtTranslation, evtCommunication, evtCriticalApparatusParser, evtCriticalParser, evtPinnedElements, evtCriticalApparatusEntry, evtAnaloguesParser, config, $routeParams, parsedData, evtReading, $q, $http) {
-        var mainInterface = {};
-        /**
-         * @ngdoc property
-         * @name evtviewer.interface.evtInterface#state
-         * @propertyOf evtviewer.interface.evtInterface
-         * @description [Private] Internal property where information about interface state are stored.
-         * Default:
-         <pre>
-            var state = {
-                currentViewMode : undefined,
-                currentDoc : undefined,
-                currentPage : undefined,
-                currentWits : undefined,
-                currentWitsPages : undefined,
-                currentEdition : undefined,
-                currentComparingEdition: undefined,
-                currentAppEntry : undefined,
-                currentHighlightedZone : undefined,
-                isLoading : true,
-                isPinnedAppBoardOpened : false,
-                secondaryContent : '',
-                dialog : {
-                    home : ''
-                },
-                isApparatusBoxOpen : true,
-                currentApparatus : undefined,
-                currentQuote : undefined,
-                currentAnalogue : undefined,
-                currentSource : undefined,
-                currentSourceText : undefined,
-                currentVersions : undefined,
-                currentVersionEntry : undefined,
-                currentVersion : undefined,
-                mainMenu : false
-            };
-         </pre>
-         */
+.service('evtInterface', function($rootScope, $timeout, $q, $http, evtTranslation, evtCommunication, evtCriticalApparatusParser, evtCriticalParser, evtPinnedElements, evtCriticalApparatusEntry, evtAnaloguesParser, config, $routeParams, parsedData, evtReading, evtSearchIndex, Utils, GLOBALDEFAULTCONF) {
+    var mainInterface = {},
+       indexFileExist = false,
+       parsedElementsFileExist = false;
+       
+    /**
+     * @ngdoc property
+     * @name evtviewer.interface.evtInterface#state
+     * @propertyOf evtviewer.interface.evtInterface
+     * @description [Private] Internal property where information about interface state are stored.
+     * Default:
+     <pre>
         var state = {
-            currentViewMode: undefined,
-            currentDoc: undefined,
-            currentPage: undefined,
-            currentWits: undefined,
-            currentWitsPages: undefined,
-            currentEdition: undefined,
+            currentViewMode : undefined,
+            currentDoc : undefined,
+            currentPage : undefined,
+            currentWits : undefined,
+            currentWitsPages : undefined,
+            currentEdition : undefined,
             currentComparingEdition: undefined,
-            currentAppEntry: undefined,
-            currentHighlightedZone: undefined,
-            isLoading: true,
-            isPinnedAppBoardOpened: false,
-            isNavBarOpened: true,
-            isVisCollOpened: false,
-            isThumbNailsOpened: false,
-            indexingInProgress: false,
-            secondaryContent: '',
-            dialog: {
-                home: ''
+            currentAppEntry : undefined,
+            currentHighlightedZone : undefined,
+            isLoading : true,
+            isPinnedAppBoardOpened : false,
+            secondaryContent : '',
+            dialog : {
+                home : ''
             },
-            //ADDED BY CM//
-            isApparatusBoxOpen: true,
-            currentApparatus: undefined,
-            currentQuote: undefined,
-            currentAnalogue: undefined,
-            currentSource: undefined,
-            currentSourceText: undefined,
-            currentVersions: undefined,
-            currentVersionEntry: undefined,
-            currentVersion: undefined,
+            isApparatusBoxOpen : true,
+            currentApparatus : undefined,
+            currentQuote : undefined,
+            currentAnalogue : undefined,
+            currentSource : undefined,
+            currentSourceText : undefined,
+            currentVersions : undefined,
+            currentVersionEntry : undefined,
+            currentVersion : undefined,
+            mainMenu : false
+        };
+     </pre>
+     */
+    var state = {
+        currentViewMode  : undefined,
+        currentDoc       : undefined,
+        currentPage      : undefined,
+        currentWits      : undefined,
+        currentWitsPages : undefined,
+        currentEdition   : undefined,
+        currentComparingEdition: undefined,
+        currentAppEntry  : undefined,
+        currentHighlightedZone: undefined,
+        isLoading        : true,
+        isPinnedAppBoardOpened : false,
+        isNavBarOpened: true,
+        isVisCollOpened: false,
+        isThumbNailsOpened: false,
+        indexingInProgress : false,
+        secondaryContent : '',
+		dialog : {
+			home : ''
+		},
+        //ADDED BY CM//
+        isApparatusBoxOpen : true,
+        currentApparatus   : undefined,
+        currentQuote       : undefined,
+        currentAnalogue    : undefined,
+        currentSource      : undefined,
+        currentSourceText  : undefined,
+        currentVersions    : undefined,
+        currentVersionEntry: undefined,
+        currentVersion     : undefined,
 
-            mainMenu: false
-        };
-        /**
-         * @ngdoc property
-         * @name evtviewer.interface.evtInterface#properties
-         * @propertyOf evtviewer.interface.evtInterface
-         * @description [Private] Internal property where information about interface properties are stored.
-         * Default:
-         <pre>
-            var properties = {
-                indexTitle : '',
-                webSite            : '',
-                dataUrl : '',
-                logoUrl : '',
-                enableXMLdownload : false,
-                availableViewModes : [ ],
-                availableWitnesses : [ ],
-                witnessSelector : false,
-                namedEntitiesLists : false,
-                availableSourcesTexts : [ ],
-                isSourceLoading : false,
-                parsedSourcesTexts : [ ],
-                availableVersions : [ ],
-                versionSelector : false
-                visCollTextUrl     : '',
-                visCollStyleUrl    : ''
-            };
-            </pre>
-         */
+        mainMenu           : false
+    };
+    /**
+     * @ngdoc property
+     * @name evtviewer.interface.evtInterface#properties
+     * @propertyOf evtviewer.interface.evtInterface
+     * @description [Private] Internal property where information about interface properties are stored.
+     * Default:
+     <pre>
         var properties = {
-            indexTitle: '',
-            webSite: '',
-            dataUrl: '',
-            logoUrl: '',
-            enableXMLdownload: false,
-            availableViewModes: [],
-            availableWitnesses: [],
-            witnessSelector: false,
-            namedEntitiesLists: false,
-            availableSourcesTexts: [],
-            isSourceLoading: false,
-            parsedSourcesTexts: [],
-            availableVersions: [],
-            versionSelector: false,
-            visCollTextUrl: '',
-            visCollStyleUrl: '',
-            enableNavBar: true
+            indexTitle : '',
+            webSite            : '',
+            dataUrl : '',
+            logoUrl : '',
+            enableXMLdownload : false,
+            availableViewModes : [ ],
+            availableWitnesses : [ ],
+            witnessSelector : false,
+            namedEntitiesLists : false,
+            availableSourcesTexts : [ ],
+            isSourceLoading : false,
+            parsedSourcesTexts : [ ],
+            availableVersions : [ ],
+            versionSelector : false,
+            visCollTextUrl     : '',
+            visCollStyleUrl    : ''
         };
-        /**
-         * @ngdoc property
-         * @name evtviewer.interface.evtInterface#tools
-         * @propertyOf evtviewer.interface.evtInterface
-         * @description [Private] Internal property where information about interface tools status are stored.
-         * Default:
-         <pre>
-            var tools = {
-    
-            };
-         </pre>
-         */
+        </pre>
+     */
+    var properties = {
+        indexTitle         : '',
+        webSite            : '',
+        dataUrl            : '',
+        logoUrl            : '',
+        enableXMLdownload  : false,
+        availableViewModes : [],
+        availableWitnesses : [],
+        witnessSelector    : false,
+        namedEntitiesLists : false,
+        availableSourcesTexts : [],
+        isSourceLoading    : false,
+        parsedSourcesTexts : [],
+        availableVersions  : [],
+        versionSelector    : false,
+        visCollTextUrl: '',
+        visCollStyleUrl: '',
+        enableNavBar: true
+    };
+    /**
+     * @ngdoc property
+     * @name evtviewer.interface.evtInterface#tools
+     * @propertyOf evtviewer.interface.evtInterface
+     * @description [Private] Internal property where information about interface tools status are stored.
+     * Default:
+     <pre>
         var tools = {
 
         };
+     </pre>
+     */
+    var tools = {
+       isDocumentIndexed: {
+          status: false
+       }
+    };
 
         /**
          * @ngdoc method
@@ -176,12 +181,12 @@ angular.module('evtviewer.interface')
          * eventually launch other parser to get data not yet retrieved and update url parameters depending either on previous paramenter set or on the default values.
          *
          */
-        mainInterface.boot = function () {
-            evtCommunication.getExternalConfig(config.configUrl).then(function () {
-                properties.indexTitle = config.indexTitle;
-                properties.logoUrl = config.logoUrl;
-                properties.webSite = config.webSite;
-                properties.enableXMLdownload = config.enableXMLdownload;
+        mainInterface.boot = function() {
+            evtCommunication.getExternalConfig(config.configUrl).then(function(){
+                properties.indexTitle         = config.indexTitle;
+                properties.logoUrl            = config.logoUrl;
+                properties.webSite            = config.webSite;
+                properties.enableXMLdownload  = config.enableXMLdownload;
                 properties.availableViewModes = config.availableViewModes;
                 properties.visCollTextUrl = config.visCollTextUrl;
                 properties.visCollStyleUrl = config.visCollStyleUrl;
@@ -196,42 +201,49 @@ angular.module('evtviewer.interface')
 
                 //TODO: object containing all the external files in globaldefault
 
-
+                // Parse the external Sources file, if defined (@author: CM)
+                if (config.sourcesUrl !== '') {
+                        evtCommunication.getExternalData(config.sourcesUrl);
+                    }
+                // Parse the external Analogues file, if defined (@author: CM)
+                if (config.analoguesUrl !== '') {
+                        evtCommunication.getExternalData(config.analoguesUrl);
+                }
                 mainInterface.updateProperty('dataUrl', config.dataUrl);
                 if (config.dataUrl === '') {
                     evtCommunication.err('', '', 'dataUrlEmpty', false);
                     $rootScope.$applyAsync(state.isLoading = false);
                 } else {
-                    evtCommunication.getData(config.dataUrl).then(function () {
-                        // Remove Collation View Mode if Witnesses List Empty
-                        for (var i = 0, totViews = properties.availableViewModes.length; i < totViews; i++) {
-                            var viewModeName = properties.availableViewModes[i].viewMode;
-                            if (viewModeName === 'collation' && parsedData.getWitnessesList().length === 0) {
-                                properties.availableViewModes[i].visible = false;
-                            }
-                            if (viewModeName === 'versions' && mainInterface.getAllVersionsNumber() < 2) {
-                                properties.availableViewModes[i].visible = false;
-                            }
-                            if (viewModeName === 'srcTxt' && (!parsedData.getSources()._indexes.availableTexts || parsedData.getSources()._indexes.availableTexts.length === 0)) {
-                                properties.availableViewModes[i].visible = false;
-                            }
-                        }
+                  evtCommunication.getData(config.dataUrl).then(function () {
+                      // Remove Collation View Mode if Witnesses List Empty
+                      for (var i = 0, totViews = properties.availableViewModes.length; i < totViews; i++) {
+                          var viewModeName = properties.availableViewModes[i].viewMode;
+                          if (viewModeName === 'collation' && parsedData.getWitnessesList().length === 0) {
+                              properties.availableViewModes[i].visible = false;
+                          }
+                          if (viewModeName === 'versions' && mainInterface.getAllVersionsNumber() < 2) {
+                              properties.availableViewModes[i].visible = false;
+                          }
+                          if (viewModeName === 'srcTxt' && (!parsedData.getSources()._indexes.availableTexts || parsedData.getSources()._indexes.availableTexts.length === 0)) {
+                              properties.availableViewModes[i].visible = false;
+                          }
+                      }
 
-                        // Remove Named Entities Lists button if Named Entities Lists Collection is Empty
-                        properties.namedEntitiesLists = parsedData.getNamedEntitiesCollection()._indexes.length > 0;
+                      // Remove Named Entities Lists button if Named Entities Lists Collection is Empty
+                      properties.namedEntitiesLists = parsedData.getNamedEntitiesCollection()._indexes.length > 0;
 
-                        if (config.availableEditionLevel) {
-                            for (var e = 0; e < config.availableEditionLevel.length; e++) {
-                                var edition = config.availableEditionLevel[e];
-                                if (edition.visible) {
-                                    parsedData.addEdition(edition);
-                                }
-                            }
-                        }
+                      if (config.availableEditionLevel) {
+                          for (var e = 0; e < config.availableEditionLevel.length; e++) {
+                              var edition = config.availableEditionLevel[e];
+                              if (edition.visible) {
+                                  parsedData.addEdition(edition);
+                              }
+                          }
+                      }
 
-                        mainInterface.updateParams($routeParams);
+                      mainInterface.updateParams($routeParams);
 
-                        var promises = [];
+                      var promises = [];
 
 
                         // Parse the external Sources file, if defined (@author: CM)
@@ -245,104 +257,112 @@ angular.module('evtviewer.interface')
 
                         var currentDocFirstLoad = parsedData.getDocument(state.currentDoc);
                         if (currentDocFirstLoad !== undefined) {
+   
+                           var checkIndexZip = checkIndexZipFile(),
+                              checkParsedElementsZip = checkParsedElementsZipFile();
+                           promises.push(checkIndexZip);
+                           promises.push(checkParsedElementsZip);
+                           
+                           // Parse critical entries
+                           if (config.loadCriticalEntriesImmediately) {
+                              promises.push(evtCriticalApparatusParser.parseCriticalEntries(currentDocFirstLoad.content).promise);
+                           }
 
-                            // Parse critical entries
-                            if (config.loadCriticalEntriesImmediately) {
-                                promises.push(evtCriticalApparatusParser.parseCriticalEntries(currentDocFirstLoad.content).promise);
-                            }
+                          // Parse the versions entries
+                          if (config.versions.length > 1) {
+                              promises.push(evtCriticalApparatusParser.parseVersionEntries(currentDocFirstLoad.content).promise);
+                          }
 
-                            // Parse the versions entries
-                            if (config.versions.length > 1) {
-                                promises.push(evtCriticalApparatusParser.parseVersionEntries(currentDocFirstLoad.content).promise);
-                            }
+                          // Parse critical text
+                          if ((config.editionType === 'critical' || config.editionType === 'multiple') && parsedData.isCriticalEditionAvailable()) {
+                              if (config.versions.length > 0 && config.versions[0] !== undefined) {
+                                  promises.push(evtCriticalParser.parseCriticalText(currentDocFirstLoad.content, state.currentDoc, config.versions[0]).promise);
+                              } else {
+                                  promises.push(evtCriticalParser.parseCriticalText(currentDocFirstLoad.content, state.currentDoc).promise);
+                              }
+                          }
 
-                            // Parse critical text
-                            if ((config.editionType === 'critical' || config.editionType === 'multiple') && parsedData.isCriticalEditionAvailable()) {
-                                if (config.versions.length > 0 && config.versions[0] !== undefined) {
-                                    promises.push(evtCriticalParser.parseCriticalText(currentDocFirstLoad.content, state.currentDoc, config.versions[0]).promise);
-                                } else {
-                                    promises.push(evtCriticalParser.parseCriticalText(currentDocFirstLoad.content, state.currentDoc).promise);
+                          $q.all(promises).then(function() {
+                             // /////////////////// //
+                             // VISCOLL DATA IMPORT //
+                             // Parse DataModel
+                             var viscollPromises = [];
+                             if (config.visCollDataModel !== '') {
+                                viscollPromises.push(evtCommunication.getViscollDataModel(config.visCollDataModel));
+                             }
+                             // Parse Image List
+                             if (config.visCollImageList !== '') {
+                                viscollPromises.push(evtCommunication.getViscollImageList(config.visCollImageList));
+                             }
+                             $q.all(viscollPromises).then(function () {
+                                var svgViscollPromises = [];
+                                // Parse the external SVG files, if defined.
+                                var svgToLoad = parsedData.getViscollSVGToLoad();
+                                if (config.visCollSvg !== '' && svgToLoad.length > 0) {
+                                   svgToLoad.forEach(function (svgData) {
+                                      svgViscollPromises.push(evtCommunication.getViscollSvgs(config.visCollSvg + svgData.fileName, svgData.id));
+                                   });
                                 }
-                            }
-
-                            $q.all(promises).then(function () {
-                                // /////////////////// //
-                                // VISCOLL DATA IMPORT //
-                                // Parse DataModel
-                                var viscollPromises = [];
-                                if (config.visCollDataModel !== '') {
-                                    viscollPromises.push(evtCommunication.getViscollDataModel(config.visCollDataModel));
-                                }
-                                // Parse Image List
-                                if (config.visCollImageList !== '') {
-                                    viscollPromises.push(evtCommunication.getViscollImageList(config.visCollImageList));
-                                }
-                                $q.all(viscollPromises).then(function () {
-                                    var svgViscollPromises = [];
-                                    // Parse the external SVG files, if defined.
-                                    var svgToLoad = parsedData.getViscollSVGToLoad();
-                                    if (config.visCollSvg !== '' && svgToLoad.length > 0) {
-                                        svgToLoad.forEach(function (svgData) {
-                                            svgViscollPromises.push(evtCommunication.getViscollSvgs(config.visCollSvg + svgData.fileName, svgData.id));
-                                        });
-                                    }
-                                    $q.all(svgViscollPromises).then(function () {
-                                        parsedData.setViscollSvgsLoaded(true);
-                                    });
-
+                                $q.all(svgViscollPromises).then(function () {
+                                   parsedData.setViscollSvgsLoaded(true);
                                 });
+      
+                             });
+                             // END VISCOLL DATA IMPORT //
+                             // /////////////////////// //
+   
+                             if(indexFileExist && parsedElementsFileExist) {
+                                tools.isDocumentIndexed.status = true;
+                                Utils.extractContentFromZip(GLOBALDEFAULTCONF.indexDocumentUrl, 'parsedElements.txt');
+                                Utils.extractContentFromZip(GLOBALDEFAULTCONF.indexUrl, 'index.txt');
+                             }
+                             
+                              // Update current app entry
+                              if (state.currentAppEntry !== undefined &&
+                                  parsedData.getCriticalEntryById(state.currentAppEntry) === undefined) {
+                                  mainInterface.updateState('currentAppEntry', '');
+                              }
 
+                              // Temp | TODO: add to updateParams? //
+                              // Prepare the sources texts available and the source text to show as default
+                              // in the src-Txt view
+                              var sourcesTexts = parsedData.getSources()._indexes.availableTexts;
+                              if (Object.keys(sourcesTexts).length !== 0) {
+                                  for (var i in sourcesTexts) {
+                                      properties.availableSourcesTexts.push(sourcesTexts[i].id);
+                                  }
+                                  mainInterface.updateCurrentSourceText(properties.availableSourcesTexts[0]);
+                              }
 
+                              // Temp | TODO: add to updateParams? //
+                              // Prepare version to show as default in the versions view if there
+                              // are only two versions of the text, and available versions
+                              state.currentVersions = [];
+                              if (config.versions.length === 2) {
+                                  state.currentVersions.push(config.versions[1]);
+                              } else {
+                                  for (var v = 1; v < config.versions.length; v++) {
+                                      properties.availableVersions.push(config.versions[v]);
+                                  }
+                              }
 
-                                // END VISCOLL DATA IMPORT //
-                                // /////////////////////// //
+                              mainInterface.updateUrl();
 
-                                // Update current app entry
-                                if (state.currentAppEntry !== undefined &&
-                                    parsedData.getCriticalEntryById(state.currentAppEntry) === undefined) {
-                                    mainInterface.updateState('currentAppEntry', '');
-                                }
+                              var quotesList = parsedData.getQuotes()._indexes.encodingStructure || [],
+                                  quotesInBox = !config.showInlineSources && quotesList.length > 0,
+                                  analoguesList = parsedData.getAnalogues()._indexes.encodingStructure || [],
+                                  analoguesInBox = !config.showInlineAnalogues && analoguesList.length > 0;
+                              state.isApparatusBoxOpen = (!config.showInlineCriticalApparatus || quotesInBox || analoguesInBox);
 
-                                // Temp | TODO: add to updateParams? //
-                                // Prepare the sources texts available and the source text to show as default
-                                // in the src-Txt view
-                                var sourcesTexts = parsedData.getSources()._indexes.availableTexts;
-                                if (Object.keys(sourcesTexts).length !== 0) {
-                                    for (var i in sourcesTexts) {
-                                        properties.availableSourcesTexts.push(sourcesTexts[i].id);
-                                    }
-                                    mainInterface.updateCurrentSourceText(properties.availableSourcesTexts[0]);
-                                }
+                              $rootScope.$applyAsync(state.isLoading = false);
 
-                                // Temp | TODO: add to updateParams? //
-                                // Prepare version to show as default in the versions view if there
-                                // are only two versions of the text, and available versions
-                                state.currentVersions = [];
-                                if (config.versions.length === 2) {
-                                    state.currentVersions.push(config.versions[1]);
-                                } else {
-                                    for (var v = 1; v < config.versions.length; v++) {
-                                        properties.availableVersions.push(config.versions[v]);
-                                    }
-                                }
-
-                                mainInterface.updateUrl();
-
-                                var quotesList = parsedData.getQuotes()._indexes.encodingStructure || [],
-                                    quotesInBox = !config.showInlineSources && quotesList.length > 0,
-                                    analoguesList = parsedData.getAnalogues()._indexes.encodingStructure || [],
-                                    analoguesInBox = !config.showInlineAnalogues && analoguesList.length > 0;
-                                state.isApparatusBoxOpen = (!config.showInlineCriticalApparatus || quotesInBox || analoguesInBox);
-
-                                $rootScope.$applyAsync(state.isLoading = false);
-
-                                // Update Pinned entries
-                                $timeout(function () {
-                                    evtPinnedElements.getElementsFromCookies();
-                                }, 10);
-                            });
-                        }
-                    });
+                              // Update Pinned entries
+                              $timeout(function() {
+                                  evtPinnedElements.getElementsFromCookies();
+                              }, 10);
+                          });
+                      }
+                  });
                 }
             });
         };
@@ -362,7 +382,7 @@ angular.module('evtviewer.interface')
             state.dialog.tabContainerPanel = arr;
         };
 
-        /**
+		/**
          * @ngdoc method
          * @name evtviewer.interface.evtInterface#getTabContainerPanel
          * @methodOf evtviewer.interface.evtInterface
@@ -524,6 +544,7 @@ angular.module('evtviewer.interface')
                 currentWits : undefined,
                 currentWitsPages : undefined,
                 currentEdition : undefined,
+                currentComparingEdition: undefined,
                 currentAppEntry : undefined,
                 currentHighlightedZone : undefined,
                 isLoading : true,
@@ -1200,13 +1221,13 @@ angular.module('evtviewer.interface')
             if (params.ce !== undefined) {
                 comparingEdition = params.ce;
             } else {
-                var i = 0;
-                while (!comparingEdition && i < availableEditionLevel.length) {
-                    if (availableEditionLevel[i].value !== edition) {
-                        comparingEdition = availableEditionLevel[i].value;
-                    }
-                    i++;
+              var i = 0;
+              while (!comparingEdition && i < availableEditionLevel.length) {
+                if (availableEditionLevel[i].value !== edition) {
+                  comparingEdition = availableEditionLevel[i].value;
                 }
+                i++;
+              }
             }
 
             // PAGE
@@ -1220,8 +1241,8 @@ angular.module('evtviewer.interface')
             }
 
             // DOCUMENT
-            if (params.d !== undefined && parsedData.getDocument(params.d) !== undefined) {
-                docId = params.d;
+            if ( params.d !== undefined && parsedData.getDocument(params.d) !== undefined ) {
+                docId  = params.d;
             } else {
                 var documents = parsedData.getDocuments();
                 if (documents._indexes.length > 0) {
@@ -1237,18 +1258,18 @@ angular.module('evtviewer.interface')
                 totWits = parsedData.getWitnessesList();
                 properties.availableWitnesses = totWits.slice(0, totWits.length);
                 for (var w in witnesses) {
-                    var wit = witnesses[w].split('@')[0],
+                    var wit     = witnesses[w].split('@')[0],
                         witPage = witnesses[w].split('@')[1];
-                    if (parsedData.getWitness(wit) !== undefined) {
+                    if (parsedData.getWitness(wit) !== undefined){
                         witIds.push(wit);
                         mainInterface.removeAvailableWitness(wit);
-                        if (witPage !== undefined && parsedData.getPage(wit + '-' + witPage) !== undefined) {
+                        if (witPage !== undefined && parsedData.getPage(wit+'-'+witPage) !== undefined){
                             witPageIds[wit] = witPage;
                         }
                     }
                 }
             } else {
-                if (viewMode === 'collation') {
+                if (viewMode === 'collation'){
                     // Check if there are multiple versions of the text
                     if (config.versions.length > 1) {
                         witIds = parsedData.getVersionEntries()._indexes.versionWitMap[config.versions[0]];
@@ -1265,7 +1286,7 @@ angular.module('evtviewer.interface')
                     if (config.versions.length > 1) {
                         // Check if the main version of the text refers to some particular witnesses
                         var mainVerWits = parsedData.getVersionEntries()._indexes.versionWitMap[config.versions[0]];
-                        if (mainVerWits !== undefined && mainVerWits.length > 0) {
+                        if (mainVerWits!== undefined && mainVerWits.length > 0) {
                             properties.availableWitnesses = mainVerWits.slice(0, mainVerWits.length);
                         }
                     } else {
@@ -1275,39 +1296,39 @@ angular.module('evtviewer.interface')
                 }
             }
             // APP ENTRY
-            if (params.app !== undefined) {
-                appId = params.app;
+            if ( params.app !== undefined ) {
+                appId  = params.app;
             }
 
-            if (viewMode !== undefined) {
+            if ( viewMode !== undefined ) {
                 mainInterface.updateState('currentViewMode', viewMode);
             }
 
-            if (edition !== undefined) {
+            if ( edition !== undefined ) {
                 mainInterface.updateState('currentEdition', edition);
-            } else if (viewMode === 'collation') {
+            } else if (viewMode === 'collation'){
                 mainInterface.updateState('currentEdition', 'critical');
             }
-
-            mainInterface.updateState('currentComparingEdition', comparingEdition);
-
-            if (pageId !== undefined) {
+    
+            mainInterface.updateState('currentComparingEdition', comparingEdition)
+            
+            if ( pageId !== undefined ) {
                 mainInterface.updateState('currentPage', pageId);
             }
 
-            if (docId !== undefined) {
+            if ( docId !== undefined ) {
                 mainInterface.updateState('currentDoc', docId);
             }
 
-            if (witIds !== undefined) {
+            if ( witIds !== undefined) {
                 mainInterface.updateState('currentWits', witIds);
             }
 
-            if (witPageIds !== {}) {
+            if ( witPageIds !== {}) {
                 mainInterface.updateState('currentWitsPages', witPageIds);
             }
 
-            if (appId !== undefined) {
+            if ( appId !== undefined) {
                 mainInterface.updateState('currentAppEntry', appId);
                 evtReading.setCurrentAppEntry(appId);
             }
@@ -1321,44 +1342,75 @@ angular.module('evtviewer.interface')
          * @author CDP
          * @todo Add q(citazione), s(fonte), an(passo parallelo) e ap(apparato)
          */
-        mainInterface.updateUrl = function () {
-            var viewMode = state.currentViewMode,
+        mainInterface.updateUrl = function() {
+            var viewMode   = state.currentViewMode,
                 searchPath = '';
-            searchPath += state.currentDoc === undefined ? '' : (searchPath === '' ? '' : '&') + 'd=' + state.currentDoc;
-            searchPath += state.currentPage === undefined ? '' : (searchPath === '' ? '' : '&') + 'p=' + state.currentPage;
-            searchPath += state.currentEdition === undefined ? '' : (searchPath === '' ? '' : '&') + 'e=' + state.currentEdition;
-            searchPath += state.currentComparingEdition === undefined ? '' : (searchPath === '' ? '' : '&') + 'ce=' + state.currentComparingEdition;
-            if (viewMode === 'collation') {
-                if (state.currentWits !== undefined && state.currentWits.length > 0) {
-                    if (searchPath !== '') {
-                        searchPath += '&';
-                    }
-                    for (var w in state.currentWits) {
-                        searchPath += searchPath.indexOf('ws=') < 0 ? 'ws=' : '';
-                        var wit = state.currentWits[w],
-                            currentPage = mainInterface.getCurrentWitnessPage(wit);
-                        searchPath += wit;
-                        if (currentPage !== undefined) {
-                            searchPath += '@' + currentPage;
-                        }
-                        if (w < state.currentWits.length - 1) {
-                            searchPath += ',';
-                        }
-                    }
-                }
-            }
 
-            if (state.currentAppEntry !== undefined && state.currentAppEntry !== '') {
-                if (searchPath !== '') {
-                    searchPath += '&';
+                searchPath += state.currentDoc === undefined ? '' : (searchPath === '' ? '' : '&')+'d='+state.currentDoc;
+                searchPath += state.currentPage === undefined ? '' : (searchPath === '' ? '' : '&')+'p='+state.currentPage;
+                searchPath += state.currentEdition === undefined ? '' : (searchPath === '' ? '' : '&')+'e='+state.currentEdition;
+                searchPath += state.currentComparingEdition === undefined ? '' : (searchPath === '' ? '' : '&')+'ce='+state.currentComparingEdition;
+                if (viewMode === 'collation') {
+                    if (state.currentWits !== undefined && state.currentWits.length > 0) {
+                        if (searchPath !== '') {
+                          searchPath += '&';
+                        }
+                        searchPath += 'ws=';
+                        for (var w in state.currentWits){
+                            var wit = state.currentWits[w],
+                                currentPage = mainInterface.getCurrentWitnessPage(wit);
+                            searchPath += wit;
+                            if (currentPage !== undefined){
+                                searchPath += '@'+currentPage;
+                            }
+                            if (w < state.currentWits.length-1) {
+                                searchPath += ',';
+                            }
+                        }
+                    }
                 }
-                searchPath += 'app=' + state.currentAppEntry;
-            }
+                if (state.currentAppEntry !== undefined && state.currentAppEntry !== '') {
+                    if (searchPath !== '') {
+                      searchPath += '&';
+                    }
+                    searchPath += 'app='+state.currentAppEntry;
+                }
 
             if (viewMode !== undefined) {
                 // window.history.pushState(null, null, '#/'+viewMode+'?'+searchPath.substr(1));
-                window.location = '#/' + viewMode + '?' + searchPath;
+                window.location = '#/'+viewMode+'?'+searchPath;
             }
         };
-        return mainInterface;
-    });
+        
+        function checkIndexZipFile () {
+           var deferred = $q.defer();
+           
+           $http.get(GLOBALDEFAULTCONF.indexUrl)
+              .success(function() {
+                 indexFileExist = true;
+                 deferred.resolve();
+              }).error(function() {
+                 deferred.resolve();
+                 window.alert('Per attivare la ricerca devi creare il file "Index.zip"! Premi Create Index!');
+              });
+           
+           return deferred.promise;
+        }
+        
+        function checkParsedElementsZipFile () {
+           var deferred = $q.defer();
+           
+           $http.get(GLOBALDEFAULTCONF.indexDocumentUrl)
+              .success(function() {
+                 parsedElementsFileExist = true;
+                 deferred.resolve();
+              }).error(function() {
+                 deferred.resolve();
+                 window.alert('Per attivare la ricerca devi creare il file "parsedElements.zip"! Premi Create Index!');
+              });
+           
+           return deferred.promise;
+        }
+        
+    return mainInterface;
+});

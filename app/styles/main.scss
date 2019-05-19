@@ -83,6 +83,12 @@ div#global-container-ext.navbar-opened #global-container {
     @include calc(height, unquote("#{setGlobalFrameHeightWithNavbar()} + 1px"));
 }
 
+section > div {
+   height: 100%;
+   display: block;
+   vertical-align: middle;
+}
+
 #left-nav {
     @include mainNavArrow;
 }
@@ -130,9 +136,7 @@ div#global-container-ext.navbar-opened #global-container {
 @import "diplomaticEdition.scss";
 @import "interpretativeEdition.scss";
 @import "imageviewer.scss";
-
 @import "collation.scss";
-@import "tei.scss";
 
 // Temporary
 .secondary-container {

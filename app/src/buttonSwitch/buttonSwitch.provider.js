@@ -41,13 +41,13 @@ angular.module('evtviewer.buttonSwitch')
 	 * where the scope of the directive is extended with all the necessary properties and methods
 	 * according to specific values of initial scope properties.</p>
 	 **/
-    this.$get = function($timeout, $log, $q, config, baseData, parsedData, evtInterface, evtDialog, evtSelect, Utils, evtImageTextLinking, evtSourcesApparatus, evtBox, evtSearch, evtSearchBox, evtSearchResults, evtSearchResult, evtVirtualKeyboard, evtNavbar) {
-        var button    = {},
-            collection = {},
-            list       = [],
-            idx        = 0;
-
-        var _console = $log.getInstance('buttonSwitch');
+	this.$get = function(GLOBALDEFAULTCONF,$q, $timeout, $log, config, baseData, parsedData, evtInterface, evtDialog, evtSelect, Utils, evtImageTextLinking, evtSourcesApparatus, evtBox, evtSearch, evtSearchBox, evtSearchResults, evtSearchResult, evtVirtualKeyboard, evtSearchIndex, evtNavbar) {
+		var button    = {},
+			collection = {},
+			list       = [],
+			idx        = 0;
+		
+		var _console = $log.getInstance('buttonSwitch');
 
         /**
 	     * @ngdoc method
@@ -107,6 +107,14 @@ angular.module('evtviewer.buttonSwitch')
             var vm = this;
             vm.disabled = false;
         };
+        var show = function () {
+           var vm = this;
+           vm.hidden = false;
+        };
+        var hide = function () {
+           var vm = this;
+           vm.hidden = true;
+        };
         /**
 	     * @ngdoc method
 	     * @name evtviewer.buttonSwitch.controller:ButtonSwitchCtrl#disable
@@ -137,7 +145,7 @@ angular.module('evtviewer.buttonSwitch')
 	     * **language**, **list**, **menu**, **menu-vert**, **mode-imgtxt**, **mode-txttxt**,
 	     * **reading-txt**, **mode-collation**, **mode-srctxt**, **mode-versions**, **mode-bookreader**,
 	     * **pin**, **pin-off**, **pin-on**, **remove**, **search**, **thumb**, **thumbs**, **thumbnail**.
-	     * **thumbnails**, **txt**, **v-align**, **witnesses**, **nextPage**, **beforePage**, **dropNavBar**.</p>
+	     * **thumbnails**, **txt**, **v-align**, **witnesses**.</p>
 	     * <p>Output icons can be retrieve both from EVT font set of from font-awesome.
 	     * If you want to add a custom icon set you should add it among font faces and remember to add the related css file.</p>
 	     *
@@ -145,8 +153,7 @@ angular.module('evtviewer.buttonSwitch')
 	     */
 		var getIcon = function(icon) {
 			var evtIcon = '';
-			if (!icon) { return ''; }
-			switch (icon.toLowerCase()) {
+			switch (angular.lowercase(icon)) {
 				case 'add':
 					evtIcon = 'icon-evt_add';
 					break;
@@ -204,7 +211,7 @@ angular.module('evtviewer.buttonSwitch')
 					break;
 				case 'hts':
 					evtIcon = 'icon-evt_hts'; // Bottone hotspots - FS
-					break;	
+					break;
 				case 'language':
 					evtIcon = 'fa fa-language'; //TODO: add icon in EVT font
 					break;
@@ -287,7 +294,7 @@ angular.module('evtviewer.buttonSwitch')
 				//case 'schema':
 				//	evtIcon = 'icon-evt_schema';
 				//	break;
-				//icone per bottoni osd aggiunti da federica				
+				//icone per bottoni osd aggiunti da federica
 				case 'zoom-in':
 					evtIcon = 'icon-evt_zoom-in';
 					break;
@@ -431,6 +438,7 @@ angular.module('evtviewer.buttonSwitch')
 				value = scope.value || '',
 				active = scope.active || false,
 				disabled = scope.disabled || false,
+                hidden = scope.hidden || false,
 				btnType = scope.btnType || '',
                 callback = function() { console.log('TODO ' + type); },
                 fakeCallback = function() {};
@@ -756,19 +764,7 @@ angular.module('evtviewer.buttonSwitch')
                break;
             case 'searchIndex':
                btnType = 'standAlone';
-               disabled = (
-                  function() {
-                     if(evtInterface.getToolState('isDocumentIndexed') === 'true') {
-                        return true;
-                     }
-                  })();
-               active = (
-                  function() {
-                     if(evtInterface.getToolState('isDocumentIndexed') === 'true') {
-                        return false;
-                     }
-                  }
-               )();
+               
                function indexingInProgress() {
                   var deferred = $q.defer();
                   evtInterface.updateState('indexingInProgress', true);
@@ -777,7 +773,8 @@ angular.module('evtviewer.buttonSwitch')
                   }, 100);
                   return deferred.promise;
                }
-               function indexingCallback() {
+               
+               callback = function () {
                   var promise = indexingInProgress();
                   promise.then(
                      function() {
@@ -788,26 +785,18 @@ angular.module('evtviewer.buttonSwitch')
                         searchIndexBtn = button.getByType('searchIndex')[0];
                         searchIndexBtn.active = false;
                         searchIndexBtn.disable();
+                        searchIndexBtn.hide();
                         evtSearch.initSearch(xmlDocDom);
-                        evtInterface.setToolStatus('isDocumentIndexed', 'true');
+                        evtInterface.setToolStatus('isDocumentIndexed', true);
          
-                        searchToolsBtn = button.getByType('searchToolsInternal');
+                        searchToolsBtn = button.getByType('searchInternal');
                         for(var z in searchToolsBtn) {
                            searchToolsBtn[z].disabled = false;
                         }
-   
+         
                         evtInterface.updateState('indexingInProgress', false);
                      }
                   );
-               }
-               
-               callback = function () {
-                  if(evtInterface.getToolState('isDocumentIndexed') === 'true') {
-                     scope.vm.active = false;
-                  }
-                  else {
-                     return indexingCallback();
-                  }
                };
                break;
             case 'searchResultsShow':
@@ -842,18 +831,26 @@ angular.module('evtviewer.buttonSwitch')
                   evtSearchResults.highlightSearchResults(parentBoxId, searchInput);
                };
                break;
-            case 'searchToolsInternal':
+            case 'searchInternal':
                btnType = 'standAlone';
                disabled = (
                   function() {
-                     if(evtInterface.getToolState('isDocumentIndexed') === 'true') {
+                     if(evtInterface.getToolState('isDocumentIndexed') === true) {
                         return false;
                      }
                      else {
                         return true;
                      }
                   })();
-               var activeCallback = function () {
+               callback = function () {
+                  var index = evtSearchIndex.getIndex();
+                  var indexExist = Object.keys(index).length !== 0;
+                  if(!indexExist) {
+                     evtSearchIndex.loadIndex();
+                     evtSearch.loadParsedElementsForIndexing();
+                     window.localStorage.clear();
+                  }
+   
                   var parentBoxId = scope.$parent.id,
                      searchBoxStatus = evtBox.getState(parentBoxId, 'searchBox');
    
@@ -861,14 +858,6 @@ angular.module('evtviewer.buttonSwitch')
                   evtSearchBox.closeBox(parentBoxId, 'searchResultBox');
                   evtSearchBox.showBtn(parentBoxId, 'searchResultsShow');
                   evtSearchBox.hideBtn(parentBoxId, 'searchResultsHide');
-               };
-               callback = function () {
-                  if(evtInterface.getToolState('isDocumentIndexed') === 'true') {
-                     return activeCallback();
-                  }
-                  else {
-                     scope.vm.active = false;
-                  }
                };
                break;
             case 'searchAdvanced':
@@ -1144,7 +1133,7 @@ angular.module('evtviewer.buttonSwitch')
 					vm.toggleActive();
 					if (vm.callback) {
 						vm.callback();
-					} 
+					}
 					if (vm.onBtnClicked) {
 						vm.onBtnClicked();
 					}
@@ -1167,6 +1156,7 @@ angular.module('evtviewer.buttonSwitch')
 				value: value,
 				active: active,
 				disabled: disabled,
+                hidden: hidden,
 
 				btnType: btnType,
 
@@ -1179,6 +1169,8 @@ angular.module('evtviewer.buttonSwitch')
 				setActive: setActive,
 				disable: disable,
 				enable: enable,
+                show: show,
+                hide: hide,
 				destroy: destroy
 			};
 
@@ -1285,6 +1277,11 @@ angular.module('evtviewer.buttonSwitch')
 				collection[currentId].setActive(true);
 			}
 		};
+		button.hide = function (currentId) {
+         if (collection[currentId] !== 'undefined') {
+            collection[currentId].hide();
+         }
+      }
 		/**
 	     * @ngdoc method
 	     * @name evtviewer.buttonSwitch.evtButtonSwitch#destroy
