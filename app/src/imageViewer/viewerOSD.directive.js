@@ -71,7 +71,7 @@
                //scope.osd.addHandler('navigator-scroll', imageViewerHandler.navigatorScroll);
                scope.osd.addOnceHandler('home', imageViewerHandler.home);
                scope.osd.addHandler('pan', imageViewerHandler.pan);
-               let page = evtInterface.getState('currentPage');
+               var page = evtInterface.getState('currentPage');
                scope.osd.addOnceHandler('open', imageViewerHandler.open, page,1); 
                // evtInterface.getState('currentPage')
                scope.osd.addHandler('page', imageViewerHandler.pageChange); 

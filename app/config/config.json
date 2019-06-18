@@ -5,7 +5,7 @@
     
     "dataUrl": "data/rotulo/rotoloSanTeobaldo.xml",
     "sourcesUrl": "",
-    "analoguesUrl": "data/analogues.xml",
+    "analoguesUrl": "",
     "sourcesTextsUrl": "data/sources/",
     "singleImagesUrl": "data/immagini/singole/",
     "visCollTextUrl": "data/visColl/dataModel2.xml",
