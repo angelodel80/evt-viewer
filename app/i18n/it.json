@@ -47,8 +47,11 @@
 		"IMAGE_TEXT_LINKING": "Collegamento Testo Immagine",
 		"LIST": "Liste",
 		"MENU": "Apri Menu",
+		"MS": "Descrizione del manoscritto",
+		"MSD": "MS Desc",
 		"NO_VERSION_AVAILABLE": "Nessun altra versione disponibile",
 		"NO_WITNESSES_AVAILABLE": "Nessun altro testimone disponibile",
+		"OPEN_LIST": "Mostra nell'elenco completo",
 		"PIN_REMOVE": "Rimuovi Pin",
 		"PIN_TOGGLE": "Aggiungi Pin",
 		"SHOW_PINNED_ENTRIES": "Mostra elementi \"pinnati\"",
@@ -149,7 +152,8 @@
 	"NAMED_ENTITIES": {
 		"MORE_INFO": "Informazioni aggiuntive",
 		"OCCURRENCES": "Occorrenze",
-		"XML": "XML"
+		"XML": "XML",
+		"MAP": "Mappa"
 	},
 	"PROJECT_INFO": {
 		"AUTHOR": "Autore",
@@ -203,7 +207,13 @@
 		"SUPPORT_DESC": "Descrizione del supporto",
 		"TEXT_CLASS": "Classificazione testuale",
 		"TEXT_LANG": "Lingua",
-		"VARIANT_ENCODING": "Codifica delle varianti"
+		"VARIANT_ENCODING": "Codifica delle varianti",
+		"FILE_DESCRIPTION": "Descrizione File",
+		"BIBLIOGRAPHY": "Bibliografia",
+		"REVISION_HISTORY": "Cronologia Revisioni",
+		"ENCODING_DESCRIPTION": "Descrizione Codifica",
+		"TEXT_PROFILE": "Profilo Di Testo",
+		"OUTSIDE_METADATA": "Metadati Esterni"
 	},
 	"QUOTES" : {
 		"QUOTE_START": "Inizio citazione",
@@ -231,6 +241,15 @@
 		"XML": "XML",
 		"XML_SOURCE_QUOTE": "Codice XML della fonte",
 		"XML_SOURCE_FOR": "Codice XML per "
+	},
+	"TOC": {
+		"BACK": "Appendici",
+		"BODY": "Testo",
+		"DIVS": "Sezioni",
+		"FRONT": "Introduzione",
+		"HEADER": "Paratesto e indici",
+		"PAGES": "Folia",
+		"TITLE": "Indice dei contenuti"
 	},
 	"VERSIONS": {
 		"CRITICAL_NOTE": "Nota critica",

@@ -7,6 +7,8 @@ Dev Environment Prerequisites
 -----------------------------
 
 EVT has dependencies that require ruby, ruby-compass, bower, grunt, npm, git
+* UPDATE PACCHETTI [da fare per sicurezza!]
+| $ sudo apt-get update
 
 
 Environment setup

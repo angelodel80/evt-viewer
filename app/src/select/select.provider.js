@@ -234,6 +234,9 @@ angular.module('evtviewer.select')
 							if (newOption.pages.length > 0 && newOption.pages.indexOf(currentPage) < 0) { // The page is not part of the document
 								evtInterface.updateState('currentPage', newOption.pages[0]);
 							}
+							if (newOption.divs.length > 0) {
+								evtInterface.updateDiv(newOption.value, newOption.divs[0]);
+							}
 							evtInterface.updateUrl();
 						}
 					};
@@ -249,11 +252,59 @@ angular.module('evtviewer.select')
 					};
 					optionList = formatOptionList(parsedData.getDocuments());
 					break;
-				case 'edition':
+				case 'div':
 					callback = function(oldOption, newOption) {
-						if (newOption !== undefined) {
+						if (newOption) {
 							vm.selectOption(newOption);
-							evtInterface.updateState('currentEdition', newOption.value);
+							var docId = newOption.doc;
+							evtInterface.updateDiv(docId, newOption.value);
+							evtInterface.updateUrl();
+						}
+					};
+					formatOptionList = function(optionList, formattedList, section) {
+						var allDivs = parsedData.getDivs();
+						angular.forEach(optionList, function(divId) {
+							if (allDivs[divId].section === section) {
+								if (!allDivs[divId]._isSubDiv && allDivs[divId].subDivs.length > 0) {
+									allDivs[divId].type = 'groupTitle';
+								}
+								formattedList.push(allDivs[divId]);
+								if (parsedData.getDivs()._indexes.subDivs[divId] && parsedData.getDivs()._indexes.subDivs[divId].length > 0) {
+									formatOptionList(allDivs[divId].subDivs, formattedList, section);
+								}	
+							}
+						});
+					};
+					formatOption = function(option) {
+						return option;
+					};
+					var currentDoc = evtInterface.getState('currentDoc');
+					var div = parsedData.getDiv(evtInterface.getState('currentDivs')[currentDoc]);
+					var section = div ? div.section : 'body';
+					formatOptionList(parsedData.getDivs()._indexes.main[currentDoc], optionList, section);
+					break;
+				case 'edition':
+				case 'comparingEdition':
+					callback = function(oldOption, newOption) {
+						if (newOption !== undefined && 
+							(oldOption !== undefined && oldOption[0] !== undefined && 
+								newOption.value !== oldOption[0].value)) {
+							vm.selectOption(newOption);
+							var stateToUpdate, oppositeStateName;
+							if (currentType === 'edition') {
+								stateToUpdate = 'currentEdition';
+								// change currentComparingEdition if equal to selected
+								oppositeStateName = 'currentComparingEdition';
+							} else if (currentType === 'comparingEdition') {
+								stateToUpdate = 'currentComparingEdition';
+								// change currentEdition if equal to selected
+								oppositeStateName = 'currentEdition';
+							} 
+							var oppositeState = evtInterface.getState(oppositeStateName);
+							if (oppositeState === newOption.value) {
+								evtInterface.updateState(oppositeStateName, oldOption[0].value);
+							}
+							evtInterface.updateState(stateToUpdate, newOption.value);
 							evtInterface.updateUrl();
 						}
 					};

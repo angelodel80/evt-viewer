@@ -69,6 +69,16 @@ angular.module('evtviewer.interface')
 		$scope.getCurrentEdition = function() {
 			return evtInterface.getState('currentEdition');
 		};
+      /**
+         * @ngdoc method
+         * @name evtviewer.interface.controller:InterfaceCtrl#getCurrentEdition
+         * @methodOf evtviewer.interface.controller:InterfaceCtrl
+         * @description Get current edition from evtInterface states ({@link evtviewer.interface.evtInterface#getState evtInterface.getState()})
+         * @returns {string} current edition
+         */
+      $scope.getCurrentComparingEdition = function() {
+         return evtInterface.getState('currentComparingEdition');
+      };
 		/**
          * @ngdoc method
          * @name evtviewer.interface.controller:InterfaceCtrl#getAvailableWitnesses
@@ -552,6 +562,10 @@ angular.module('evtviewer.interface')
 		$scope.openGlobalDialogLists = function() {
 			evtInterface.updateState('secondaryContent', 'entitiesList');
 			evtDialog.openByType('entitiesList');
+      };
+      $scope.openToc = function() {
+			evtInterface.updateState('secondaryContent', 'toc');
+			evtDialog.openByType('toc');
 		};
 		/**
          * @ngdoc method
